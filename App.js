@@ -1,10 +1,12 @@
+import React from 'react';
+import { View, Text } from "react-native";
 import { StatusBar } from 'expo-status-bar';
-import Home from './components';
-import Login from './components';
-import Profile from './components';
-import Round from './components';
-import Scores from './components';
-import Search from './components';
+import Home from './components/Home';
+import Login from './components/Login';
+import Profile from './components/Profile';
+import Round from './components/Round';
+import Scores from './components/Scores';
+import Search from './components/Search';
 import styles from './style/styles';
 
 export default function App() {
