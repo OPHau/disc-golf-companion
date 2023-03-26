@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text } from "react-native";
 import { StatusBar } from 'expo-status-bar';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './components/Home';
 import Login from './components/Login';
 import Profile from './components/Profile';
@@ -9,11 +11,21 @@ import Scores from './components/Scores';
 import Search from './components/Search';
 import styles from './style/styles';
 
+const Stack = createNativeStackNavigator();
+
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Disc golf companion app</Text>
-      <StatusBar style="auto" />
-    </View>
+
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='Home'>
+        <Stack.Screen name='Home' component={Home}/>
+        <Stack.Screen name='Login' component={Login}/>
+        <Stack.Screen name='Profile' component={Profile}/>
+        <Stack.Screen name='Round' component={Round}/>
+        <Stack.Screen name='Scores' component={Scores}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+
+    
   );
 }
