@@ -7,4 +7,12 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    courseListItem: {
+        padding: 10,
+    },
+    courseListSeparator: {
+        height: 0.5,
+        width: 100,
+        backgroundColor: '#C8C8C8',
+    },
 });

@@ -10,6 +10,9 @@ export default Home = ({navigation}) => {
             <Pressable onPress={() => navigation.navigate('Profile')}>
                 <Text>Profile</Text>
             </Pressable>
+            <Pressable onPress={() => navigation.navigate('CourseSearch')}>
+                <Text>Find a course</Text>
+            </Pressable>
             <Pressable onPress={() => navigation.navigate('Round')}>
                 <Text>Round</Text>
             </Pressable>
