@@ -15,19 +15,23 @@ export default CourseSearch = () => {
             .then((response) => {
                 setFiltered(response.data.courses);
                 setCourses(response.data.courses);
+                // Data fields:
+                // 1. ID
+                // 2. ParentID
+                // 3. Name
+                // 4. Fullname - same with name if no layouts are used.
+                // 5. Type - possible values 1 - Parent course, always consists layouts of couse, 2 - layour or course without layout.
+                // 6. CountryCode 
+                // 7. Area
+                // 8. City
+                // 9. Location
+                // 10. X - latitude
+                // 12. Y - longitude  
+                // 13. Enddate - if the course/layout does not exist any more, then the enddate is filled with date
             })
             .catch((error) => {
                 console.error(error);
             });
-
-
-        // fetch('https://discgolfmetrix.com/api.php?content=courses_list&country_code=FI')
-        //     .then((response) => response.json())
-        //     .then((responseJson) => {
-        //     })
-        //     .catch((error) => {
-        //         console.error(error);
-        //     });
     }, []);
 
     const filterSearch = (text) => {
@@ -60,7 +64,13 @@ export default CourseSearch = () => {
     const ItemSeparatorView = () => {
         return (
             <View
-            style={styles.courseListSeparator} />
+            // style={styles.courseListSeparator}
+            style={{
+                height: 0.5,
+                width: '100%',
+                backgroundColor: '#C8C8C8',
+              }}
+            />
         );
     };
 
@@ -70,8 +80,9 @@ export default CourseSearch = () => {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <View style={styles.container}>
+            <View style={styles.courseList}>
                 <FlatList
+                contentContainerStyle={{flex: 1, alignItems: "stretch"}}
                 data={filtered}
                 keyExtractor={(item, index) => index.toString()}
                 ItemSeparatorComponent={ItemSeparatorView}

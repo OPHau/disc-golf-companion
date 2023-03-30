@@ -7,6 +7,10 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    courseList: {
+        flex: 1,
+        alignItems: 'stretch',
+    },
     courseListItem: {
         padding: 10,
     },
