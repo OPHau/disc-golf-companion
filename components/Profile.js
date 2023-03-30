@@ -1,10 +1,12 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
+import styles from '../style/styles';
 
 export default Profile = () => {
     return (
-        <View>
-            <Text>Profile</Text>
-        </View>
+        <ScrollView style={styles.container} contentContainerStyle={{alignItems:'center', justifyContent:'center'}}>
+            <Text>Profile</Text> 
+        </ScrollView>
+        
     );
 }

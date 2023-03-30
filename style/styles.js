@@ -4,8 +4,6 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     courseList: {
         flex: 1,
@@ -19,4 +17,6 @@ export default StyleSheet.create({
         width: 100,
         backgroundColor: '#C8C8C8',
     },
+    //Round
+
 });
