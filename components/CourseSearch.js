@@ -4,17 +4,16 @@ import React, { useEffect, useState } from "react";
 import { FlatList, SafeAreaView, Text, View } from "react-native";
 import styles from '../style/styles';
 
-export default CourseSearch = () => {
+export default CourseSearch = ({navigation}) => {
     const [search, setSearch] = useState('');
     const [filtered, setFiltered] = useState([]);
     const [courses, setCourses] = useState([]);
 
-    useEffect(() => {
-        axios
-            .get("https://discgolfmetrix.com/api.php?content=courses_list&country_code=FI")
-            .then((response) => {
-                setFiltered(response.data.courses);
-                setCourses(response.data.courses);
+    const getCourses = async () => {
+        const URL = 'https://discgolfmetrix.com/api.php?content=courses_list&country_code=FI';
+        const response = await axios.get(URL);
+        setFiltered(response.data.courses);
+        setCourses(response.data.courses);
                 // Data fields:
                 // 1. ID
                 // 2. ParentID
@@ -28,10 +27,19 @@ export default CourseSearch = () => {
                 // 10. X - latitude
                 // 12. Y - longitude  
                 // 13. Enddate - if the course/layout does not exist any more, then the enddate is filled with date
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+    }
+
+    useEffect(() => {
+        getCourses();
+        // axios
+        //     .get("https://discgolfmetrix.com/api.php?content=courses_list&country_code=FI")
+        //     .then((response) => {
+        //         setFiltered(response.data.courses);
+        //         setCourses(response.data.courses);
+        //     })
+        //     .catch((error) => {
+        //         console.error(error);
+        //     });
     }, []);
 
     const filterSearch = (text) => {
@@ -53,10 +61,12 @@ export default CourseSearch = () => {
         return (
             <Text
             style={styles.courseListItem}
-            onPress={() => getItem(item)}>
+            onPress={() => navigation.navigate('CourseDetails', {courseID: item.ID})}>
                 {item.Name}
                 {' '}
                 {item.City}
+                {' '}
+                {item.ID}
             </Text>
         );
     };
@@ -82,7 +92,7 @@ export default CourseSearch = () => {
         <SafeAreaView style={{flex: 1}}>
             <View style={styles.courseList}>
                 <FlatList
-                contentContainerStyle={{flex: 1, alignItems: "stretch"}}
+                contentContainerStyle={{flexGrow: 1, alignItems: "stretch"}}
                 data={filtered}
                 keyExtractor={(item, index) => index.toString()}
                 ItemSeparatorComponent={ItemSeparatorView}

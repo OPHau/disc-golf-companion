@@ -8,6 +8,7 @@ import { Entypo, FontAwesome5 } from '@expo/vector-icons';
 
 import Profile from './components/Profile';
 import CourseSearch from './components/CourseSearch';
+import CourseDetails from './components/CourseDetails';
 import Round from './components/Round';
 import More from './components/More';
 import NewRound from './components/NewRound';
@@ -33,16 +34,16 @@ function TabNav(){
       }}>
 
         <Tab.Screen name='Profile' component={Profile} 
-        options={{tabBarIcon: () =>  <FontAwesome5 name="user-alt" size={24} color="black" />}}
+          options={{tabBarIcon: () =>  <FontAwesome5 name="user-alt" size={24} color="black" />}}
         />
         <Tab.Screen name='Map' component={CourseSearch} 
-        options={{tabBarIcon: () =>  <FontAwesome5 name="map-marker-alt" size={24} color="black" />}}
+          options={{tabBarIcon: () =>  <FontAwesome5 name="map-marker-alt" size={24} color="black" />}}
         />
         <Tab.Screen name='Round' component={Round} 
-        options={{tabBarIcon: () =>  <Entypo name="folder-video" size={24} color="black" />}}
+          options={{tabBarIcon: () =>  <Entypo name="folder-video" size={24} color="black" />}}
         />
         <Tab.Screen name='More' component={More} 
-        options={{tabBarIcon: () =>  <Entypo name="menu" size={32} color="black" />}}
+          options={{tabBarIcon: () =>  <Entypo name="menu" size={32} color="black" />}}
         />
       </Tab.Navigator>
   )
@@ -57,10 +58,13 @@ export default function App() {
           headerShown:false
         }}
       >
-      <Stack.Screen name='TabNav' component={TabNav}/>
-      <Stack.Screen name='NewRound' component={NewRound} 
-        options={{headerShown:true}}
-        />
+        <Stack.Screen name='TabNav' component={TabNav}/>
+        <Stack.Screen name='NewRound' component={NewRound} 
+          options={{headerShown:true}}
+          />
+        <Stack.Screen name='CourseDetails' component={CourseDetails} 
+          options={{headerShown:true}}
+          />
       </Stack.Navigator>
     </NavigationContainer>
   );
