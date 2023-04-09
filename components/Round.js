@@ -4,10 +4,17 @@ import styles from '../style/styles';
 
 export default Round = ( {navigation} ) => {
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{alignItems:'center', justifyContent:'center'}}>
-            <Pressable onPress={() => navigation.navigate('NewRound')}>
-                <Text>Round</Text>
-            </Pressable>
+        <ScrollView contentContainerStyle={{alignItems:'center', justifyContent:'center', flex:1}}>
+                <Pressable 
+                    onPress={() => navigation.navigate('New Round')}
+                    style={styles.buttonStyle}>
+                    <Text style={styles.textStyle}>Start New Round</Text>
+                </Pressable>
+                <Pressable 
+                    onPress={() => navigation.navigate('Past Rounds')}
+                    style={styles.buttonStyle}>
+                    <Text style={styles.textStyle}>Past Rounds</Text>
+                </Pressable>
         </ScrollView>
     );
 }

@@ -61,7 +61,7 @@ export default CourseSearch = ({navigation}) => {
         return (
             <Text
             style={styles.courseListItem}
-            onPress={() => navigation.navigate('CourseDetails', {courseID: item.ID})}>
+            onPress={() => navigation.navigate('Course Details', {courseID: item.ID})}>
                 {item.Name}
                 {' '}
                 {item.City}

@@ -4,7 +4,7 @@ import styles from '../style/styles';
 
 export default Profile = () => {
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{alignItems:'center', justifyContent:'center'}}>
+        <ScrollView contentContainerStyle={{alignItems:'center', justifyContent:'center'}}>
             <Text>Profile</Text> 
         </ScrollView>
         

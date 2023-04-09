@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Pressable, SafeAreaView, Text, View } from "react-native";
+import styles from '../style/styles'
 import axios from "axios";
 
 export default CourseDetails = ({route, navigation}) => {
@@ -70,8 +71,10 @@ export default CourseDetails = ({route, navigation}) => {
                 <Text>{details.course?.Fullname}</Text>
                 <Text>{details.course?.Area}, {details.course?.City}</Text>
             </SafeAreaView>
-            <Pressable onPress={() => navigation.navigate('NewRound')}>
-                <Text>Play a round</Text>
+            <Pressable 
+                onPress={() => navigation.navigate('New Round')}
+                style={styles.buttonStyle}>
+                <Text style={styles.textStyle}>Play a round</Text>
             </Pressable>
         </View>
     );

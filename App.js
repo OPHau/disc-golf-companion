@@ -10,8 +10,11 @@ import Profile from './components/Profile';
 import CourseSearch from './components/CourseSearch';
 import CourseDetails from './components/CourseDetails';
 import Round from './components/Round';
-import More from './components/More';
 import NewRound from './components/NewRound';
+import CurrentRound from './components/CurrentRound';
+import PastRound from './components/PastRound';
+import More from './components/More';
+
 import Home from './components/Home';
 import Login from './components/Login';
 import Scores from './components/Scores';
@@ -59,10 +62,16 @@ export default function App() {
         }}
       >
         <Stack.Screen name='TabNav' component={TabNav}/>
-        <Stack.Screen name='NewRound' component={NewRound} 
+        <Stack.Screen name='New Round' component={NewRound} 
           options={{headerShown:true}}
           />
-        <Stack.Screen name='CourseDetails' component={CourseDetails} 
+        <Stack.Screen name='Past Rounds' component={PastRound} 
+          options={{headerShown:true}}
+          />
+        <Stack.Screen name='Current Round' component={CurrentRound} 
+        options={{headerShown:true}}
+          />
+        <Stack.Screen name='Course Details' component={CourseDetails} 
           options={{headerShown:true}}
           />
       </Stack.Navigator>
