@@ -17,6 +17,8 @@ import More from './components/More';
 
 import Home from './components/Home';
 import Login from './components/Login';
+import Register from './components/Register';
+
 import Scores from './components/Scores';
 import styles from './style/styles';
 
@@ -56,24 +58,20 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
+        initialRouteName='Home'
         screenOptions={{
           headerStyle: { backgroundColor: '#ffae00', },
           headerShown:false
         }}
       >
         <Stack.Screen name='TabNav' component={TabNav}/>
-        <Stack.Screen name='New Round' component={NewRound} 
-          options={{headerShown:true}}
-          />
-        <Stack.Screen name='Past Rounds' component={PastRound} 
-          options={{headerShown:true}}
-          />
-        <Stack.Screen name='Current Round' component={CurrentRound} 
-        options={{headerShown:true}}
-          />
-        <Stack.Screen name='Course Details' component={CourseDetails} 
-          options={{headerShown:true}}
-          />
+        <Stack.Screen name='Home' component={Home} options={{headerShown:false}}/>
+        <Stack.Screen name='Login' component={Login} options={{headerShown:true}}/>
+        <Stack.Screen name='Register' component={Register} options={{headerShown:true}}/>
+        <Stack.Screen name='New Round' component={NewRound} options={{headerShown:true}}/>
+        <Stack.Screen name='Past Rounds' component={PastRound} options={{headerShown:true}}/>
+        <Stack.Screen name='Current Round' component={CurrentRound} options={{headerShown:true}}/>
+        <Stack.Screen name='Course Details' component={CourseDetails} options={{headerShown:true}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

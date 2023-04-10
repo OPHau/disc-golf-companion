@@ -1,23 +1,26 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
+import styles from '../style/styles';
 
 export default Home = ({navigation}) => {
     return (
-        <View>
-            <Pressable onPress={() => navigation.navigate('Login')}>
-                <Text>Login</Text>
+        <View style={styles.container}>
+            <Text style={styles.headerStyle}>FlowDisc</Text>
+            <Text style={styles.textStyle}>Your disc golf companion app</Text>
+            <Pressable
+                style={styles.buttonStyle}
+                onPress={() => navigation.navigate('Register')}>
+                <Text style={styles.textStyle}>Register</Text>
             </Pressable>
-            <Pressable onPress={() => navigation.navigate('Profile')}>
-                <Text>Profile</Text>
+            <Pressable
+                style={styles.buttonStyle}
+                onPress={() => navigation.navigate('Login')}>
+                <Text style={styles.textStyle}>Login</Text>
             </Pressable>
-            <Pressable onPress={() => navigation.navigate('CourseSearch')}>
-                <Text>Find a course</Text>
-            </Pressable>
-            <Pressable onPress={() => navigation.navigate('Round')}>
-                <Text>Round</Text>
-            </Pressable>
-            <Pressable onPress={() => navigation.navigate('Scores')}>
-                <Text>Scores</Text>
+            <Pressable
+                style={styles.buttonStyle}
+                onPress={() => navigation.navigate('TabNav')}>
+                <Text style={styles.headerStyle}>Go to app</Text>
             </Pressable>
         </View>
     );
