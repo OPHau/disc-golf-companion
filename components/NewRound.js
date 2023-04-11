@@ -29,7 +29,7 @@ export default NewRound = ( {navigation, route} ) => {
             let name = "Course";
             let fairways = 18;
             if(course != undefined) {
-                fairways = course.baskets.map((basket) => basket).length;
+                if(course.baskets != undefined) fairways = course.baskets.map((basket) => basket).length;
                 name = decode(course.course.Fullname);
             }
             setCourseName(name);

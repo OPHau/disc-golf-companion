@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FlatList, SafeAreaView, Text, View } from "react-native";
 import styles from '../style/styles';
+import { decode } from "html-entities";
 
 export default CourseSearch = ({navigation}) => {
     const [search, setSearch] = useState('');
@@ -36,7 +37,7 @@ export default CourseSearch = ({navigation}) => {
     const filterSearch = (text) => {
         if(text) {
             const newData = courses.filter(function (item) {
-                const itemData = item.Name ? item.Name.toUpperCase() : ''.toUpperCase();
+                const itemData = item.Fullname ? item.Fullname.toUpperCase() : ''.toUpperCase();
                 const courseData = text.toUpperCase();
                 return itemData.indexOf(courseData) > -1;
             });
@@ -53,11 +54,7 @@ export default CourseSearch = ({navigation}) => {
             <Text
             style={styles.courseListItem}
             onPress={() => navigation.navigate('Course Details', {courseID: item.ID})}>
-                {item.Name}
-                {' '}
-                {item.City}
-                {' '}
-                {item.ID}
+                {decode(item.Fullname)}
             </Text>
         );
     };

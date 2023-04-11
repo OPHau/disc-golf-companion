@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Pressable, SafeAreaView, Text, View } from "react-native";
 import styles from '../style/styles'
 import axios from "axios";
+import { decode } from "html-entities";
 
 export default CourseDetails = ({route, navigation}) => {
     const [details, setDetails] = useState([]);
@@ -60,7 +61,7 @@ export default CourseDetails = ({route, navigation}) => {
     return (
         <View>
             <SafeAreaView>
-                <Text>{details.course?.Fullname}</Text>
+                <Text>{decode(details.course?.Fullname)}</Text>
                 <Text>{details.course?.Area}, {details.course?.City}</Text>
             </SafeAreaView>
             <Pressable 
