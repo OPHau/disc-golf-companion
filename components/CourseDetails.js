@@ -54,14 +54,6 @@ export default CourseDetails = ({route, navigation}) => {
     useEffect(() => {
         if(courseID) {
             getDetails();
-        // axios
-        //     .get(getURL())
-        //     .then((response) => {
-        //         setDetails(response.data);
-        //     })
-        //     .catch((error) => {
-        //         console.error(error);
-        //     });
         }
     }, []);
 
@@ -72,7 +64,7 @@ export default CourseDetails = ({route, navigation}) => {
                 <Text>{details.course?.Area}, {details.course?.City}</Text>
             </SafeAreaView>
             <Pressable 
-                onPress={() => navigation.navigate('New Round')}
+                onPress={() => navigation.navigate('New Round', { course: details})}
                 style={styles.buttonStyle}>
                 <Text style={styles.textStyle}>Play a round</Text>
             </Pressable>

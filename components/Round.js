@@ -6,7 +6,7 @@ export default Round = ( {navigation} ) => {
     return (
         <ScrollView contentContainerStyle={{alignItems:'center', justifyContent:'center', flex:1}}>
                 <Pressable 
-                    onPress={() => navigation.navigate('New Round')}
+                    onPress={() => navigation.navigate('New Round', {course: undefined})}
                     style={styles.buttonStyle}>
                     <Text style={styles.textStyle}>Start New Round</Text>
                 </Pressable>

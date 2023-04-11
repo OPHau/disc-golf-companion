@@ -31,15 +31,6 @@ export default CourseSearch = ({navigation}) => {
 
     useEffect(() => {
         getCourses();
-        // axios
-        //     .get("https://discgolfmetrix.com/api.php?content=courses_list&country_code=FI")
-        //     .then((response) => {
-        //         setFiltered(response.data.courses);
-        //         setCourses(response.data.courses);
-        //     })
-        //     .catch((error) => {
-        //         console.error(error);
-        //     });
     }, []);
 
     const filterSearch = (text) => {
@@ -74,7 +65,6 @@ export default CourseSearch = ({navigation}) => {
     const ItemSeparatorView = () => {
         return (
             <View
-            // style={styles.courseListSeparator}
             style={{
                 height: 0.5,
                 width: '100%',
@@ -84,16 +74,13 @@ export default CourseSearch = ({navigation}) => {
         );
     };
 
-    const getItem = (item) => {
-        alert('Name : ' + item.Name + ' City : ' + item.City);
-    };
-
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={styles.courseList}>
                 <FlatList
                 contentContainerStyle={{flexGrow: 1, alignItems: "stretch"}}
                 data={filtered}
+                initialNumToRender={7}
                 keyExtractor={(item, index) => index.toString()}
                 ItemSeparatorComponent={ItemSeparatorView}
                 renderItem={ItemView}
