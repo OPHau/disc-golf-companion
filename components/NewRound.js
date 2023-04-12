@@ -4,11 +4,10 @@ import styles from '../style/styles';
 import { decode } from "html-entities";
 
 export default NewRound = ( {navigation, route} ) => {
-    const [courseName, setCourseName] = useState("");
+    const [courseName, setCourseName] = useState("Course");
     const [fairwayCount, setFairwayCount] = useState(18);
     const [players, setPlayers] = useState(["Player 1"]);
     const {course} = route.params;
-    const [init, setInit] = useState(true);
     const [playerIncrement, setPlayerIncrement] = useState(1);
 
     const addPlayer = () => {
@@ -25,16 +24,15 @@ export default NewRound = ( {navigation, route} ) => {
     }
 
     useEffect(() => {
-        if(init) {
+        if(route.params) {
             let name = "Course";
             let fairways = 18;
             if(course != undefined) {
                 if(course.baskets != undefined) fairways = course.baskets.map((basket) => basket).length;
-                name = decode(course.course.Fullname);
+                if(course.course.Fullname != undefined) name = decode(course.course.Fullname);
             }
             setCourseName(name);
             setFairwayCount(fairways);
-            setInit(false);
         }
     }, [players]);
 
