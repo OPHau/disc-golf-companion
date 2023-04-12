@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, Pressable, TextInput } from "react-native";
 import styles from '../style/styles';
 import { decode } from "html-entities";
+import { Icon } from "@rneui/themed";
 
 export default NewRound = ( {navigation, route} ) => {
     const [courseName, setCourseName] = useState("Course");
@@ -52,11 +53,17 @@ export default NewRound = ( {navigation, route} ) => {
 
     return (
         <ScrollView contentContainerStyle={{alignItems:'center', flex:1}}>
-            <TextInput 
-                style={[styles.textInput, {width:'80%'}]}
-                value={courseName}
-                onChangeText={setCourseName}
-                />
+            <Text style={styles.headerStyle}>Course:</Text>
+            <View style={{flexDirection: "row"}}>
+                <TextInput 
+                    style={[styles.textInput, {width:'80%'}]}
+                    value={courseName}
+                    onChangeText={setCourseName}
+                    />
+                <Pressable style={[styles.buttonStyle, {width: '10%'}]} onPress={() => navigation.navigate('Map')}>
+                    <Icon name="magnifying-glass" type="entypo" size={35} color="#ffffff" />
+                </Pressable>
+            </View>
             <Text style={styles.textStyle}>Fairways: {fairwayCount}</Text>
             {playerlist}
             {players.length < 4 &&
