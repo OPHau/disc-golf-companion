@@ -61,7 +61,7 @@ export default NewRound = ( {navigation, route} ) => {
                     onChangeText={setCourseName}
                     />
                 <Pressable style={[styles.buttonStyle, {width: '10%'}]} onPress={() => navigation.navigate('Map')}>
-                    <Icon name="magnifying-glass" type="entypo" size={35} color="#ffffff" />
+                    <Icon name="magnifying-glass" type="entypo" size={35} color="#000000" />
                 </Pressable>
             </View>
             <Text style={styles.textStyle}>Fairways: {fairwayCount}</Text>
@@ -72,7 +72,7 @@ export default NewRound = ( {navigation, route} ) => {
                 </Pressable>
             }
             <Pressable 
-            onPress={() => navigation.navigate('Current Round')}
+            onPress={() => navigation.navigate('Current Round', {course: course, courseName: courseName, fairways: fairwayCount, players: players})}
             style={styles.buttonStyle}>
                 <Text style={styles.textStyle}>Start Round</Text>
             </Pressable>
