@@ -18,10 +18,11 @@ export default NewRound = ( {navigation, route} ) => {
         setPlayers(players => ([...players, newPlayer]));
     }
 
-    const removePlayer = (p) => {
-        setPlayers(prev => {
-            return prev.filter(player => player !== p)
-        });
+    const removePlayer = () => {
+        let newArray = [...players];
+        setPlayerIncrement(playerIncrement - 1);
+        newArray.pop();
+        setPlayers(newArray);
     }
 
     useEffect(() => {
@@ -42,11 +43,6 @@ export default NewRound = ( {navigation, route} ) => {
         playerlist.push(
             <View style={styles.containerNewRound} key={"playerlistitem" + i}>
                 <Text style={[styles.textStyle, {width:'50%', alignSelf:'center'}]}>{players[i]}</Text>
-                {players.length > 1 &&
-                    <Pressable style={[styles.buttonStyle, {width:'40%'}]} onPress={() => removePlayer(players[i])}>
-                        <Text style={styles.textStyle}>Remove</Text>
-                    </Pressable>
-                }
             </View>
         );
     }
@@ -66,11 +62,18 @@ export default NewRound = ( {navigation, route} ) => {
             </View>
             <Text style={styles.textStyle}>Fairways: {fairwayCount}</Text>
             {playerlist}
-            {players.length < 4 &&
-                <Pressable style={[styles.buttonStyle, {width:'40%'}]} onPress={() => addPlayer()}>
-                    <Text style={styles.textStyle}>Add Player</Text>
-                </Pressable>
-            }
+            <View style={{flexDirection:'row'}}>
+                {players.length < 4 &&
+                    <Pressable style={[styles.buttonStyle, {width:'40%'}]} onPress={() => addPlayer()}>
+                        <Text style={styles.textStyle}>Add Player</Text>
+                    </Pressable>
+                }
+                {players.length > 1 &&
+                    <Pressable style={[styles.buttonStyle, {width:'40%'}]} onPress={() => removePlayer()}>
+                        <Text style={styles.textStyle}>Remove</Text>
+                    </Pressable>
+                }
+            </View>
             <Pressable 
             onPress={() => navigation.navigate('Current Round', {course: course, courseName: courseName, fairways: fairwayCount, players: players})}
             style={styles.buttonStyle}>

@@ -133,7 +133,7 @@ export default CurrentRound = ({ navigation, route }) => {
         let playerTable = [];
         let fw = 0;
         scoreTables.push(
-            <View style={styles.containerNewRound} key={"playerlistitem" + i}>
+            <View style={styles.containerNewRound} key={"playerscoreitem" + i}>
                 <Text style={[styles.textStyle, {width:'70%', alignSelf:'center'}]}>{players[i]}: {getTotalScore(i)}</Text>
             </View>
         );
@@ -141,14 +141,14 @@ export default CurrentRound = ({ navigation, route }) => {
             let playerRow = [];
             for(let j = 0; fw < fairways && j < 9; j++, fw++) {
                 playerRow.push(
-                    <View style={styles.tableColumn} key={"scorerow" + i + j}>
+                    <View style={styles.tableColumn} key={"scorerow" + i + fw}>
                         <Text style={styles.tableHeaderItem}>{fw + 1}</Text>
                         <Text style={[styles.tableItem, {backgroundColor:getScoreColor(pars[fw], throws[i][fw])}]}>{throws[i][fw]}</Text>
                     </View>
                 );
             }
             playerTable.push(
-                <View style={styles.tableRow}>
+                <View style={styles.tableRow} key={"playertableitem" + i}>
                     {playerRow}
                 </View>
             );
