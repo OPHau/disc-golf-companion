@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, Pressable } from "react-native";
+import { View, Text, ScrollView, Pressable, SafeAreaView } from "react-native";
 import styles from '../style/styles';
 import { Icon } from "@rneui/themed";
 
@@ -33,7 +33,7 @@ export default CurrentRound = ({ navigation, route }) => {
                 setFairwayLengths(lengths);
             }
         }
-    }, [throws]);
+    }, []);
 
     const ParDisplay = () => {
             return (
@@ -132,6 +132,7 @@ export default CurrentRound = ({ navigation, route }) => {
     for(let i = 0; i < players.length; i++) {
         let playerTable = [];
         let fw = 0;
+        let r = 0;
         scoreTables.push(
             <View style={styles.containerNewRound} key={"playerscoreitem" + i}>
                 <Text style={[styles.textStyle, {width:'70%', alignSelf:'center'}]}>{players[i]}: {getTotalScore(i)}</Text>
@@ -148,17 +149,18 @@ export default CurrentRound = ({ navigation, route }) => {
                 );
             }
             playerTable.push(
-                <View style={styles.tableRow} key={"playertableitem" + i}>
+                <View style={styles.tableRow} key={"playertableitem" + i + r}>
                     {playerRow}
                 </View>
             );
+            r++;
         }
         scoreTables.push(playerTable);
     }
 
     const Scoreview = () => {
         return (
-            <ScrollView contentContainerStyle={{alignItems:'center', flex:1}}>
+            <ScrollView contentContainerStyle={{alignItems:'center', flexGrow:1}}>
                 <Text style={styles.headerStyle}>Scores</Text>
                 {scoreTables}
             </ScrollView>
@@ -177,12 +179,14 @@ export default CurrentRound = ({ navigation, route }) => {
     };
 
     return (
-        <View style={styles.container}>
-            <View style={styles.containerLeft}>
-                <Text style={styles.textStyle}>{courseName}</Text>
+        <SafeAreaView style={{flex: 1}}>
+            <View style={styles.container}>
+                <View style={styles.containerLeft}>
+                    <Text style={styles.textStyle}>{courseName}</Text>
+                </View>
+                {showScores ? <Scoreview /> : <FairwayView /> }
+                <RoundNav/>
             </View>
-            {showScores ? <Scoreview /> : <FairwayView /> }
-            <RoundNav/>
-        </View>
+        </SafeAreaView>
     );
 }
