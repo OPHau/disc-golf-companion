@@ -13,8 +13,10 @@ export default More = ({navigation}) => {
     return (
         <ScrollView contentContainerStyle={{alignItems:'center', justifyContent:'center'}}>
             <Pressable
-                style={styles.buttonStyleTwo}>
-                <Text style={styles.textStyle}>More</Text>
+                style={styles.buttonStyleTwo}
+                onPress={() => navigation.navigate('Rules')}
+                >
+                <Text style={styles.textStyle}>Rules</Text>
             </Pressable>
             <Pressable
                 style={styles.buttonStyleTwo}

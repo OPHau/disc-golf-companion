@@ -14,6 +14,7 @@ import NewRound from './components/NewRound';
 import CurrentRound from './components/CurrentRound';
 import PastRound from './components/PastRound';
 import More from './components/More';
+import Rules from './components/Rules'
 
 import Home from './components/Home';
 import Login from './components/Login';
@@ -72,6 +73,7 @@ export default function App() {
         <Stack.Screen name='Past Rounds' component={PastRound} options={{headerShown:true}}/>
         <Stack.Screen name='Current Round' component={CurrentRound} options={{headerShown:true}}/>
         <Stack.Screen name='Course Details' component={CourseDetails} options={{headerShown:true}}/>
+        <Stack.Screen name='Rules' component={Rules} options={{headerShown:true}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
