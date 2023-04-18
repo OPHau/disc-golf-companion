@@ -3,8 +3,13 @@ import { Pressable, SafeAreaView, Text, View } from "react-native";
 import styles from '../style/styles'
 import axios from "axios";
 import { decode } from "html-entities";
+import themeContext from "../style/themeContext";
+import { lightTheme, darkTheme } from "../style/theme";
 
 export default CourseDetails = ({route, navigation}) => {
+    const { darkMode, setDarkMode } = useContext(themeContext);
+    const theme = darkMode ? darkTheme : lightTheme;
+    
     const [details, setDetails] = useState([]);
     const {courseID} = route.params;
 

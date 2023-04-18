@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { View, Text, ScrollView, Pressable, SafeAreaView } from "react-native";
 import styles from '../style/styles';
 import { Icon } from "@rneui/themed";
+import themeContext from "../style/themeContext";
+import { lightTheme, darkTheme } from "../style/theme";
 
 export default CurrentRound = ({ navigation, route }) => {
+    const { darkMode } = useContext(themeContext);
+    const theme = darkMode ? darkTheme : lightTheme;
+
     const {course} = route.params;
     const {courseName} = route.params;
     const {fairways} = route.params;

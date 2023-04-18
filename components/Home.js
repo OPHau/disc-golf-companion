@@ -1,8 +1,13 @@
-import React from "react";
+import React, {useContext} from "react";
 import { View, Text, Pressable } from "react-native";
 import styles from '../style/styles';
+import themeContext from "../style/themeContext";
+import { lightTheme, darkTheme } from "../style/theme";
 
 export default Home = ({navigation}) => {
+    const { darkMode } = useContext(themeContext);
+    const theme = darkMode ? darkTheme : lightTheme;
+
     return (
         <View style={styles.container}>
             <Text style={styles.headerStyle}>FlowDisc</Text>

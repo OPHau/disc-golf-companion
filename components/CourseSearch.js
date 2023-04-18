@@ -1,11 +1,16 @@
 import { SearchBar } from "@rneui/themed";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { FlatList, SafeAreaView, Text, View } from "react-native";
 import styles from '../style/styles';
 import { decode } from "html-entities";
+import themeContext from "../style/themeContext";
+import { lightTheme, darkTheme } from "../style/theme";
 
 export default CourseSearch = ({navigation}) => {
+    const { darkMode, setDarkMode } = useContext(themeContext);
+    const theme = darkMode ? darkTheme : lightTheme;
+
     const [search, setSearch] = useState('');
     const [filtered, setFiltered] = useState([]);
     const [courses, setCourses] = useState([]);

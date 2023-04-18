@@ -1,11 +1,15 @@
-import React from "react";
+import React, {useContext} from "react";
 import { View, Text, ScrollView } from "react-native";
 import styles from '../style/styles';
+import themeContext from "../style/themeContext";
+import { lightTheme, darkTheme } from "../style/theme";
 
 export default PastRound = () => {
+    const { darkMode } = useContext(themeContext);
+    const theme = darkMode ? darkTheme : lightTheme;
     return (
-        <ScrollView contentContainerStyle={{alignItems:'center', justifyContent:'center', flex:1}}>
-            <Text>Past Rounds</Text>
-        </ScrollView>
+        <View style={[styles.container, { backgroundColor: theme.background }]}>
+            <Text style={[styles.textStyle, { color: theme.text }]}>Past Rounds</Text>
+        </View>
     );
 }

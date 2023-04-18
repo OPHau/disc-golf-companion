@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, ScrollView, Pressable, Linking } from "react-native";
 import styles from '../style/styles';
+import themeContext from "../style/themeContext";
+import { lightTheme, darkTheme } from "../style/theme";
 
 export default Rules = ({navigation}) => {
+    const { darkMode, setDarkMode } = useContext(themeContext);
+    const theme = darkMode ? darkTheme : lightTheme;
 
     return (
         <ScrollView contentContainerStyle={{justifyContent:'center'}}>

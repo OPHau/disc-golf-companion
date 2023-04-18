@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { View, Text, ScrollView, Pressable, TextInput } from "react-native";
 import styles from '../style/styles';
 import { decode } from "html-entities";
 import { Icon } from "@rneui/themed";
+import themeContext from "../style/themeContext";
+import { lightTheme, darkTheme } from "../style/theme";
 
 export default NewRound = ( {navigation, route} ) => {
+    const { darkMode } = useContext(themeContext);
+    const theme = darkMode ? darkTheme : lightTheme;
+
     const [courseName, setCourseName] = useState("Course");
     const [fairwayCount, setFairwayCount] = useState(18);
     const [players, setPlayers] = useState(["Player 1"]);
@@ -52,7 +57,7 @@ export default NewRound = ( {navigation, route} ) => {
             <Text style={styles.headerStyle}>Course:</Text>
             <View style={{flexDirection: "row"}}>
                 <TextInput 
-                    style={[styles.textInput, {width:'80%'}]}
+                    style={[styles.textInput, {backgroundColor: theme.backgroundLight, color: theme.text}]}
                     value={courseName}
                     onChangeText={setCourseName}
                     />
