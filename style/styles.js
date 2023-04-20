@@ -12,7 +12,7 @@ export default StyleSheet.create({
     },
     containerLeft: {
         alignSelf:'flex-start',
-        flexDirection:'row',
+        flexDirection:'column',
         justifyContent:'space-between',
     },
     containerNewRound: {
@@ -30,19 +30,35 @@ export default StyleSheet.create({
     },
     //Tables
     tableRow: {
+        marginTop:5,
+        alignSelf:'flex-start',
         flexDirection:'row',
         backgroundColor:'#000',
     },
     tableColumn: {
         flex:1,
+        maxWidth:30,
         alignItems:'center',
+        borderWidth:1,
+        borderColor:'#fff',
     },
-    tableHeaderItem: {
+    tableHeadingItem: {
         fontStyle:'italic',
+        fontSize:15,
         color:'#fff',
-        backgroundColor:'#000'
+        backgroundColor:'#000',
+    },
+    tableSubheadingItem: {
+        textAlign:'center',
+        fontSize:15,
+        width: 28,
+        color:'#eee',
+        backgroundColor:'#aaa',
     },
     tableItem: {
+        textAlign:'center',
+        fontSize:15,
+        width: 28,
         fontWeight:'bold',
     },
     //Text
@@ -53,6 +69,12 @@ export default StyleSheet.create({
     headerStyle: {
         fontSize:25,
         margin:7
+    },
+    subheading: {
+        alignSelf:'center',
+        fontSize:20,
+        fontWeight: 'bold',
+        margin: 5,
     },
     footerContainer: {
         backgroundColor: '#ffae00',

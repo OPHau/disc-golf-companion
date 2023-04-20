@@ -54,17 +54,18 @@ export default NewRound = ( {navigation, route} ) => {
 
     return (
         <ScrollView contentContainerStyle={{alignItems:'center', flex:1}}>
-            <Text style={styles.headerStyle}>Course:</Text>
             <View style={{flexDirection: "row"}}>
-                <TextInput 
-                    style={[styles.textInput, {backgroundColor: theme.backgroundLight, color: theme.text}]}
-                    value={courseName}
-                    onChangeText={setCourseName}
-                    />
+                <Text style={styles.headerStyle}>Course:</Text>
                 <Pressable style={[styles.buttonStyle, {width: '10%'}]} onPress={() => navigation.navigate('Map')}>
                     <Icon name="magnifying-glass" type="entypo" size={35} color="#000000" />
                 </Pressable>
             </View>
+
+            <TextInput 
+                style={[styles.textInput, {backgroundColor: theme.backgroundLight, color: theme.text}]}
+                value={courseName}
+                onChangeText={setCourseName}
+                />
             <Text style={styles.textStyle}>Fairways: {fairwayCount}</Text>
             {playerlist}
             <View style={{flexDirection:'row'}}>

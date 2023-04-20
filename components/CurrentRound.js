@@ -139,17 +139,18 @@ export default CurrentRound = ({ navigation, route }) => {
         let fw = 0;
         let r = 0;
         scoreTables.push(
-            <View style={styles.containerNewRound} key={"playerscoreitem" + i}>
-                <Text style={[styles.textStyle, {width:'70%', alignSelf:'center'}]}>{players[i]}: {getTotalScore(i)}</Text>
+            <View key={"playerscoreitem" + i}>
+                <Text style={styles.subheading}>{players[i]}: {getTotalScore(i)}</Text>
             </View>
         );
         while(fw < fairways) {
             let playerRow = [];
             for(let j = 0; fw < fairways && j < 9; j++, fw++) {
                 playerRow.push(
-                    <View style={styles.tableColumn} key={"scorerow" + i + fw}>
-                        <Text style={styles.tableHeaderItem}>{fw + 1}</Text>
-                        <Text style={[styles.tableItem, {backgroundColor:getScoreColor(pars[fw], throws[i][fw])}]}>{throws[i][fw]}</Text>
+                    <View style={styles.tableColumn} key={"scorecol" + i + fw}>
+                        <Text style={styles.tableHeadingItem}>{fw + 1}</Text>
+                        <Text style={styles.tableSubheadingItem}>{pars[fw]}</Text>
+                        <Text style={[styles.tableItem, {backgroundColor:getScoreColor(pars[fw], throws[i][fw])}]}>{throws[i][fw] > 0 ? throws[i][fw] : " "}</Text>
                     </View>
                 );
             }
@@ -167,7 +168,9 @@ export default CurrentRound = ({ navigation, route }) => {
         return (
             <ScrollView contentContainerStyle={{alignItems:'center', flexGrow:1}}>
                 <Text style={styles.headerStyle}>Scores</Text>
-                {scoreTables}
+                <View contentContainerStyle={{alignItems:'center', width:'80%'}}>
+                    {scoreTables}
+                </View>
             </ScrollView>
         );
     };
@@ -185,7 +188,7 @@ export default CurrentRound = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <View style={styles.container}>
+            <View style={{flex:1}}>
                 <View style={styles.containerLeft}>
                     <Text style={styles.textStyle}>{courseName}</Text>
                 </View>
