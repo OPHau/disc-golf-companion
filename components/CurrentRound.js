@@ -53,12 +53,12 @@ export default CurrentRound = ({ navigation, route }) => {
                     </Pressable>
                 </View>
             );
-    };
+    }
 
     const changeFairway = (f, shows = false) => {
         setShowScores(shows);
         setCurrentFairway(f);
-    };
+    }
 
     const roundNav = [];
     for(let i = Math.max(0, currentFairway - 1), j = 0; i < Math.min(fairways, currentFairway + 2); i++, j++) {
@@ -72,7 +72,7 @@ export default CurrentRound = ({ navigation, route }) => {
                 {i < fairways && (j == 2 || (i == fairways || currentFairway == 0) && j == 1) && <Icon name="chevron-thin-right" type="entypo" size={50} color="#000000" />}
             </Pressable>
         );
-    };
+    }
 
     const RoundNav = () => {
         return (
@@ -85,13 +85,13 @@ export default CurrentRound = ({ navigation, route }) => {
                 </Pressable>
             </View>
         );
-    };
+    }
 
     const addThrow = (p, f, add) => {
         const newArray = [...throws];
         newArray[p][f] = Math.max(0, newArray[p][f] + add);
         setThrows(newArray);
-    };
+    }
 
     const changePar = (f, add) => {
         const newArray = [...pars];
@@ -125,13 +125,13 @@ export default CurrentRound = ({ navigation, route }) => {
             else if(dif >= 2) clr = "#da90d6";
         }
         return clr;
-    };
+    }
 
     const getTotalScore = (p) => {
         let playerThrows = [...throws[p]];
         let fairwayPar = [...pars];
         return playerThrows.reduce((acc, cv) => acc + cv, 0) - fairwayPar.reduce((acc, cv) => acc + cv, 0);
-    };
+    }
 
     const scoreTables = [];
     for(let i = 0; i < players.length; i++) {
@@ -173,7 +173,7 @@ export default CurrentRound = ({ navigation, route }) => {
                 </View>
             </ScrollView>
         );
-    };
+    }
 
     const FairwayView = () => {
         return (
@@ -184,7 +184,7 @@ export default CurrentRound = ({ navigation, route }) => {
                 {playerlist}
             </ScrollView>
         );
-    };
+    }
 
     return (
         <SafeAreaView style={{flex: 1}}>

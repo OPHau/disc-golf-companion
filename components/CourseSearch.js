@@ -1,4 +1,4 @@
-import { SearchBar } from "@rneui/themed";
+import { SearchBar, Tab, TabView } from "@rneui/themed";
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
 import { FlatList, SafeAreaView, Text, View } from "react-native";
@@ -10,6 +10,8 @@ import { lightTheme, darkTheme } from "../style/theme";
 export default CourseSearch = ({navigation}) => {
     const { darkMode, setDarkMode } = useContext(themeContext);
     const theme = darkMode ? darkTheme : lightTheme;
+
+    const [tabIndex, setTabIndex] = useState(1);
 
     const [search, setSearch] = useState('');
     const [filtered, setFiltered] = useState([]);
@@ -38,6 +40,10 @@ export default CourseSearch = ({navigation}) => {
     useEffect(() => {
         getCourses();
     }, []);
+
+    const switchTab = (e) => {
+        setTabIndex(e);
+    }
 
     const filterSearch = (text) => {
         if(text) {
@@ -78,27 +84,55 @@ export default CourseSearch = ({navigation}) => {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <View style={styles.courseList}>
-                <FlatList
-                contentContainerStyle={{flexGrow: 1, alignItems: "stretch"}}
-                data={filtered}
-                initialNumToRender={7}
-                keyExtractor={(item, index) => index.toString()}
-                ItemSeparatorComponent={ItemSeparatorView}
-                renderItem={ItemView}
-                ListHeaderComponent= {
-                    <SearchBar
-                    round
-                    lightTheme
-                    searchIcon={{size: 24}}
-                    onChangeText={(text) => filterSearch(text)}
-                    onClear={(text) => filterSearch('')}
-                    placeholder="Type here..."
-                    value={search}
-                    />
-                }
-                />
-            </View>
+            <Tab
+                value={tabIndex}
+                onChange={(e) => switchTab(e)}
+                indicatorStyle={{backgroundColor: '#ffae00', height: 3}}
+                variant="default">
+                <Tab.Item
+                    title="Favorites"
+                    titleStyle={{color:"#000", fontSize: 12}}
+                    icon={{ name: 'star', type: 'entypo', color: '#000'}}/>
+                <Tab.Item
+                    title="Search"
+                    titleStyle={{color:"#000", fontSize: 12}}
+                    icon={{ name: 'magnifying-glass', type: 'entypo', color: '#000'}}/>
+                <Tab.Item
+                    title="Nearby"
+                    titleStyle={{color:"#000", fontSize: 12}}
+                    icon={{ name: 'google-nearby', type: 'material-community', color: '#000'}}/>
+            </Tab>
+            <TabView value={tabIndex} onChange={setTabIndex} animationType='spring'>
+                <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>
+                    <Text style={styles.textStyle}>You have no favorites yet.</Text>
+                </TabView.Item>
+                <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>
+                    <View style={styles.courseList}>
+                        <FlatList
+                        contentContainerStyle={{flexGrow: 1, alignItems: "stretch"}}
+                        data={filtered}
+                        initialNumToRender={7}
+                        keyExtractor={(item, index) => index.toString()}
+                        ItemSeparatorComponent={ItemSeparatorView}
+                        renderItem={ItemView}
+                        ListHeaderComponent= {
+                            <SearchBar
+                            round
+                            lightTheme
+                            searchIcon={{size: 24}}
+                            onChangeText={(text) => filterSearch(text)}
+                            onClear={(text) => filterSearch('')}
+                            placeholder="Type here..."
+                            value={search}
+                            />
+                        }
+                        />
+                    </View>
+                </TabView.Item>
+                <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>
+                    <Text style={styles.textStyle}>Nearby courses...</Text>
+                </TabView.Item>
+           </TabView>
         </SafeAreaView>
     );
 }
