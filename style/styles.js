@@ -120,5 +120,4 @@ export default StyleSheet.create({
         width:"95%",
         alignItems:'center',
     }
-
 });

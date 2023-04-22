@@ -1,22 +1,31 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Pressable, SafeAreaView, ScrollView, Text, View } from "react-native";
+import { Dimensions, Pressable, SafeAreaView, ScrollView, Text, View } from "react-native";
 import styles from '../style/styles'
 import axios from "axios";
 import { decode } from "html-entities";
 import themeContext from "../style/themeContext";
 import { lightTheme, darkTheme } from "../style/theme";
+import MapView, {Marker} from "react-native-maps";
+
+const INITIAL_LATITUDE = 65.0800;
+const INITIAL_LONGITUDE = 25.4800;
+const INITIAL_LATITUDE_DELTA = 0.0922;
+const INITIAL_LONGITUDE_DELTA = 0.0421;
 
 export default CourseDetails = ({route, navigation}) => {
     const { darkMode, setDarkMode } = useContext(themeContext);
     const theme = darkMode ? darkTheme : lightTheme;
     
+    const {courseID} = route.params;
+    const [fetched, setFetched] = useState(false);
     const [details, setDetails] = useState([]);
     const [totalLength, setTotalLength] = useState(0);
     const [lengthUnit, setLengthUnit] = useState("");
     const [pars, setPars] = useState([]);
     const [coursePar, setCoursePar] = useState(0);
     const [basketCount, setBasketCount] = useState(0);
-    const {courseID} = route.params;
+    const [latitude, setLatitude] = useState(INITIAL_LATITUDE);
+    const [longitude, setLongitude] = useState(INITIAL_LONGITUDE);
 
     const getURL = () => {
         const baseUrl = 'https://discgolfmetrix.com/api.php?content=course&id=';
@@ -29,6 +38,9 @@ export default CourseDetails = ({route, navigation}) => {
         const response = await axios.get(URL);
         let data = response.data;
         setDetails(data);
+
+        if(data.course.Lat != undefined) setLatitude(Number(data.course.Lat));
+        if(data.course.Lng != undefined) setLongitude(Number(data.course.Lng));
 
         if(data.baskets != undefined) {
             let baskets = data.baskets.map((basket) => basket);
@@ -45,6 +57,7 @@ export default CourseDetails = ({route, navigation}) => {
             setPars(initPars);
             setCoursePar(initPars.reduce((prev, cur) => prev + cur, 0));
             setTotalLength(1500);
+            setFetched(true);
         }
 
         // Data fields: (example)
@@ -82,10 +95,10 @@ export default CourseDetails = ({route, navigation}) => {
     };
 
     useEffect(() => {
-        if(courseID) {
+        if(courseID && !fetched) {
             getDetails();
         }
-    }, []);
+    }, [latitude]);
 
     const parTables = [];
     let b = 0;
@@ -110,6 +123,16 @@ export default CourseDetails = ({route, navigation}) => {
 
     return (
         <View style={{flex:1}}>
+            {fetched && <MapView
+                style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height / 2.5}}
+                initialRegion= {{
+                  latitude: latitude,
+                  longitude: longitude,
+                  latitudeDelta: INITIAL_LATITUDE_DELTA,
+                  longitudeDelta: INITIAL_LONGITUDE_DELTA,
+                }}>
+                <Marker title={details.course?.Name} coordinate={{latitude: latitude, longitude: longitude}}/>
+            </MapView>}
             <ScrollView contentContainerStyle={{alignItems:'center'}}>
                 <View style={styles.containerLeft}>
                     <Text style={styles.subheading}>{decode(details.course?.Fullname)}</Text>
