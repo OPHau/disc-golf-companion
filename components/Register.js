@@ -40,18 +40,18 @@ export default Register = ({navigation}) => {
   }
 
   return (
-      <View style={styles.container}>
-          <Text style={styles.headerStyle}>FlowDisc</Text>
-          <Text style={styles.textStyle}>Create an account</Text>
+      <View style={[styles.container, {backgroundColor:theme.background}]}>
+          <Text style={[styles.headerStyle, {color:theme.text}]}>FlowDisc</Text>
+          <Text style={[styles.textStyle, {color:theme.text}]}>Create an account</Text>
           <TextInput
-              style={styles.textInput}
+              style={[styles.textInput, {backgroundColor:theme.textInput}]}
               placeholder="Username"
               autoCapitalize="none"
               value={username}
               onChangeText={(t) => setUsername(t)}
           />
           <TextInput
-              style={styles.textInput}
+              style={[styles.textInput, {backgroundColor:theme.textInput}]}
               placeholder="Email"
               keyboardType="email-address"
               autoCapitalize="none"
@@ -59,14 +59,14 @@ export default Register = ({navigation}) => {
               onChangeText={(t) => setEmail(t)}
           />
           <TextInput
-              style={styles.textInput}
+              style={[styles.textInput, {backgroundColor:theme.textInput}]}
               placeholder="Password"
               secureTextEntry={true}
               value={password}
               onChangeText={(t) => setPassword(t)}
           />
           <TextInput
-              style={styles.textInput}
+              style={[styles.textInput, {backgroundColor:theme.textInput}]}
               placeholder="Confirm Password"
               secureTextEntry={true}
               value={confirmPassword}
@@ -77,7 +77,7 @@ export default Register = ({navigation}) => {
               onPress={() => handleRegister()}>
               <Text style={styles.textStyle}>Register</Text>
           </Pressable>
-          <Text style={styles.textStyle}>Already have an account?</Text>
+          <Text style={[styles.textStyle, {color:theme.text}]}>Already have an account?</Text>
           <Pressable 
               style={styles.buttonStyle}
               onPress={() => navigation.navigate('Login')}>

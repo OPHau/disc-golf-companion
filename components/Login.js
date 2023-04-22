@@ -48,13 +48,13 @@ export default Login = ({navigation}) => {
     }
 
   return (
-      <View style={styles.container}>
-          <Text style={styles.headerStyle}>FlowDisc</Text>
+      <View style={[styles.container, {backgroundColor:theme.background}]}>
+          <Text style={[styles.headerStyle, {color:theme.text}]}>FlowDisc</Text>
           { !showForgotPw &&
           <>
-              <Text style={styles.textStyle}>Login to your account</Text>
+              <Text style={[styles.textStyle, {color:theme.text}]}>Login to your account</Text>
               <TextInput
-                  style={styles.textInput}
+                  style={[styles.textInput, {backgroundColor:theme.textInput}]}
                   placeholder="Email"
                   keyboardType="email-address"
                   autoCapitalize="none"
@@ -62,7 +62,7 @@ export default Login = ({navigation}) => {
                   onChangeText={(t) => setEmail(t)}
               />
               <TextInput
-                  style={styles.textInput}
+                  style={[styles.textInput, {backgroundColor:theme.textInput}]}
                   placeholder="Password"
                   secureTextEntry={true}
                   value={password}
@@ -73,7 +73,7 @@ export default Login = ({navigation}) => {
                   onPress={() => handleLogin()}>
                   <Text style={styles.textStyle}>Login</Text>
               </Pressable>
-                  <Text style={styles.textStyle}>No account yet?</Text>
+                  <Text style={[styles.textStyle, {color:theme.text}]}>No account yet?</Text>
               <Pressable 
                   style={styles.buttonStyle}
                   onPress={() => navigation.navigate('Register')}>

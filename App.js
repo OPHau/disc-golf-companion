@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 import { View, Text } from "react-native";
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from '@react-navigation/native'
 import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -30,31 +30,33 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function TabNav(){
+  const { darkMode } = useContext(themeContext);
+  const theme = darkMode ? darkTheme : lightTheme;
   return (
       <Tab.Navigator 
         screenOptions={{
           animation: 'none',
-          headerStyle: { backgroundColor: '#ffae00'},
-          headerTitleStyle: { color:'#000000' },
-          tabBarStyle: { backgroundColor: '#ffae00', },
+          headerStyle: { backgroundColor: theme.primary},
+          headerTitleStyle: { color: theme.text },
+          tabBarStyle: { backgroundColor: theme.primary, },
           tabBarLabelStyle: { fontWeight:'bold', fontSize:14},
-          tabBarActiveBackgroundColor: '#e69d00',
+          tabBarActiveBackgroundColor: theme.secondary,
           //Text color
-          tabBarActiveTintColor: '#000000',
-          tabBarInactiveTintColor: '#000000a1',
+          tabBarActiveTintColor: theme.text,
+          tabBarInactiveTintColor: theme.text,
       }}>
 
         <Tab.Screen name='Profile' component={Profile} 
-          options={{tabBarIcon: () =>  <FontAwesome5 name="user-alt" size={24} color="black" />}}
+          options={{tabBarIcon: () =>  <FontAwesome5 name="user-alt" size={24} color={theme.navBarIcon}  />}}
         />
         <Tab.Screen name='Map' component={CourseSearch} 
-          options={{tabBarIcon: () =>  <FontAwesome5 name="map-marker-alt" size={24} color="black" />}}
+          options={{tabBarIcon: () =>  <FontAwesome5 name="map-marker-alt" size={24} color={theme.navBarIcon} />}}
         />
         <Tab.Screen name='Round' component={Round} 
-          options={{tabBarIcon: () =>  <Entypo name="folder-video" size={24} color="black" />}}
+          options={{tabBarIcon: () =>  <Entypo name="folder-video" size={24} color={theme.navBarIcon} />}}
         />
         <Tab.Screen name='More' component={More} 
-          options={{tabBarIcon: () =>  <Entypo name="menu" size={32} color="black" />}}
+          options={{tabBarIcon: () =>  <Entypo name="menu" size={32} color={theme.navBarIcon}  />}}
         />
       </Tab.Navigator>
   )
@@ -62,6 +64,7 @@ function TabNav(){
 
 export default function App() {
   const [darkMode, setDarkMode] = useState(false);
+  const theme = darkMode ? darkTheme : lightTheme;
 
   return (
       <themeContext.Provider value={{ darkMode, setDarkMode }}>
@@ -69,22 +72,21 @@ export default function App() {
             theme={darkMode === true ? DarkTheme : DefaultTheme}
             initialRouteName='Home'
             screenOptions={{
-                headerStyle: { backgroundColor: '#ffae00' },
+                headerStyle: { backgroundColor: theme.primary },
                 headerShown: false
-            }}
-        >
+            }}>
         <Stack.Navigator
         screenOptions={{
           animation: 'none',
-          headerStyle: { backgroundColor: '#ffae00', },
-          headerTitleStyle: { color:'#000000' },
-          tabBarStyle: { backgroundColor: '#ffae00', },
+          headerStyle: { backgroundColor: theme.primary, },
+          headerTitleStyle: { color: theme.text },
+          tabBarStyle: { backgroundColor: theme.primary, },
           tabBarLabelStyle: { fontWeight:'bold', fontSize:14},
-          tabBarActiveBackgroundColor: '#e69d00',
-          headerTintColor:'#000000',
+          tabBarActiveBackgroundColor: theme.secondary,
+          headerTintColor: theme.text,
           //Text color
-          tabBarActiveTintColor: '#000000',
-          tabBarInactiveTintColor: '#000000a1',
+          tabBarActiveTintColor: theme.text,
+          tabBarInactiveTintColor: theme.text,
       }}>
           <Stack.Screen name='TabNav' component={TabNav} options={{headerShown:false}}/>
           <Stack.Screen name='Home' component={Home} options={{headerShown:false}}/>
