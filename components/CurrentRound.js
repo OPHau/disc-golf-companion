@@ -67,21 +67,21 @@ export default CurrentRound = ({ navigation, route }) => {
                 key={"roundnav" + i}
                 onPress={() => changeFairway(i)}
                 style={styles.footerButton}>
-                {j == 0 && i != currentFairway && <Icon name="chevron-thin-left" type="entypo" size={50} color="#000000" />}
-                <Text style={[styles.footerText, i == currentFairway && {textDecorationLine:'underline', fontWeight:'bold'}]}>{i + 1}</Text>
-                {i < fairways && (j == 2 || (i == fairways || currentFairway == 0) && j == 1) && <Icon name="chevron-thin-right" type="entypo" size={50} color="#000000" />}
+                {j == 0 && i != currentFairway && <Icon name="chevron-thin-left" type="entypo" size={50} color={theme.navBarIcon} />}
+                <Text style={[styles.footerText, i == currentFairway && {textDecorationLine:'underline', fontWeight:'bold'}, {color:theme.text}]}>{i + 1}</Text>
+                {i < fairways && (j == 2 || (i == fairways || currentFairway == 0) && j == 1) && <Icon name="chevron-thin-right" type="entypo" size={50} color={theme.navBarIcon} />}
             </Pressable>
         );
     }
 
     const RoundNav = () => {
         return (
-            <View style={styles.footerContainer}>
+            <View style={[styles.footerContainer, {backgroundColor:theme.primary}]}>
                 {roundNav}
                 <Pressable
                     onPress={() => changeFairway(currentFairway, true)}
                     style={styles.footerButton}>
-                    <Icon name="list-ol" type="font-awesome" size={50} color="#000000" />
+                    <Icon name="list-ol" type="font-awesome" size={50} color={theme.navBarIcon} />
                 </Pressable>
             </View>
         );
@@ -105,7 +105,7 @@ export default CurrentRound = ({ navigation, route }) => {
             <View style={styles.containerNewRound} key={"playerlistitem" + i}>
                 <Text style={[styles.textStyle, {width:'50%', alignSelf:'center'}]}>{players[i]}</Text>
                 <Pressable onPress={() => addThrow(i, currentFairway, -1)}>
-                    <Icon name="circle-with-minus" type="entypo" size={30} color="#ffae00" />
+                    <Icon name="circle-with-minus" type="entypo" size={30} color={"#ffae00"} />
                 </Pressable>
                 <Text style={styles.textStyle}>{throws[i][currentFairway]}</Text>
                 <Pressable onPress={() => addThrow(i, currentFairway, 1)}>
@@ -187,7 +187,7 @@ export default CurrentRound = ({ navigation, route }) => {
     }
 
     return (
-        <SafeAreaView style={{flex: 1}}>
+        <SafeAreaView style={[{flex: 1}, {backgroundColor:theme.background}]}>
             <View style={{flex:1}}>
                 <View style={styles.containerLeft}>
                     <Text style={styles.textStyle}>{courseName}</Text>

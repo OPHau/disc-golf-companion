@@ -122,7 +122,7 @@ export default CourseDetails = ({route, navigation}) => {
     }
 
     return (
-        <View style={{flex:1}}>
+        <View style={[{flex:1, backgroundColor:theme.background}]}>
             {fetched && <MapView
                 style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height / 2.5}}
                 initialRegion= {{
@@ -135,11 +135,11 @@ export default CourseDetails = ({route, navigation}) => {
             </MapView>}
             <ScrollView contentContainerStyle={{alignItems:'center'}}>
                 <View style={styles.containerLeft}>
-                    <Text style={styles.subheading}>{decode(details.course?.Fullname)}</Text>
-                    <Text style={styles.textStyle}>{details.course?.Area}, {details.course?.City}</Text>
-                    {basketCount > 0 && <Text style={styles.textStyle}>Fairways: {basketCount}</Text>}
-                    {coursePar > 0 && <Text style={styles.textStyle}>Par: {coursePar}</Text>}
-                    {totalLength > 0 && <Text style={styles.textStyle}>Total length: {totalLength}{lengthUnit}</Text>}
+                    <Text style={[styles.subheading, {color:theme.text}]}>{decode(details.course?.Fullname)}</Text>
+                    <Text style={[styles.textStyle, {color:theme.text}]}>{details.course?.Area}, {details.course?.City}</Text>
+                    {basketCount > 0 && <Text style={[styles.textStyle, {color:theme.text}]}>Fairways: {basketCount}</Text>}
+                    {coursePar > 0 && <Text style={[styles.textStyle, {color:theme.text}]}>Par: {coursePar}</Text>}
+                    {totalLength > 0 && <Text style={[styles.textStyle, {color:theme.text}]}>Total length: {totalLength}{lengthUnit}</Text>}
                 </View>
                 <View contentContainerStyle={{alignItems:'center', width:'80%'}}>
                     {parTables}

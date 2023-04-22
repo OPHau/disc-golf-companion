@@ -9,7 +9,7 @@ export default Round = ( {navigation} ) => {
     const theme = darkMode ? darkTheme : lightTheme;
 
     return (
-        <ScrollView contentContainerStyle={{alignItems:'center', justifyContent:'center', flex:1}}>
+        <ScrollView contentContainerStyle={[{alignItems:'center', justifyContent:'center', flex:1},{backgroundColor:theme.background}]}>
                 <Pressable 
                     onPress={() => navigation.navigate('New Round', {course: undefined})}
                     style={styles.buttonStyle}>

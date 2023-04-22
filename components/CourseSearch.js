@@ -63,7 +63,7 @@ export default CourseSearch = ({navigation}) => {
     const ItemView = ({item}) => {
         return (
             <Text
-            style={styles.courseListItem}
+            style={[styles.courseListItem, {color:theme.text}]}
             onPress={() => navigation.navigate('Course Details', {courseID: item.ID})}>
                 {decode(item.Fullname)}
             </Text>

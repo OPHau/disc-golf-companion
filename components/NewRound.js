@@ -53,38 +53,38 @@ export default NewRound = ( {navigation, route} ) => {
     }
 
     return (
-        <ScrollView contentContainerStyle={{alignItems:'center', flex:1}}>
-            <View style={{flexDirection: "row"}}>
-                <Text style={styles.headerStyle}>Course:</Text>
-                <Pressable style={[styles.buttonStyle, {width: '10%'}]} onPress={() => navigation.navigate('Map')}>
-                    <Icon name="magnifying-glass" type="entypo" size={35} color="#000000" />
-                </Pressable>
-            </View>
+        <ScrollView contentContainerStyle={[{alignItems:'center', flex:1}, {backgroundColor:theme.background}]}>
+                <View style={{flexDirection: "row"}}>
+                    <Text style={[styles.headerStyle, {color:theme.text}]}>Course:</Text>
+                    <Pressable style={[styles.buttonStyle, {width: '10%'}]} onPress={() => navigation.navigate('Map')}>
+                        <Icon name="magnifying-glass" type="entypo" size={35} color="#000000" />
+                    </Pressable>
+                </View>
 
-            <TextInput 
-                style={[styles.textInput, {backgroundColor: theme.backgroundLight, color: theme.text}]}
-                value={courseName}
-                onChangeText={setCourseName}
-                />
-            <Text style={styles.textStyle}>Fairways: {fairwayCount}</Text>
-            {playerlist}
-            <View style={{flexDirection:'row'}}>
-                {players.length < 4 &&
-                    <Pressable style={[styles.buttonStyle, {width:'40%'}]} onPress={() => addPlayer()}>
-                        <Text style={styles.textStyle}>Add Player</Text>
-                    </Pressable>
-                }
-                {players.length > 1 &&
-                    <Pressable style={[styles.buttonStyle, {width:'40%'}]} onPress={() => removePlayer()}>
-                        <Text style={styles.textStyle}>Remove</Text>
-                    </Pressable>
-                }
-            </View>
-            <Pressable 
-            onPress={() => navigation.navigate('Current Round', {course: course, courseName: courseName, fairways: fairwayCount, players: players})}
-            style={styles.buttonStyle}>
-                <Text style={styles.textStyle}>Start Round</Text>
-            </Pressable>
+                <TextInput 
+                    style={[styles.textInput, {backgroundColor: theme.textInput, color: theme.text}]}
+                    value={courseName}
+                    onChangeText={setCourseName}
+                    />
+                <Text style={[styles.textStyle, {color:theme.text}]}>Fairways: {fairwayCount}</Text>
+                {playerlist}
+                <View style={{flexDirection:'row'}}>
+                    {players.length < 4 &&
+                        <Pressable style={[styles.buttonStyle, {width:'40%'}]} onPress={() => addPlayer()}>
+                            <Text style={styles.textStyle}>Add Player</Text>
+                        </Pressable>
+                    }
+                    {players.length > 1 &&
+                        <Pressable style={[styles.buttonStyle, {width:'40%'}]} onPress={() => removePlayer()}>
+                            <Text style={styles.textStyle}>Remove</Text>
+                        </Pressable>
+                    }
+                </View>
+                <Pressable 
+                onPress={() => navigation.navigate('Current Round', {course: course, courseName: courseName, fairways: fairwayCount, players: players})}
+                style={styles.buttonStyle}>
+                    <Text style={styles.textStyle}>Start Round</Text>
+                </Pressable>
         </ScrollView>
     );
 }

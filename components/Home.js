@@ -1,17 +1,24 @@
 import React, {useContext} from "react";
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, StatusBar } from "react-native";
 import styles from '../style/styles';
 import themeContext from "../style/themeContext";
 import { lightTheme, darkTheme } from "../style/theme";
+
+//Only used in this component for status bar color.
+
 
 export default Home = ({navigation}) => {
     const { darkMode } = useContext(themeContext);
     const theme = darkMode ? darkTheme : lightTheme;
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.headerStyle}>FlowDisc</Text>
-            <Text style={styles.textStyle}>Your disc golf companion app</Text>
+        <View style={[styles.container, {backgroundColor:theme.background}]}>
+            <StatusBar 
+                barStyle="dark-content"
+                backgroundColor={darkMode === true ? backgroundColor="#262626" : backgroundColor="#ffae00"}
+            />
+            <Text style={[styles.headerStyle, {color:theme.text}]}>FlowDisc</Text>
+            <Text style={[styles.headerStyle, {color:theme.text}]}>Your disc golf companion app</Text>
             <Pressable
                 style={styles.buttonStyle}
                 onPress={() => navigation.navigate('Register')}>
