@@ -2,20 +2,31 @@ import { SearchBar, Tab, TabView } from "@rneui/themed";
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
 import { FlatList, SafeAreaView, Text, View } from "react-native";
+import * as Location from 'expo-location';
 import styles from '../style/styles';
 import { decode } from "html-entities";
 import themeContext from "../style/themeContext";
 import { lightTheme, darkTheme } from "../style/theme";
+import { getDistance } from "geolib";
+
+const INITIAL_LATITUDE = 65.0800;
+const INITIAL_LONGITUDE = 25.4800;
 
 export default CourseSearch = ({navigation}) => {
     const { darkMode, setDarkMode } = useContext(themeContext);
     const theme = darkMode ? darkTheme : lightTheme;
 
     const [tabIndex, setTabIndex] = useState(1);
+    const [requestLocPerm, setRequestLocPerm] = useState(false);
+    const [locRequested, setLocRequested] = useState(false);
+    const [latitude, setLatitude] = useState(INITIAL_LATITUDE);
+    const [longitude, setLongitude] = useState(INITIAL_LONGITUDE);
+    const [fetchCourses, setFetchCourses] = useState(true);
 
     const [search, setSearch] = useState('');
     const [filtered, setFiltered] = useState([]);
     const [courses, setCourses] = useState([]);
+    const [nearby, setNearby] = useState([]);
 
     const getCourses = async () => {
         const URL = 'https://discgolfmetrix.com/api.php?content=courses_list&country_code=FI';
@@ -35,14 +46,46 @@ export default CourseSearch = ({navigation}) => {
                 // 10. X - latitude
                 // 12. Y - longitude  
                 // 13. Enddate - if the course/layout does not exist any more, then the enddate is filled with date
+        setFetchCourses(false);
     }
 
     useEffect(() => {
-        getCourses();
-    }, []);
+        if(fetchCourses) getCourses();
+        if(requestLocPerm) {
+            (async () => {
+                let { status } = await Location.requestForegroundPermissionsAsync();
+                if(status !== 'granted') {
+                    alert('Geolocation failed.');
+                    return;
+                }
+                else {
+                    try {
+                        let location = await Location.getCurrentPositionAsync({});
+                        setLatitude(location.coords.latitude);
+                        setLongitude(location.coords.longitude);
+                    }
+                    catch(e) {
+                        console.log('Error while trying to access location: ', e);
+                    }
+                    listNearbyCourses();
+                    setRequestLocPerm(false);
+                    setLocRequested(true);
+                }
+            })();
+        }
+    }, [requestLocPerm]);
 
     const switchTab = (e) => {
         setTabIndex(e);
+        if(e == 2 && !locRequested) setRequestLocPerm(true);
+    }
+
+    const listNearbyCourses = () => {
+        // alert(latitude +" " +longitude);
+        const near = courses.filter(function (item) {
+            return item.X && item.Y && getDistance( { latitude: latitude, longitude: longitude}, { latitude: item.X, longitude: item.Y}) <= 25000;
+        });
+        setNearby(near);
     }
 
     const filterSearch = (text) => {
@@ -102,7 +145,7 @@ export default CourseSearch = ({navigation}) => {
                     titleStyle={{color:"#000", fontSize: 12}}
                     icon={{ name: 'google-nearby', type: 'material-community', color: '#000'}}/>
             </Tab>
-            <TabView value={tabIndex} onChange={setTabIndex} animationType='spring'>
+            <TabView value={tabIndex} onChange={() => switchTab(tabIndex)} animationType='spring'>
                 <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>
                     <Text style={styles.textStyle}>You have no favorites yet.</Text>
                 </TabView.Item>
@@ -130,7 +173,16 @@ export default CourseSearch = ({navigation}) => {
                     </View>
                 </TabView.Item>
                 <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>
-                    <Text style={styles.textStyle}>Nearby courses...</Text>
+                    <View style={styles.courseList}>
+                        <FlatList 
+                        contentContainerStyle={{flexGrow: 1, alignItems: "stretch"}}
+                        data={nearby}
+                        initialNumToRender={7}
+                        keyExtractor={(item, index) => index.toString()}
+                        ItemSeparatorComponent={ItemSeparatorView}
+                        renderItem={ItemView}
+                        />
+                    </View>
                 </TabView.Item>
            </TabView>
         </SafeAreaView>
