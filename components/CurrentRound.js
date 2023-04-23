@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Text, ScrollView, Pressable, SafeAreaView } from "react-native";
+import { View, Text, ScrollView, Pressable, SafeAreaView, FlatList } from "react-native";
+import { ref, update, push, child, onValue } from "firebase/database"; 
+import { auth, db, USERS_REF } from '../firebase/Config';
 import styles from '../style/styles';
 import { Icon } from "@rneui/themed";
 import themeContext from "../style/themeContext";
@@ -9,10 +11,7 @@ export default CurrentRound = ({ navigation, route }) => {
     const { darkMode } = useContext(themeContext);
     const theme = darkMode ? darkTheme : lightTheme;
 
-    const {course} = route.params;
-    const {courseName} = route.params;
-    const {fairways} = route.params;
-    const {players} = route.params;
+    const { course, courseName, fairways, players } = route.params;
     const [showScores, setShowScores] = useState(false);
     const [currentFairway, setCurrentFairway] = useState(0);
     const [pars, setPars] = useState(Array(fairways).fill(3));
@@ -43,11 +42,11 @@ export default CurrentRound = ({ navigation, route }) => {
     const ParDisplay = () => {
             return (
                 <View style={{flexDirection:'row'}}>
-                    <Text style={styles.textStyle}>Par:</Text>
+                    <Text style={[styles.textStyle, {color: theme.text}]}>Par:</Text>
                     <Pressable onPress={() => changePar(currentFairway, -1)}>
                         <Icon name="circle-with-minus" type="entypo" size={30} color="#ffae00" />
                     </Pressable>
-                    <Text style={styles.textStyle}>{pars[currentFairway]}</Text>
+                    <Text style={[styles.textStyle, {color: theme.text}]}>{pars[currentFairway]}</Text>
                     <Pressable onPress={() => changePar(currentFairway, 1)}>
                         <Icon name="circle-with-plus" type="entypo" size={30} color="#ffae00" />
                     </Pressable>
@@ -79,7 +78,12 @@ export default CurrentRound = ({ navigation, route }) => {
             <View style={[styles.footerContainer, {backgroundColor:theme.primary}]}>
                 {roundNav}
                 <Pressable
-                    onPress={() => changeFairway(currentFairway, true)}
+                    onPress={() => {
+                        changeFairway(currentFairway, true);
+                        getCurrentDate();
+                        setScore(scoreSimple);
+                        setCourseName(courseName);
+                    }}
                     style={styles.footerButton}>
                     <Icon name="list-ol" type="font-awesome" size={50} color={theme.navBarIcon} />
                 </Pressable>
@@ -102,12 +106,12 @@ export default CurrentRound = ({ navigation, route }) => {
     const playerlist = [];
     for (let i = 0; i < players.length; i++) {
         playerlist.push(
-            <View style={styles.containerNewRound} key={"playerlistitem" + i}>
-                <Text style={[styles.textStyle, {width:'50%', alignSelf:'center'}]}>{players[i]}</Text>
+            <View style={[styles.containerNewRound, {backgroundColor: theme.backgroundOne}]} key={"playerlistitem" + i}>
+                <Text style={[styles.textStyle, {width:'50%', alignSelf:'center', color: theme.text}]}>{players[i]}</Text>
                 <Pressable onPress={() => addThrow(i, currentFairway, -1)}>
                     <Icon name="circle-with-minus" type="entypo" size={30} color={"#ffae00"} />
                 </Pressable>
-                <Text style={styles.textStyle}>{throws[i][currentFairway]}</Text>
+                <Text style={[styles.textStyle, {color: theme.text}]}>{throws[i][currentFairway]}</Text>
                 <Pressable onPress={() => addThrow(i, currentFairway, 1)}>
                     <Icon name="circle-with-plus" type="entypo" size={30} color="#ffae00" />
                 </Pressable>
@@ -140,7 +144,7 @@ export default CurrentRound = ({ navigation, route }) => {
         let r = 0;
         scoreTables.push(
             <View key={"playerscoreitem" + i}>
-                <Text style={styles.subheading}>{players[i]}: {getTotalScore(i)}</Text>
+                <Text style={[styles.subheading, {color: theme.text}]}>{players[i]}: {getTotalScore(i)}</Text>
             </View>
         );
         while(fw < fairways) {
@@ -149,7 +153,7 @@ export default CurrentRound = ({ navigation, route }) => {
                 playerRow.push(
                     <View style={styles.tableColumn} key={"scorecol" + i + fw}>
                         <Text style={styles.tableHeadingItem}>{fw + 1}</Text>
-                        <Text style={styles.tableSubheadingItem}>{pars[fw]}</Text>
+                        <Text style={[styles.tableSubheadingItem]}>{pars[fw]}</Text>
                         <Text style={[styles.tableItem, {backgroundColor:getScoreColor(pars[fw], throws[i][fw])}]}>{throws[i][fw] > 0 ? throws[i][fw] : " "}</Text>
                     </View>
                 );
@@ -167,10 +171,18 @@ export default CurrentRound = ({ navigation, route }) => {
     const Scoreview = () => {
         return (
             <ScrollView contentContainerStyle={{alignItems:'center', flexGrow:1}}>
-                <Text style={styles.headerStyle}>Scores</Text>
+                <Text style={[styles.headerStyle, {color: theme.text}]}>Scores</Text>
                 <View contentContainerStyle={{alignItems:'center', width:'80%'}}>
                     {scoreTables}
                 </View>
+                <Pressable style={[styles.buttonStyle, {marginTop:20}]}
+                onPress={() => updateScores()}>
+                    <Text style={styles.textStyle}>Save Score</Text>
+                </Pressable>
+                <Pressable style={styles.buttonStyle}
+                onPress={() => navigation.navigate('Past Rounds')}>
+                    <Text style={styles.textStyle}>Past Scores</Text>
+                </Pressable>
             </ScrollView>
         );
     }
@@ -178,19 +190,60 @@ export default CurrentRound = ({ navigation, route }) => {
     const FairwayView = () => {
         return (
             <ScrollView contentContainerStyle={{alignItems:'center', flex:1}}>
-                <Text style={styles.headerStyle}>Fairway {currentFairway + 1}</Text>
-                {fairwayLengths[currentFairway] != null && fairwayLengths[currentFairway] != "" && <Text style={styles.textStyle}>Length: {fairwayLengths[currentFairway]}</Text>}
+                <Text style={[styles.headerStyle, {color: theme.text}]}>Fairway {currentFairway + 1}</Text>
+                {fairwayLengths[currentFairway] != null && fairwayLengths[currentFairway] != "" && <Text style={[styles.textStyle, { color: theme.text }]}>Length: {fairwayLengths[currentFairway]}</Text>}
                 <ParDisplay />
                 {playerlist}
             </ScrollView>
         );
     }
 
+    //Code below is for writing to database:
+    const [thing, setScore] = useState(''); 
+    const [date, setDate] = useState('');
+    const [coursename, setCourseName] = useState('');
+
+    //Calculated to get a simple string value overall score.
+    const scoreSimple = [];
+    for(let i = 0; i < players.length; i++) {
+        let playerScore = 0;
+        for(let j = 0; j < fairways; j++) {
+            playerScore += throws[i][j] - pars[j];
+        }
+        const playerScoreString = `${playerScore}`;
+        scoreSimple.push(playerScoreString);
+    }
+
+    async function updateScores() { 
+        const newScoreItem = {
+            date: date,
+            course: coursename,
+            score: thing,
+            player: players,
+        }
+        const newScoreKey = push(child(ref(db), USERS_REF + auth.currentUser.uid)).key;
+        const updates = {};
+        updates[USERS_REF + auth.currentUser.uid + '/pastScores/' + newScoreKey] = newScoreItem;
+        try {
+            await update(ref(db), updates);
+            alert('Update successful');
+        } catch (error) {
+            alert('Error updating scores: ' + error.message);
+        }
+    }
+
+    const getCurrentDate=()=>{
+        var date = new Date().getDate();
+        var month = new Date().getMonth() + 1;
+        var year = new Date().getFullYear();
+        return setDate(date + '.' + month + '.' + year);
+  }
+
     return (
         <SafeAreaView style={[{flex: 1}, {backgroundColor:theme.background}]}>
             <View style={{flex:1}}>
                 <View style={styles.containerLeft}>
-                    <Text style={styles.textStyle}>{courseName}</Text>
+                    <Text style={[styles.textStyle, {color: theme.text}]}>{courseName}</Text>
                 </View>
                 {showScores ? <Scoreview /> : <FairwayView /> }
                 <RoundNav/>

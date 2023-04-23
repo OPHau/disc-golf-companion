@@ -130,20 +130,21 @@ export default CourseSearch = ({navigation}) => {
             <Tab
                 value={tabIndex}
                 onChange={(e) => switchTab(e)}
-                indicatorStyle={{backgroundColor: '#ffae00', height: 3}}
+                containerStyle={{backgroundColor: theme.background}}
+                indicatorStyle={{backgroundColor: theme.primary, height: 3}}
                 variant="default">
                 <Tab.Item
                     title="Favorites"
                     titleStyle={{color:"#000", fontSize: 12}}
-                    icon={{ name: 'star', type: 'entypo', color: '#000'}}/>
+                    icon={{ name: 'star', type: 'entypo', color: theme.navTabIcon}}/>
                 <Tab.Item
                     title="Search"
                     titleStyle={{color:"#000", fontSize: 12}}
-                    icon={{ name: 'magnifying-glass', type: 'entypo', color: '#000'}}/>
+                    icon={{ name: 'magnifying-glass', type: 'entypo', color: theme.navTabIcon}}/>
                 <Tab.Item
                     title="Nearby"
                     titleStyle={{color:"#000", fontSize: 12}}
-                    icon={{ name: 'google-nearby', type: 'material-community', color: '#000'}}/>
+                    icon={{ name: 'google-nearby', type: 'material-community', color: theme.navTabIcon}}/>
             </Tab>
             <TabView value={tabIndex} onChange={() => switchTab(tabIndex)} animationType='spring'>
                 <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>
