@@ -13,7 +13,7 @@ export const lightTheme = {
   background: '#FFFFFF',
   backgroundTwo: '#FFFFFF',
   backgroundLight: '#FFFFFF', /* Only used in CourseSearch | Searchbar colors */
-  backgroundSpecial: '#dfdfdf', /* Only used in CurrentRound & NewRound | Player score colors */
+  backgroundSpecial: '#dfdfdf',
   backgroundSpecialTwo: '#ffae00', /* Only used in CurrentRound | Scoreboard colors */
   //Other
   textInput: '#FFFFFF',
@@ -36,7 +36,7 @@ export const darkTheme = {
   background: '#121212',
   backgroundTwo: '#262626',
   backgroundLight: '#575757', /* Only used in CourseSearch | Searchbar colors */
-  backgroundSpecial: '#262626', /* Only used in CurrentRound & NewRound | Player score colors */
+  backgroundSpecial: '#262626',
   backgroundSpecialTwo: '#262626', /* Only used in CurrentRound | Scoreboard colors */
   //Other
   textInput: '#262626',

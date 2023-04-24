@@ -224,6 +224,9 @@ export default CurrentRound = ({ navigation, route }) => {
             course: courseName,
             score: getSimpleScoresString(),
             player: players,
+            throws: throws,
+            pars: pars,
+            fairways: fairways
         }
         const newScoreKey = push(child(ref(db), USERS_REF + auth.currentUser.uid)).key;
         const updates = {};
