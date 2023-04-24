@@ -85,12 +85,7 @@ export default CurrentRound = ({ navigation, route }) => {
             <View style={[styles.footerContainer, {backgroundColor:theme.primary}]}>
                 {roundNav}
                 <Pressable
-                    onPress={() => {
-                        changeFairway(currentFairway, true);
-                        getCurrentDate();
-                        setScore(scoreSimple);
-                        setCourseName(courseName);
-                    }}
+                    onPress={() => changeFairway(currentFairway, true)}
                     style={({ pressed }) => [styles.footerButton, {padding: 15, backgroundColor: pressed ? theme.secondaryBtn : theme.backgroundSpecialTwo}]}>
                     <Icon name="list-ol" type="font-awesome" size={50} color={theme.navBarIcon} />
                 </Pressable>
@@ -210,32 +205,30 @@ export default CurrentRound = ({ navigation, route }) => {
         );
     }
 
-    //Code below is for writing to database:
-    const [thing, setScore] = useState(''); 
-    const [date, setDate] = useState('');
-    const [coursename, setCourseName] = useState('');
-
-    //Calculated to get a simple string value overall score.
-    const scoreSimple = [];
-    for(let i = 0; i < players.length; i++) {
-        let playerScore = 0;
-        for(let j = 0; j < fairways; j++) {
-            playerScore += throws[i][j] - pars[j];
+    const getSimpleScoresString = () => {
+        let scoreSimple = [];
+        for(let i = 0; i < players.length; i++) {
+            let playerScore = getTotalScore(i);
+            // for(let j = 0; j < fairways; j++) {
+            //     playerScore += throws[i][j] - pars[j];
+            // }
+            const playerScoreString = `${playerScore}`;
+            scoreSimple.push(playerScoreString);
         }
-        const playerScoreString = `${playerScore}`;
-        scoreSimple.push(playerScoreString);
+        return scoreSimple;
     }
 
     async function updateScores() { 
         const newScoreItem = {
-            date: date,
-            course: coursename,
-            score: thing,
+            date: getCurrentDate(),
+            course: courseName,
+            score: getSimpleScoresString(),
             player: players,
         }
         const newScoreKey = push(child(ref(db), USERS_REF + auth.currentUser.uid)).key;
         const updates = {};
         updates[USERS_REF + auth.currentUser.uid + '/pastScores/' + newScoreKey] = newScoreItem;
+
         try {
             await update(ref(db), updates);
             alert('Update successful');
@@ -244,12 +237,14 @@ export default CurrentRound = ({ navigation, route }) => {
         }
     }
 
-    const getCurrentDate=()=>{
-        var date = new Date().getDate();
-        var month = new Date().getMonth() + 1;
-        var year = new Date().getFullYear();
-        return setDate(date + '.' + month + '.' + year);
-  }
+    const getCurrentDate = () => {
+        let today = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2);
+        return today;
+        // var date = new Date().getDate();
+        // var month = new Date().getMonth() + 1;
+        // var year = new Date().getFullYear();
+        // return year + '-' + month + '-' + day;
+    }
 
     return (
         <SafeAreaView style={[{flex: 1}, {backgroundColor:theme.background}]}>
