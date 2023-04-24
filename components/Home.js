@@ -20,19 +20,19 @@ export default Home = ({navigation}) => {
             <Text style={[styles.headerStyle, {color:theme.text}]}>FlowDisc</Text>
             <Text style={[styles.headerStyle, {color:theme.text}]}>Your disc golf companion app</Text>
             <Pressable
-                style={styles.buttonStyle}
+                style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}
                 onPress={() => navigation.navigate('Register')}>
-                <Text style={styles.textStyle}>Register</Text>
+                <Text style={[styles.textStyle, {color: theme.text}]}>Register</Text>
             </Pressable>
             <Pressable
-                style={styles.buttonStyle}
+                style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}
                 onPress={() => navigation.navigate('Login')}>
-                <Text style={styles.textStyle}>Login</Text>
+                <Text style={[styles.textStyle, {color: theme.text}]}>Login</Text>
             </Pressable>
             <Pressable
-                style={styles.buttonStyle}
+                style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}
                 onPress={() => navigation.navigate('TabNav')}>
-                <Text style={styles.headerStyle}>Go to app</Text>
+                <Text style={[styles.textStyle, {color: theme.text}]}>Go to app</Text>
             </Pressable>
         </View>
     );

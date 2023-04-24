@@ -44,11 +44,11 @@ export default CurrentRound = ({ navigation, route }) => {
                 <View style={{flexDirection:'row'}}>
                     <Text style={[styles.textStyle, {color: theme.text}]}>Par:</Text>
                     <Pressable onPress={() => changePar(currentFairway, -1)}>
-                        <Icon name="circle-with-minus" type="entypo" size={30} color="#ffae00" />
+                        <Icon name="circle-with-minus" type="entypo" size={30} color={theme.primaryBtn} />
                     </Pressable>
                     <Text style={[styles.textStyle, {color: theme.text}]}>{pars[currentFairway]}</Text>
                     <Pressable onPress={() => changePar(currentFairway, 1)}>
-                        <Icon name="circle-with-plus" type="entypo" size={30} color="#ffae00" />
+                        <Icon name="circle-with-plus" type="entypo" size={30} color={theme.primaryBtn} />
                     </Pressable>
                 </View>
             );
@@ -109,11 +109,11 @@ export default CurrentRound = ({ navigation, route }) => {
             <View style={[styles.containerNewRound, {backgroundColor: theme.backgroundOne}]} key={"playerlistitem" + i}>
                 <Text style={[styles.textStyle, {width:'50%', alignSelf:'center', color: theme.text}]}>{players[i]}</Text>
                 <Pressable onPress={() => addThrow(i, currentFairway, -1)}>
-                    <Icon name="circle-with-minus" type="entypo" size={30} color={"#ffae00"} />
+                    <Icon name="circle-with-minus" type="entypo" size={30} color={theme.secondaryBtn} />
                 </Pressable>
                 <Text style={[styles.textStyle, {color: theme.text}]}>{throws[i][currentFairway]}</Text>
                 <Pressable onPress={() => addThrow(i, currentFairway, 1)}>
-                    <Icon name="circle-with-plus" type="entypo" size={30} color="#ffae00" />
+                    <Icon name="circle-with-plus" type="entypo" size={30} color={theme.secondaryBtn} />
                 </Pressable>
             </View>
         );
@@ -175,11 +175,11 @@ export default CurrentRound = ({ navigation, route }) => {
                 <View contentContainerStyle={{alignItems:'center', width:'80%'}}>
                     {scoreTables}
                 </View>
-                <Pressable style={[styles.buttonStyle, {marginTop:20}]}
+                <Pressable style={[styles.buttonStyle, {marginTop:20, backgroundColor: theme.primaryBtn}]}
                 onPress={() => updateScores()}>
                     <Text style={styles.textStyle}>Save Score</Text>
                 </Pressable>
-                <Pressable style={styles.buttonStyle}
+                <Pressable style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}
                 onPress={() => navigation.navigate('Past Rounds')}>
                     <Text style={styles.textStyle}>Past Scores</Text>
                 </Pressable>

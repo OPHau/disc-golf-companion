@@ -131,27 +131,25 @@ export default CourseSearch = ({navigation}) => {
                 value={tabIndex}
                 onChange={(e) => switchTab(e)}
                 containerStyle={{backgroundColor: theme.background}}
-                indicatorStyle={{backgroundColor: theme.primary, height: 3}}
+                titleStyle={{color: theme.text, fontSize: 12}}
+                indicatorStyle={{backgroundColor: theme.navBarIcon, height: 3}}
                 variant="default">
                 <Tab.Item
                     title="Favorites"
-                    titleStyle={{color:"#000", fontSize: 12}}
-                    icon={{ name: 'star', type: 'entypo', color: theme.navTabIcon}}/>
+                    icon={{ name: 'star', type: 'entypo', color: theme.navBarIcon}}/>
                 <Tab.Item
                     title="Search"
-                    titleStyle={{color:"#000", fontSize: 12}}
-                    icon={{ name: 'magnifying-glass', type: 'entypo', color: theme.navTabIcon}}/>
+                    icon={{ name: 'magnifying-glass', type: 'entypo', color: theme.navBarIcon}}/>
                 <Tab.Item
                     title="Nearby"
-                    titleStyle={{color:"#000", fontSize: 12}}
-                    icon={{ name: 'google-nearby', type: 'material-community', color: theme.navTabIcon}}/>
+                    icon={{ name: 'google-nearby', type: 'material-community', color: theme.navBarIcon}}/>
             </Tab>
             <TabView value={tabIndex} onChange={() => switchTab(tabIndex)} animationType='spring'>
-                <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>
-                    <Text style={styles.textStyle}>You have no favorites yet.</Text>
+                <TabView.Item style={{ backgroundColor: theme.background, width: '100%' }}>
+                    <Text style={[styles.textStyle, {color: theme.text}]}>You have no favorites yet.</Text>
                 </TabView.Item>
-                <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>
-                    <View style={styles.courseList}>
+                <TabView.Item style={{ backgroundColor: theme.background, width: '100%' }}>
+                    <View style={[styles.courseList]}>
                         <FlatList
                         contentContainerStyle={{flexGrow: 1, alignItems: "stretch"}}
                         data={filtered}
@@ -161,9 +159,12 @@ export default CourseSearch = ({navigation}) => {
                         renderItem={ItemView}
                         ListHeaderComponent= {
                             <SearchBar
+                            containerStyle={{backgroundColor: theme.backgroundOne}}
+                            inputContainerStyle={{backgroundColor: theme.backgroundTwo}}
+                            searchIcon={{size: 24, color: theme.navBarIcon}}
+                            style={{color: '#ffffff'}}
                             round
                             lightTheme
-                            searchIcon={{size: 24}}
                             onChangeText={(text) => filterSearch(text)}
                             onClear={(text) => filterSearch('')}
                             placeholder="Type here..."
@@ -174,7 +175,7 @@ export default CourseSearch = ({navigation}) => {
                     </View>
                 </TabView.Item>
                 <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>
-                    <View style={styles.courseList}>
+                    <View style={[styles.courseList, {backgroundColor: theme.background}]}>
                         <FlatList 
                         contentContainerStyle={{flexGrow: 1, alignItems: "stretch"}}
                         data={nearby}

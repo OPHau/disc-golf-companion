@@ -12,13 +12,13 @@ export default Round = ( {navigation} ) => {
         <ScrollView contentContainerStyle={[{alignItems:'center', justifyContent:'center', flex:1},{backgroundColor:theme.background}]}>
                 <Pressable 
                     onPress={() => navigation.navigate('New Round', {course: undefined})}
-                    style={styles.buttonStyle}>
-                    <Text style={styles.textStyle}>Start New Round</Text>
+                    style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}>
+                    <Text style={[styles.textStyle, {color: theme.text}]}>Start New Round</Text>
                 </Pressable>
                 <Pressable 
                     onPress={() => navigation.navigate('Past Rounds')}
-                    style={styles.buttonStyle}>
-                    <Text style={styles.textStyle}>Past Rounds</Text>
+                    style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}>
+                    <Text style={[styles.textStyle, {color: theme.text}]}>Past Rounds</Text>
                 </Pressable>
         </ScrollView>
     );

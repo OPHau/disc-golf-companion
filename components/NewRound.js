@@ -46,8 +46,8 @@ export default NewRound = ( {navigation, route} ) => {
     const playerlist = [];
     for (let i = 0; i < players.length; i++) {
         playerlist.push(
-            <View style={styles.containerNewRound} key={"playerlistitem" + i}>
-                <Text style={[styles.textStyle, {width:'50%', alignSelf:'center'}]}>{players[i]}</Text>
+            <View style={[styles.containerNewRound, {backgroundColor: theme.backgroundTwo}]} key={"playerlistitem" + i}>
+                <Text style={[styles.textStyle, {width:'50%', alignSelf:'center', color: theme.text}]}>{players[i]}</Text>
             </View>
         );
     }
@@ -56,8 +56,8 @@ export default NewRound = ( {navigation, route} ) => {
         <ScrollView contentContainerStyle={[{alignItems:'center', flex:1}, {backgroundColor:theme.background}]}>
                 <View style={{flexDirection: "row"}}>
                     <Text style={[styles.headerStyle, {color:theme.text}]}>Course:</Text>
-                    <Pressable style={[styles.buttonStyle, {width: '10%'}]} onPress={() => navigation.navigate('Map')}>
-                        <Icon name="magnifying-glass" type="entypo" size={35} color="#000000" />
+                    <Pressable style={[styles.buttonStyle, {width: '14%', padding:5, backgroundColor: theme.primaryBtn}]} onPress={() => navigation.navigate('Map')}>
+                        <Icon name="magnifying-glass" type="entypo" size={35} color={theme.text} />
                     </Pressable>
                 </View>
 
@@ -70,20 +70,20 @@ export default NewRound = ( {navigation, route} ) => {
                 {playerlist}
                 <View style={{flexDirection:'row'}}>
                     {players.length < 4 &&
-                        <Pressable style={[styles.buttonStyle, {width:'40%'}]} onPress={() => addPlayer()}>
-                            <Text style={styles.textStyle}>Add Player</Text>
+                        <Pressable style={[styles.buttonStyle, {width:'40%', backgroundColor: theme.primaryBtn}]} onPress={() => addPlayer()}>
+                            <Text style={[styles.textStyle, {color: theme.text}]}>Add Player</Text>
                         </Pressable>
                     }
                     {players.length > 1 &&
-                        <Pressable style={[styles.buttonStyle, {width:'40%'}]} onPress={() => removePlayer()}>
-                            <Text style={styles.textStyle}>Remove</Text>
+                        <Pressable style={[styles.buttonStyle, {width:'40%', backgroundColor: theme.primaryBtn}]} onPress={() => removePlayer()}>
+                            <Text style={[styles.textStyle, {color: theme.text}]}>Remove</Text>
                         </Pressable>
                     }
                 </View>
                 <Pressable 
                 onPress={() => navigation.navigate('Current Round', {course: course, courseName: courseName, fairways: fairwayCount, players: players})}
-                style={styles.buttonStyle}>
-                    <Text style={styles.textStyle}>Start Round</Text>
+                style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}>
+                    <Text style={[styles.textStyle, {color: theme.text}]}>Start Round</Text>
                 </Pressable>
         </ScrollView>
     );

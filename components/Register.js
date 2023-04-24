@@ -44,14 +44,16 @@ export default Register = ({navigation}) => {
           <Text style={[styles.headerStyle, {color:theme.text}]}>FlowDisc</Text>
           <Text style={[styles.textStyle, {color:theme.text}]}>Create an account</Text>
           <TextInput
-              style={[styles.textInput, {backgroundColor:theme.textInput}]}
+              style={[styles.textInput, {backgroundColor:theme.textInput, color: theme.text}]}
+              placeholderTextColor={theme.textFaded}
               placeholder="Username"
               autoCapitalize="none"
               value={username}
               onChangeText={(t) => setUsername(t)}
           />
           <TextInput
-              style={[styles.textInput, {backgroundColor:theme.textInput}]}
+              style={[styles.textInput, {backgroundColor:theme.textInput, color: theme.text}]}
+              placeholderTextColor={theme.textFaded}
               placeholder="Email"
               keyboardType="email-address"
               autoCapitalize="none"
@@ -59,29 +61,31 @@ export default Register = ({navigation}) => {
               onChangeText={(t) => setEmail(t)}
           />
           <TextInput
-              style={[styles.textInput, {backgroundColor:theme.textInput}]}
+              style={[styles.textInput, {backgroundColor:theme.textInput, color: theme.text}]}
+              placeholderTextColor={theme.textFaded}
               placeholder="Password"
               secureTextEntry={true}
               value={password}
               onChangeText={(t) => setPassword(t)}
           />
           <TextInput
-              style={[styles.textInput, {backgroundColor:theme.textInput}]}
+              style={[styles.textInput, {backgroundColor:theme.textInput, color: theme.text}]}
+              placeholderTextColor={theme.textFaded}
               placeholder="Confirm Password"
               secureTextEntry={true}
               value={confirmPassword}
               onChangeText={(t) => setConfirmPassword(t)}
           />
           <Pressable 
-              style={styles.buttonStyle}
+              style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}
               onPress={() => handleRegister()}>
-              <Text style={styles.textStyle}>Register</Text>
+              <Text style={[styles.textStyle, {color: theme.text}]}>Register</Text>
           </Pressable>
           <Text style={[styles.textStyle, {color:theme.text}]}>Already have an account?</Text>
           <Pressable 
-              style={styles.buttonStyle}
+              style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}
               onPress={() => navigation.navigate('Login')}>
-              <Text style={styles.textStyle}>Login</Text>
+              <Text style={[styles.textStyle, {color: theme.text}]}>Login</Text>
           </Pressable>
       </View>
   );

@@ -9,7 +9,7 @@ export const lightTheme = {
   secondaryBtn: '#e69d00',
   //Background
   background: '#FFFFFF',
-  backgroundOne: '#FFFFFF',
+  backgroundOne: '#dfdfdf',
   backgroundTwo: '#FFFFFF',
   backgroundLight: '#FFFFFF',
   //Other
@@ -24,15 +24,17 @@ export const darkTheme = {
   primary: '#262626',
   secondary: '#1c1c1c',
   //Buttons (I haven't applied these yet, choosing the color for dark mode is hard)
-  primaryBtn: '#262626',
+  primaryBtn: '#575757',
   secondaryBtn: '#1c1c1c',
   //Background
   background: '#121212',
-  backgroundOne: '#1c1c1c',
+  backgroundOne: '#575757',
   backgroundTwo: '#262626',
+  backgroundLight: '#575757',
   //Other
-  textInput: '#2f2f2f',
+  textInput: '#262626',
   navBarIcon: '#575757',
-  text: '#FFFFFF',
+  text: '#e9e9e9',
+  textFaded: '#aaaaaa',
   textLink: '#0051ff',
 };

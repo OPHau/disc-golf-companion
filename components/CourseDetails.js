@@ -147,8 +147,8 @@ export default CourseDetails = ({route, navigation}) => {
             </ScrollView>
             <Pressable 
                 onPress={() => navigation.navigate('New Round', { course: details})}
-                style={[styles.buttonStyle, {alignSelf:'center'}]}>
-                <Text style={styles.textStyle}>Play a round</Text>
+                style={[styles.buttonStyle, {alignSelf:'center', backgroundColor: theme.primaryBtn}]}>
+                <Text style={[styles.textStyle, {color: theme.text}]}>Play a round</Text>
             </Pressable>
         </View>
     );

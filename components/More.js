@@ -18,13 +18,13 @@ export default More = ({navigation}) => {
     return (
         <View style={[styles.container, { backgroundColor: theme.background }]}>
             <Pressable
-                style={styles.buttonStyleTwo}
+                style={[styles.buttonStyleTwo, {borderColor: theme.text}]}
                 onPress={() => navigation.navigate('Rules')}
             >
                 <Text style={[styles.textStyle, { color: theme.text }]}>Rules</Text>
             </Pressable>
             <Pressable
-                style={styles.buttonStyleTwo}
+                style={[styles.buttonStyleTwo, {borderColor: theme.text}]}
                 onPress={() => handleLogout()}
             >
                 <Text style={[styles.textStyle, { color: theme.text }]}>Logout</Text>

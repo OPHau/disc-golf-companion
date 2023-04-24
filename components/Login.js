@@ -54,7 +54,8 @@ export default Login = ({navigation}) => {
           <>
               <Text style={[styles.textStyle, {color:theme.text}]}>Login to your account</Text>
               <TextInput
-                  style={[styles.textInput, {backgroundColor:theme.textInput}]}
+                  style={[styles.textInput, {backgroundColor:theme.textInput, color: theme.text}]}
+                  placeholderTextColor={theme.textFaded}
                   placeholder="Email"
                   keyboardType="email-address"
                   autoCapitalize="none"
@@ -62,27 +63,28 @@ export default Login = ({navigation}) => {
                   onChangeText={(t) => setEmail(t)}
               />
               <TextInput
-                  style={[styles.textInput, {backgroundColor:theme.textInput}]}
+                  style={[styles.textInput, {backgroundColor:theme.textInput, color: theme.text}]}
+                  placeholderTextColor={theme.textFaded}
                   placeholder="Password"
                   secureTextEntry={true}
                   value={password}
                   onChangeText={(t) => setPassword(t)}
               />
               <Pressable 
-                  style={styles.buttonStyle}
+                  style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}
                   onPress={() => handleLogin()}>
-                  <Text style={styles.textStyle}>Login</Text>
+                  <Text style={[styles.textStyle, {color: theme.text}]}>Login</Text>
               </Pressable>
                   <Text style={[styles.textStyle, {color:theme.text}]}>No account yet?</Text>
               <Pressable 
-                  style={styles.buttonStyle}
+                  style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}
                   onPress={() => navigation.navigate('Register')}>
-                  <Text style={styles.textStyle}>Create Account</Text>
+                  <Text style={[styles.textStyle, {color: theme.text}]}>Create Account</Text>
               </Pressable>
               <Pressable 
-                  style={styles.buttonStyle}
+                  style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}
                   onPress={() => handlePressForgotPw()}>
-                  <Text style={styles.textStyle}>Forgot password</Text>
+                  <Text style={[styles.textStyle, {color: theme.text}]}>Forgot password</Text>
               </Pressable>
               </>
           }
@@ -90,23 +92,24 @@ export default Login = ({navigation}) => {
           { showForgotPw &&
               <>
               <Pressable 
-                  style={[styles.buttonStyle, {marginBottom:10}]}
+                  style={[styles.buttonStyle, {marginBottom:10, backgroundColor: theme.primaryBtn}]}
                   onPress={() => handlePressForgotPw()}>
-                  <Text style={styles.textStyle}>Return to Login</Text>
+                  <Text style={[styles.textStyle, {color: theme.text}]}>Return to Login</Text>
               </Pressable>
-              <Text style={styles.textStyle}>Enter email to reset password:</Text>
+              <Text style={[styles.textStyle, {color: theme.text}]}>Enter email to reset password:</Text>
               <TextInput
-                  style={styles.textInput}
+                  style={[styles.textInput, {backgroundColor:theme.textInput, color: theme.text}]}
                   placeholder="Email"
+                  placeholderTextColor={theme.textFaded}
                   value={emailForgotPw}
                   onChangeText={(emailForgotPw) => setEmailForgotPw(emailForgotPw)}
                   keyboardType="email-address"
                   autoCapitalize="none"
               />
               <Pressable 
-                  style={styles.buttonStyle}
+                  style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}
                   onPress={() => handlePressResetPw()}>
-                  <Text style={styles.textStyle}>Reset password</Text>
+                  <Text style={[styles.textStyle, {color: theme.text}]}>Reset password</Text>
               </Pressable>
               </>
           }
