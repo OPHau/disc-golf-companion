@@ -18,13 +18,13 @@ export default More = ({navigation}) => {
     return (
         <View style={[styles.container, { backgroundColor: theme.background }]}>
             <Pressable
-                style={[styles.buttonStyleTwo, {borderColor: theme.text}]}
+                style={({ pressed }) => [styles.buttonStyleTwo, {borderColor: theme.text, backgroundColor: pressed ? theme.backgroundSpecial : theme.background}]}
                 onPress={() => navigation.navigate('Rules')}
             >
                 <Text style={[styles.textStyle, { color: theme.text }]}>Rules</Text>
             </Pressable>
             <Pressable
-                style={[styles.buttonStyleTwo, {borderColor: theme.text}]}
+                style={({ pressed }) => [styles.buttonStyleTwo, {borderColor: theme.text, backgroundColor: pressed ? theme.backgroundSpecial : theme.background}]}
                 onPress={() => handleLogout()}
             >
                 <Text style={[styles.textStyle, { color: theme.text }]}>Logout</Text>
@@ -32,21 +32,3 @@ export default More = ({navigation}) => {
         </View>
     );
 };
-
-    /*return (
-        <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
-            <Pressable
-                style={styles.buttonStyleTwo}
-                onPress={() => navigation.navigate('Rules')}
-                >
-                <Text style={styles.textStyle}>Rules</Text>
-            </Pressable>
-            <Pressable
-                style={styles.buttonStyleTwo}
-                onPress={() => handleLogout()}>
-                <Text style={styles.textStyle}>Logout</Text>
-            </Pressable>
-        </View>
-    );
-}
-*/

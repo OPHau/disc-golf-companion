@@ -159,7 +159,7 @@ export default CourseSearch = ({navigation}) => {
                         renderItem={ItemView}
                         ListHeaderComponent= {
                             <SearchBar
-                            containerStyle={{backgroundColor: theme.backgroundOne}}
+                            containerStyle={{backgroundColor: theme.backgroundLight}}
                             inputContainerStyle={{backgroundColor: theme.backgroundTwo}}
                             searchIcon={{size: 24, color: theme.navBarIcon}}
                             style={{color: '#ffffff'}}

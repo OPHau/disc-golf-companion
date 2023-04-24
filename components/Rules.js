@@ -12,16 +12,20 @@ export default Rules = ({navigation}) => {
         <ScrollView contentContainerStyle={[{justifyContent:'center'}, {backgroundColor:theme.background}]}>
             <View style={{marginBottom:5}}>
                 <Text style={[styles.headerStyle, {color:theme.text}]}>Links:</Text>
-                <Text 
-                    style={[styles.textStyle, {color: theme.textLink}]}
-                    onPress={() => Linking.openURL('https://www.pdga.com/rules/official-rules-disc-golf')}>
-                    PDGA Official Rules of Disc Golf
-                </Text>
-                <Text 
-                    style={[styles.textStyle, {color: theme.textLink}]}
-                    onPress={() => Linking.openURL('https://www.pdga.com/rules/')}>
-                    PDGA Official Rules & Regulations of Disc Golf
-                </Text>
+                <Pressable onPress={() => Linking.openURL('https://www.pdga.com/rules/official-rules-disc-golf')}>
+                    {({ pressed }) => (
+                    <Text style={[styles.textStyle, {color: pressed ? theme.textLinkFaded : theme.textLink}]}>
+                        PDGA Official Rules of Disc Golf
+                    </Text>
+                    )}
+                </Pressable>
+                <Pressable onPress={() => Linking.openURL('https://www.pdga.com/rules/')}>
+                    {({ pressed }) => (
+                        <Text style={[styles.textStyle, {color: pressed ? theme.textLinkFaded : theme.textLink}]}>
+                            PDGA Official Rules & Regulations of Disc Golf
+                        </Text>
+                    )}   
+                </Pressable>
             </View>
 
             <Text style={[styles.headerStyle, {color:theme.text}]}>Simple rules:</Text>

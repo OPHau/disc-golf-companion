@@ -77,13 +77,15 @@ export default Register = ({navigation}) => {
               onChangeText={(t) => setConfirmPassword(t)}
           />
           <Pressable 
-              style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}
+              style={({ pressed }) => [styles.buttonStyle,
+              {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]}
               onPress={() => handleRegister()}>
               <Text style={[styles.textStyle, {color: theme.text}]}>Register</Text>
           </Pressable>
           <Text style={[styles.textStyle, {color:theme.text}]}>Already have an account?</Text>
           <Pressable 
-              style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}
+              style={({ pressed }) => [styles.buttonStyle,
+              {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]}
               onPress={() => navigation.navigate('Login')}>
               <Text style={[styles.textStyle, {color: theme.text}]}>Login</Text>
           </Pressable>

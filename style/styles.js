@@ -91,8 +91,8 @@ export default StyleSheet.create({
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'center',
-        padding:5,
-        margin:5,
+        padding:15,
+        borderRadius: 10, 
     },
     //Text Input
     textInput: {

@@ -4,37 +4,45 @@ export const lightTheme = {
   //Nav & tab bars
   primary: '#ffae00',
   secondary: '#e69d00',
-  //Buttons (I haven't applied these yet, choosing the color for dark mode is hard)
+  //Buttons
   primaryBtn: '#ffae00',
-  secondaryBtn: '#e69d00',
+  secondaryBtn: '#d89300',
+  primaryBtnTwo: '#f5a700', /* Only used in CurrentRound | Player score colors */
+  secondaryBtnTwo: '#d89300', /* Only used in CurrentRound | Player score colors */
   //Background
   background: '#FFFFFF',
-  backgroundOne: '#dfdfdf',
   backgroundTwo: '#FFFFFF',
-  backgroundLight: '#FFFFFF',
+  backgroundLight: '#FFFFFF', /* Only used in CourseSearch | Searchbar colors */
+  backgroundSpecial: '#dfdfdf', /* Only used in CurrentRound & NewRound | Player score colors */
+  backgroundSpecialTwo: '#ffae00', /* Only used in CurrentRound | Scoreboard colors */
   //Other
   textInput: '#FFFFFF',
   navBarIcon: '#000000',
   text: '#000000',
   textLink: 'blue',
+  textLinkFaded: '#000000',
 };
 
 export const darkTheme = {
   //Nav & tab bars
   primary: '#262626',
   secondary: '#1c1c1c',
-  //Buttons (I haven't applied these yet, choosing the color for dark mode is hard)
+  //Buttons
   primaryBtn: '#575757',
-  secondaryBtn: '#1c1c1c',
+  secondaryBtn: '#414141',
+  primaryBtnTwo: '#585858', /* Only used in CurrentRound | Player score colors */
+  secondaryBtnTwo: '#464646', /* Only used in CurrentRound | Player score colors */
   //Background
   background: '#121212',
-  backgroundOne: '#575757',
   backgroundTwo: '#262626',
-  backgroundLight: '#575757',
+  backgroundLight: '#575757', /* Only used in CourseSearch | Searchbar colors */
+  backgroundSpecial: '#262626', /* Only used in CurrentRound & NewRound | Player score colors */
+  backgroundSpecialTwo: '#262626', /* Only used in CurrentRound | Scoreboard colors */
   //Other
   textInput: '#262626',
-  navBarIcon: '#575757',
+  navBarIcon: '#3b3b3b',
   text: '#e9e9e9',
   textFaded: '#aaaaaa',
-  textLink: '#0051ff',
+  textLink: '#1f66ff',
+  textLinkFaded: '#5c5c5c',
 };

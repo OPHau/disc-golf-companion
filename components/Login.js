@@ -71,18 +71,21 @@ export default Login = ({navigation}) => {
                   onChangeText={(t) => setPassword(t)}
               />
               <Pressable 
-                  style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}
+                  style={({ pressed }) => [styles.buttonStyle,
+                  {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]}
                   onPress={() => handleLogin()}>
                   <Text style={[styles.textStyle, {color: theme.text}]}>Login</Text>
               </Pressable>
                   <Text style={[styles.textStyle, {color:theme.text}]}>No account yet?</Text>
               <Pressable 
-                  style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}
+                  style={({ pressed }) => [styles.buttonStyle,
+                  {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]}
                   onPress={() => navigation.navigate('Register')}>
                   <Text style={[styles.textStyle, {color: theme.text}]}>Create Account</Text>
               </Pressable>
               <Pressable 
-                  style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}
+                  style={({ pressed }) => [styles.buttonStyle,
+                  {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]}
                   onPress={() => handlePressForgotPw()}>
                   <Text style={[styles.textStyle, {color: theme.text}]}>Forgot password</Text>
               </Pressable>
@@ -92,7 +95,8 @@ export default Login = ({navigation}) => {
           { showForgotPw &&
               <>
               <Pressable 
-                  style={[styles.buttonStyle, {marginBottom:10, backgroundColor: theme.primaryBtn}]}
+                  style={({ pressed }) => [styles.buttonStyle,
+                  {marginBottom: 10, backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]}
                   onPress={() => handlePressForgotPw()}>
                   <Text style={[styles.textStyle, {color: theme.text}]}>Return to Login</Text>
               </Pressable>
@@ -107,7 +111,8 @@ export default Login = ({navigation}) => {
                   autoCapitalize="none"
               />
               <Pressable 
-                  style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}
+                  style={({ pressed }) => [styles.buttonStyle,
+                  {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]}
                   onPress={() => handlePressResetPw()}>
                   <Text style={[styles.textStyle, {color: theme.text}]}>Reset password</Text>
               </Pressable>

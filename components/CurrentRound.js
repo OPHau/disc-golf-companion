@@ -44,11 +44,15 @@ export default CurrentRound = ({ navigation, route }) => {
                 <View style={{flexDirection:'row'}}>
                     <Text style={[styles.textStyle, {color: theme.text}]}>Par:</Text>
                     <Pressable onPress={() => changePar(currentFairway, -1)}>
-                        <Icon name="circle-with-minus" type="entypo" size={30} color={theme.primaryBtn} />
+                    {({ pressed }) => (
+                        <Icon name="circle-with-minus" type="entypo" size={30} color={pressed ? theme.secondaryBtn : theme.primaryBtn} />
+                    )}
                     </Pressable>
                     <Text style={[styles.textStyle, {color: theme.text}]}>{pars[currentFairway]}</Text>
                     <Pressable onPress={() => changePar(currentFairway, 1)}>
-                        <Icon name="circle-with-plus" type="entypo" size={30} color={theme.primaryBtn} />
+                    {({ pressed }) => (
+                        <Icon name="circle-with-plus" type="entypo" size={30} color={pressed ? theme.secondaryBtn : theme.primaryBtn} />
+                    )}
                     </Pressable>
                 </View>
             );
@@ -65,8 +69,11 @@ export default CurrentRound = ({ navigation, route }) => {
             <Pressable
                 key={"roundnav" + i}
                 onPress={() => changeFairway(i)}
-                style={styles.footerButton}>
-                {j == 0 && i != currentFairway && <Icon name="chevron-thin-left" type="entypo" size={50} color={theme.navBarIcon} />}
+                style={({pressed}) => [styles.footerButton, 
+                {backgroundColor: pressed ? theme.secondaryBtn : theme.backgroundSpecialTwo}]}>
+                    
+                    {j == 0 && i != currentFairway && 
+                    <Icon name="chevron-thin-left" type="entypo" size={50} color={theme.navBarIcon} />}
                 <Text style={[styles.footerText, i == currentFairway && {textDecorationLine:'underline', fontWeight:'bold'}, {color:theme.text}]}>{i + 1}</Text>
                 {i < fairways && (j == 2 || (i == fairways || currentFairway == 0) && j == 1) && <Icon name="chevron-thin-right" type="entypo" size={50} color={theme.navBarIcon} />}
             </Pressable>
@@ -84,7 +91,7 @@ export default CurrentRound = ({ navigation, route }) => {
                         setScore(scoreSimple);
                         setCourseName(courseName);
                     }}
-                    style={styles.footerButton}>
+                    style={({ pressed }) => [styles.footerButton, {padding: 15, backgroundColor: pressed ? theme.secondaryBtn : theme.backgroundSpecialTwo}]}>
                     <Icon name="list-ol" type="font-awesome" size={50} color={theme.navBarIcon} />
                 </Pressable>
             </View>
@@ -106,14 +113,18 @@ export default CurrentRound = ({ navigation, route }) => {
     const playerlist = [];
     for (let i = 0; i < players.length; i++) {
         playerlist.push(
-            <View style={[styles.containerNewRound, {backgroundColor: theme.backgroundOne}]} key={"playerlistitem" + i}>
+            <View style={[styles.containerNewRound, {backgroundColor: theme.backgroundSpecial}]} key={"playerlistitem" + i}>
                 <Text style={[styles.textStyle, {width:'50%', alignSelf:'center', color: theme.text}]}>{players[i]}</Text>
                 <Pressable onPress={() => addThrow(i, currentFairway, -1)}>
-                    <Icon name="circle-with-minus" type="entypo" size={30} color={theme.secondaryBtn} />
+                    {({ pressed }) => (
+                    <Icon name="circle-with-minus" type="entypo" size={30} color={pressed ? theme.secondaryBtnTwo : theme.primaryBtnTwo} />
+                    )}
                 </Pressable>
                 <Text style={[styles.textStyle, {color: theme.text}]}>{throws[i][currentFairway]}</Text>
                 <Pressable onPress={() => addThrow(i, currentFairway, 1)}>
-                    <Icon name="circle-with-plus" type="entypo" size={30} color={theme.secondaryBtn} />
+                    {({ pressed }) => (
+                    <Icon name="circle-with-plus" type="entypo" size={30} color={pressed ? theme.secondaryBtnTwo: theme.primaryBtnTwo} />
+                    )}
                 </Pressable>
             </View>
         );
@@ -175,13 +186,14 @@ export default CurrentRound = ({ navigation, route }) => {
                 <View contentContainerStyle={{alignItems:'center', width:'80%'}}>
                     {scoreTables}
                 </View>
-                <Pressable style={[styles.buttonStyle, {marginTop:20, backgroundColor: theme.primaryBtn}]}
+                
+                <Pressable style={({ pressed }) => [styles.buttonStyle, {marginTop:20, backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]}
                 onPress={() => updateScores()}>
-                    <Text style={styles.textStyle}>Save Score</Text>
+                    <Text style={[styles.textStyle, {color: theme.text}]}>Save Score</Text>
                 </Pressable>
-                <Pressable style={[styles.buttonStyle, {backgroundColor: theme.primaryBtn}]}
+                <Pressable style={({ pressed }) => [styles.buttonStyle, {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]}
                 onPress={() => navigation.navigate('Past Rounds')}>
-                    <Text style={styles.textStyle}>Past Scores</Text>
+                    <Text style={[styles.textStyle, {color: theme.text}]}>Past Scores</Text>
                 </Pressable>
             </ScrollView>
         );
