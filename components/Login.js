@@ -27,7 +27,7 @@ export default Login = ({navigation}) => {
           signIn(email, password);
           onAuthStateChanged(auth, async (user) => {
             if (user) {
-              navigation.navigate('TabNav', {userUid: user.uid});
+              navigation.replace('TabNav', {userUid: user.uid});
             }
           });
         }
@@ -80,7 +80,7 @@ export default Login = ({navigation}) => {
               <Pressable 
                   style={({ pressed }) => [styles.buttonStyle,
                   {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]}
-                  onPress={() => navigation.navigate('Register')}>
+                  onPress={() => navigation.replace('Register')}>
                   <Text style={[styles.textStyle, {color: theme.text}]}>Create Account</Text>
               </Pressable>
               <Pressable 

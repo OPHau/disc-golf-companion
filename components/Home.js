@@ -34,7 +34,7 @@ export default Home = ({navigation}) => {
             <Pressable
                 style={({ pressed }) => [styles.buttonStyle,
                 {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]}
-                onPress={() => navigation.navigate('TabNav')}>
+                onPress={() => navigation.replace('TabNav')}>
                 <Text style={[styles.textStyle, {color: theme.text}]}>Go to app</Text>
             </Pressable>
         </View>

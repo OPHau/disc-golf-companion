@@ -11,8 +11,8 @@ export default More = ({navigation}) => {
     const theme = darkMode ? darkTheme : lightTheme;
 
     const handleLogout = () => {
+        navigation.replace('Home');
         logout();
-        navigation.navigate('Home');
     };
 
     return (

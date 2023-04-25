@@ -183,12 +183,11 @@ export default CurrentRound = ({ navigation, route }) => {
                 </View>
                 
                 <Pressable style={({ pressed }) => [styles.buttonStyle, {marginTop:20, backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]}
-                onPress={() => updateScores()}>
+                onPress={() => {
+                    updateScores();
+                    navigation.pop(1);
+                    navigation.replace('Past Rounds')}}>
                     <Text style={[styles.textStyle, {color: theme.text}]}>Save Score</Text>
-                </Pressable>
-                <Pressable style={({ pressed }) => [styles.buttonStyle, {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]}
-                onPress={() => navigation.navigate('Past Rounds')}>
-                    <Text style={[styles.textStyle, {color: theme.text}]}>Past Scores</Text>
                 </Pressable>
             </ScrollView>
         );

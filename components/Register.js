@@ -33,7 +33,7 @@ export default Register = ({navigation}) => {
           signUp(username, email, password);
           onAuthStateChanged(auth, (user) => {
             if (user) {
-              navigation.navigate('TabNav', {userUid: user.uid});
+              navigation.replace('TabNav', {userUid: user.uid});
             } 
           });
         }
@@ -86,7 +86,7 @@ export default Register = ({navigation}) => {
           <Pressable 
               style={({ pressed }) => [styles.buttonStyle,
               {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]}
-              onPress={() => navigation.navigate('Login')}>
+              onPress={() => navigation.replace('Login')}>
               <Text style={[styles.textStyle, {color: theme.text}]}>Login</Text>
           </Pressable>
       </View>
