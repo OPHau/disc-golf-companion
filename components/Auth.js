@@ -96,7 +96,7 @@ export const removeUser = async () => {
   };
 }
 
-const onRemoveUser = () => {
+export const onRemoveUser = () => {
   const removes = {};
   removes[USERS_REF + auth.currentUser.uid] = null;
   return update(ref(db), removes);

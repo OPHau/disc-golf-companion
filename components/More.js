@@ -20,13 +20,19 @@ export default More = ({navigation}) => {
             <Pressable
                 style={({ pressed }) => [styles.buttonStyleTwo, {borderColor: theme.text, backgroundColor: pressed ? theme.backgroundSpecial : theme.background}]}
                 onPress={() => navigation.navigate('Rules')}
-            >
+                >
                 <Text style={[styles.textStyle, { color: theme.text }]}>Rules</Text>
             </Pressable>
             <Pressable
                 style={({ pressed }) => [styles.buttonStyleTwo, {borderColor: theme.text, backgroundColor: pressed ? theme.backgroundSpecial : theme.background}]}
+                onPress={() => navigation.navigate('Account')}
+                >
+                <Text style={[styles.textStyle, { color: theme.text }]}>Account Settings</Text>
+            </Pressable>
+            <Pressable
+                style={({ pressed }) => [styles.buttonStyleTwo, {borderColor: theme.text, backgroundColor: pressed ? theme.backgroundSpecial : theme.background}]}
                 onPress={() => handleLogout()}
-            >
+                >
                 <Text style={[styles.textStyle, { color: theme.text }]}>Logout</Text>
             </Pressable>
         </View>

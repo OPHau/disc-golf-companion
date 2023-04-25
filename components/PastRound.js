@@ -176,7 +176,6 @@ export default PastRound = () => {
                         {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn, alignSelf:'center'}]}
                         onPress={() => {
                             confirmDelete();
-                            scoreTables.push('');
                         }}>
                         <Text style={[styles.textStyle, {color: theme.text}]}>Delete Scoreboard</Text>
                     </Pressable>
