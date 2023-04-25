@@ -40,9 +40,9 @@ export const darkTheme = {
   backgroundSpecialTwo: '#262626', /* Only used in CurrentRound | Scoreboard colors */
   //Other
   textInput: '#262626',
-  navBarIcon: '#3b3b3b',
+  navBarIcon: '#777777',
   text: '#e9e9e9',
   textFaded: '#aaaaaa',
-  textLink: '#1f66ff',
-  textLinkFaded: '#5c5c5c',
+  textLink: '#4f87ff',
+  textLinkFaded: '#0051ff',
 };
