@@ -1,6 +1,6 @@
 import React, {useContext, useState, useEffect} from "react";
-import { View, Text, FlatList, Pressable, ScrollView } from "react-native";
-import { ref, onValue } from "firebase/database"; 
+import { View, Text, FlatList, Pressable, ScrollView, Alert } from "react-native";
+import { ref, onValue, update } from "firebase/database"; 
 import { auth, db, USERS_REF } from '../firebase/Config';
 import styles from '../style/styles';
 import themeContext from "../style/themeContext";
@@ -10,6 +10,8 @@ export default PastRound = () => {
     const { darkMode } = useContext(themeContext);
     const theme = darkMode ? darkTheme : lightTheme;
 
+    const [empty, setEmpty] = useState(false)
+    const [itemId, setItemId] = useState('');
     const [scores, setScores] = useState('');
     const [courseName, setCourseName] = useState('');
     const [showScoreboard, setShowScoreboard] = useState(false);
@@ -27,11 +29,16 @@ export default PastRound = () => {
         const dbRef = ref(db, USERS_REF + auth.currentUser.uid + '/pastScores');
         onValue(dbRef, (snapshot) => {
             const scoresData = snapshot.val();
+            if (scoresData === null) {
+                return setEmpty(true);
+            } else {
+            setEmpty(false)
             const scoresList = Object.keys(scoresData).map((key) => ({
+                id: key,
                 ...scoresData[key],
             }));
         setScores(scoresList);
-      });
+      }});
     };
 
     const getScoreColor = (p, t) => {
@@ -45,9 +52,6 @@ export default PastRound = () => {
         }
         return clr;
     }
-
-
-
 
     const scoreTables = [];
     for(let i = 0; i < players.length; i++) {
@@ -77,6 +81,7 @@ export default PastRound = () => {
             );
             r++;
         }
+
         scoreTables.push(playerTable);
     }
 
@@ -91,40 +96,69 @@ export default PastRound = () => {
         setShowScoreboard(!showScoreboard);
       }
 
+      
+    const deleteScoreboard = () => {
+        const removes = {};
+        removes[USERS_REF + auth.currentUser.uid + '/pastScores/' + itemId] = null;
+        return (
+            update(ref(db), removes),
+            alert('Scoreboard deleted')
+        );
+    }
+
+    const confirmDelete = () => Alert.alert(
+    "Scoreboard", "Remove all items? This action cannot be undone", [{
+        text: "Cancel",
+        style: "cancel"
+    },
+    { 
+        text: "Delete", onPress: () => {
+            deleteScoreboard();
+            setShowScoreboard(false);
+        }
+    }],
+    { cancelable: false }
+    );  
+
     return (
         <View style={[styles.container, { backgroundColor: theme.background }]}>
             { !showScoreboard &&
-                <>
+            <>
                 <View style={[styles.container, {marginLeft: 5, marginRight: 5}]}>
-                <FlatList
+                {empty === false ? (
+                    <FlatList
                     data={scores}
+                    keyExtractor={item => item.id}
                     renderItem={({ item }) => (
                         <View style={{flex:1, width:'100%'}}>
-                            <View style={{flexDirection:'row', flexWrap: 'wrap'}}>
-                                <Text style={[styles.textStyle, { color: theme.text }]}>{item.date} | {item.course}</Text>
-                            </View>
-                            <Pressable 
-                                style={({ pressed }) => [styles.buttonStyle,
-                                {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn, alignSelf:'center'}]}
-                                onPress={() => {
-                                    setCourseName(item.course)
-                                    setPlayers(item.player);
-                                    setScore(item.score);
-                                    setPars(item.pars);
-                                    setThrows(item.throws);
-                                    setFairways(item.fairways);
-                                    handleShowScoreboard();
-                                }}>
-                                <Text style={[styles.textStyle, {color: theme.text}]}>Get Scoreboard</Text>
-                            </Pressable>
+                        <View style={{flexDirection:'row', flexWrap: 'wrap'}}>
+                            <Text style={[styles.textStyle, { color: theme.text }]}>{item.date} | {item.course}</Text>
+                        </View>
+                        <Pressable 
+                            style={({ pressed }) => [styles.buttonStyle,
+                            {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn, alignSelf:'center', width:'100%'}]}
+                            onPress={() => {
+                            setCourseName(item.course)
+                            setPlayers(item.player);
+                            setScore(item.score);
+                            setPars(item.pars);
+                            setThrows(item.throws);
+                            setFairways(item.fairways);
+                            setItemId(item.id);
+                            handleShowScoreboard();
+                            }}>
+                            <Text style={[styles.textStyle, {color: theme.buttonText}]}>View Scoreboard</Text>
+                        </Pressable>
                         </View>
                     )}
-                />
+                    />
+                ) : (
+                    <Text style={[styles.textStyle, {color: theme.text }]}>No scoreboards available</Text>
+                )}
                 </View>
-                </>
+            </>
             }
-
-            { showScoreboard &&
+            { showScoreboard && (
             <>
                 <ScrollView contentContainerStyle={{alignItems:'center', flexGrow:1, width:'100%'}} style={[{ backgroundColor: theme.background }]}>
                     <Text style={[styles.textStyle, { color: theme.text }]}>{courseName}</Text>
@@ -134,12 +168,23 @@ export default PastRound = () => {
                         {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn, alignSelf:'center'}]}
                         onPress={() => {
                             setShowScoreboard(false);
-                    }}>
-                    <Text style={[styles.textStyle, {color: theme.text}]}>Hide Scoreboard</Text>
+                        }}>
+                        <Text style={[styles.textStyle, {color: theme.text}]}>Hide Scoreboard</Text>
+                    </Pressable>
+                    <Pressable 
+                        style={({ pressed }) => [styles.buttonStyle,
+                        {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn, alignSelf:'center'}]}
+                        onPress={() => {
+                            confirmDelete();
+                            scoreTables.push('');
+                        }}>
+                        <Text style={[styles.textStyle, {color: theme.text}]}>Delete Scoreboard</Text>
                     </Pressable>
                 </ScrollView>
             </>
-            }
+            )}
         </View>
     );
 }
+
+    
