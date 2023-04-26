@@ -25,7 +25,7 @@ export default More = ({navigation}) => {
             </Pressable>
             <Pressable
                 style={({ pressed }) => [styles.buttonStyleTwo, {borderColor: theme.text, backgroundColor: pressed ? theme.backgroundSpecial : theme.background}]}
-                onPress={() => navigation.navigate('Account')}
+                onPress={() => navigation.navigate('Account Settings')}
                 >
                 <Text style={[styles.textStyle, { color: theme.text }]}>Account Settings</Text>
             </Pressable>

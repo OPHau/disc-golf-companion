@@ -101,3 +101,15 @@ export const onRemoveUser = () => {
   removes[USERS_REF + auth.currentUser.uid] = null;
   return update(ref(db), removes);
 };
+
+  export const changeUsername = async (username) => {
+    try {
+      await update(ref(db, USERS_REF + auth.currentUser.uid), {
+        username: username
+      });
+      alert('Username changed');
+    } catch (e) {
+      alert(e);
+      throw e;
+    }
+  };

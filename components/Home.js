@@ -4,9 +4,6 @@ import styles from '../style/styles';
 import themeContext from "../style/themeContext";
 import { lightTheme, darkTheme } from "../style/theme";
 
-//Only used in this component for status bar color.
-
-
 export default Home = ({navigation}) => {
     const { darkMode } = useContext(themeContext);
     const theme = darkMode ? darkTheme : lightTheme;

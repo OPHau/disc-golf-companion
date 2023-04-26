@@ -2,6 +2,7 @@ import React, {useContext, useState, useEffect} from "react";
 import { View, Text, FlatList, Pressable, ScrollView, Alert } from "react-native";
 import { ref, onValue, update } from "firebase/database"; 
 import { auth, db, USERS_REF } from '../firebase/Config';
+import { scoresRef, getScoreColor } from "./Scores";
 import styles from '../style/styles';
 import themeContext from "../style/themeContext";
 import { lightTheme, darkTheme } from "../style/theme";
@@ -26,8 +27,8 @@ export default PastRound = () => {
     }, []);
   
     const fetchScores = () => {
-        const dbRef = ref(db, USERS_REF + auth.currentUser.uid + '/pastScores');
-        onValue(dbRef, (snapshot) => {
+        const scoresRef = ref(db, USERS_REF + auth.currentUser.uid + '/pastScores');
+        onValue(scoresRef, (snapshot) => {
             const scoresData = snapshot.val();
             if (scoresData === null) {
                 return setEmpty(true);
@@ -40,18 +41,6 @@ export default PastRound = () => {
         setScores(scoresList);
       }});
     };
-
-    const getScoreColor = (p, t) => {
-        let clr = "#dcdcdc";
-        let dif = t - p;
-        if(t > 0) {
-            if(dif <= -2) clr = "#00ffff";
-            else if(dif == -1) clr = "#90ee90";
-            else if(dif == 1) clr = "#ffb6c1";
-            else if(dif >= 2) clr = "#da90d6";
-        }
-        return clr;
-    }
 
     const scoreTables = [];
     for(let i = 0; i < players.length; i++) {
@@ -94,7 +83,7 @@ export default PastRound = () => {
 
     const handleShowScoreboard = () => {
         setShowScoreboard(!showScoreboard);
-      }
+    }
 
       
     const deleteScoreboard = () => {

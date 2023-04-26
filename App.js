@@ -19,6 +19,8 @@ import PastRound from './components/PastRound';
 import More from './components/More';
 import Rules from './components/Rules'
 import AccountSettings from './components/AccountSettings';
+import ChangePw from './components/Settings/ChangePw';
+import ChangeUsername from './components/Settings/ChangeUsername';
 
 import Home from './components/Home';
 import Login from './components/Login';
@@ -89,8 +91,8 @@ export default function App() {
           tabBarActiveTintColor: theme.text,
           tabBarInactiveTintColor: theme.text,
       }}>
-          <Stack.Screen name='TabNav' component={TabNav} options={{headerShown:false}}/>
           <Stack.Screen name='Home' component={Home} options={{headerShown:false}}/>
+          <Stack.Screen name='TabNav' component={TabNav} options={{headerShown:false}}/>
           <Stack.Screen name='Login' component={Login} options={{headerShown:true}}/>
           <Stack.Screen name='Register' component={Register} options={{headerShown:true}}/>
           <Stack.Screen name='New Round' component={NewRound} options={{headerShown:true}}/>
@@ -98,7 +100,9 @@ export default function App() {
           <Stack.Screen name='Current Round' component={CurrentRound} options={{headerShown:true}}/>
           <Stack.Screen name='Course Details' component={CourseDetails} options={{headerShown:true}}/>
           <Stack.Screen name='Rules' component={Rules} options={{headerShown:true}}/>
-          <Stack.Screen name='Account' component={AccountSettings} options={{headerShown:true}}/>
+          <Stack.Screen name='Account Settings' component={AccountSettings} options={{headerShown:true}}/>
+          <Stack.Screen name='Change Password' component={ChangePw} options={{headerShown:true}}/>
+          <Stack.Screen name='Change Username' component={ChangeUsername} options={{headerShown:true}}/>
         </Stack.Navigator>
       </NavigationContainer>
     </themeContext.Provider>

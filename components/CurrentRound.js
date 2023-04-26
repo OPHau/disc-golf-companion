@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { View, Text, ScrollView, Pressable, SafeAreaView, FlatList } from "react-native";
 import { ref, update, push, child, onValue } from "firebase/database"; 
 import { auth, db, USERS_REF } from '../firebase/Config';
+import { getScoreColor } from "./Scores";
 import styles from '../style/styles';
 import { Icon } from "@rneui/themed";
 import themeContext from "../style/themeContext";
@@ -123,18 +124,6 @@ export default CurrentRound = ({ navigation, route }) => {
                 </Pressable>
             </View>
         );
-    }
-
-    const getScoreColor = (p, t) => {
-        let clr = "#dcdcdc";
-        let dif = t - p;
-        if(t > 0) {
-            if(dif <= -2) clr = "#00ffff";
-            else if(dif == -1) clr = "#90ee90";
-            else if(dif == 1) clr = "#ffb6c1";
-            else if(dif >= 2) clr = "#da90d6";
-        }
-        return clr;
     }
 
     const getTotalScore = (p) => {
