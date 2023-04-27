@@ -31,8 +31,43 @@ export default CourseSearch = ({navigation}) => {
     const getCourses = async () => {
         const URL = 'https://discgolfmetrix.com/api.php?content=courses_list&country_code=FI';
         const response = await axios.get(URL);
-        setFiltered(response.data.courses);
-        setCourses(response.data.courses);
+
+        let included = [];
+
+        let today = new Date(new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2));
+        response.data.courses.forEach(course => {
+            
+            if(course.Enddate != undefined && course.Enddate != 'null') {
+                let ed = new Date(course.Enddate);
+                if(ed > today) included.push(course)
+            }
+            else included.push(course);
+        });
+
+        included.forEach(course => {
+            course.in_use = false;
+            if(course.Enddate != undefined && course.Enddate != 'null') {
+                let ed = new Date(course.Enddate);
+                if(ed > today) course.in_use = true;
+            }
+            else course.in_use = true;
+
+            //Removing possible frontal spaces some course names seem to have
+            while(course.Fullname.charAt(0) === ' ') {
+                course.Fullname = course.Fullname.substring(1);
+            }
+        });
+
+        included.sort((a, b) => {
+            const nameA = a.Fullname.toUpperCase();
+            const nameB = b.Fullname.toUpperCase();
+            if(nameA < nameB) return -1;
+            else if(nameA > nameB) return 1;
+            else return 0;
+        });
+
+        setCourses(included);
+        setFiltered(included);
                 // Data fields:
                 // 1. ID
                 // 2. ParentID
@@ -106,7 +141,7 @@ export default CourseSearch = ({navigation}) => {
     const ItemView = ({item}) => {
         return (
             <Text
-            style={[styles.courseListItem, {color:theme.text}]}
+            style={[styles.courseListItem, {color: theme.text}]}
             onPress={() => navigation.navigate('Course Details', {courseID: item.ID})}>
                 {decode(item.Fullname)}
             </Text>
@@ -155,6 +190,7 @@ export default CourseSearch = ({navigation}) => {
                         data={filtered}
                         initialNumToRender={7}
                         keyExtractor={(item, index) => index.toString()}
+                        stickyHeaderIndices={[0]}
                         ItemSeparatorComponent={ItemSeparatorView}
                         renderItem={ItemView}
                         ListHeaderComponent= {

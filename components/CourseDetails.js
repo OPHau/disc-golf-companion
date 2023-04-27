@@ -19,6 +19,7 @@ export default CourseDetails = ({route, navigation}) => {
     const {courseID} = route.params;
     const [fetched, setFetched] = useState(false);
     const [details, setDetails] = useState([]);
+    const [enddate, setEnddate] = useState("");
     const [totalLength, setTotalLength] = useState(0);
     const [lengthUnit, setLengthUnit] = useState("");
     const [pars, setPars] = useState([]);
@@ -39,6 +40,7 @@ export default CourseDetails = ({route, navigation}) => {
         let data = response.data;
         setDetails(data);
 
+        if(data.course.Enddate != undefined) setEnddate(data.course.Enddate);
         if(data.course.Lat != undefined) setLatitude(Number(data.course.Lat));
         if(data.course.Lng != undefined) setLongitude(Number(data.course.Lng));
 
@@ -140,6 +142,7 @@ export default CourseDetails = ({route, navigation}) => {
                     {basketCount > 0 && <Text style={[styles.textStyle, {color:theme.text}]}>Fairways: {basketCount}</Text>}
                     {coursePar > 0 && <Text style={[styles.textStyle, {color:theme.text}]}>Par: {coursePar}</Text>}
                     {totalLength > 0 && <Text style={[styles.textStyle, {color:theme.text}]}>Total length: {totalLength}{lengthUnit}</Text>}
+                    {enddate != '' && <Text style={[styles.textStyle, {color:theme.text}]}>In use until: {enddate}</Text>}
                 </View>
                 <View contentContainerStyle={{alignItems:'center', width:'80%'}}>
                     {parTables}
