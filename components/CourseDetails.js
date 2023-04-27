@@ -36,30 +36,35 @@ export default CourseDetails = ({route, navigation}) => {
 
     const getDetails = async () => {
         const URL = getURL();
-        const response = await axios.get(URL);
-        let data = response.data;
-        setDetails(data);
+        try {
+            const response = await axios.get(URL);
+            let data = response.data;
+            setDetails(data);
 
-        if(data.course.Enddate != undefined) setEnddate(data.course.Enddate);
-        if(data.course.Lat != undefined) setLatitude(Number(data.course.Lat));
-        if(data.course.Lng != undefined) setLongitude(Number(data.course.Lng));
+            if(data.course.Enddate != undefined) setEnddate(data.course.Enddate);
+            if(data.course.Lat != undefined) setLatitude(Number(data.course.Lat));
+            if(data.course.Lng != undefined) setLongitude(Number(data.course.Lng));
 
-        if(data.baskets != undefined) {
-            let baskets = data.baskets.map((basket) => basket);
-            let initPars = new Array(baskets.length).fill(3);
-            let lengths = [];
-            for(let i = 0; i < baskets.length; i++) {
-                if(baskets[i].Par != undefined) initPars[i] = Number(baskets[i].Par);
-                if(baskets[i].Length != undefined) {
-                    lengths.push(Number(baskets[i].Length));
+            if(data.baskets != undefined) {
+                let baskets = data.baskets.map((basket) => basket);
+                let initPars = new Array(baskets.length).fill(3);
+                let lengths = [];
+                for(let i = 0; i < baskets.length; i++) {
+                    if(baskets[i].Par != undefined) initPars[i] = Number(baskets[i].Par);
+                    if(baskets[i].Length != undefined) {
+                        lengths.push(Number(baskets[i].Length));
+                    }
                 }
+                setBasketCount(baskets.length);
+                if(baskets[0].Unit != undefined) setLengthUnit(baskets[0].Unit);
+                setPars(initPars);
+                setCoursePar(initPars.reduce((prev, cur) => prev + cur, 0));
+                setTotalLength(1500);
+                setFetched(true);
             }
-            setBasketCount(baskets.length);
-            if(baskets[0].Unit != undefined) setLengthUnit(baskets[0].Unit);
-            setPars(initPars);
-            setCoursePar(initPars.reduce((prev, cur) => prev + cur, 0));
-            setTotalLength(1500);
-            setFetched(true);
+        } catch(e) {
+            console.log("Unable to fetch course details. ", e);
+            alert("Unable to fetch course details: " + e);
         }
 
         // Data fields: (example)

@@ -30,19 +30,38 @@ export default CourseSearch = ({navigation}) => {
 
     const getCourses = async () => {
         const URL = 'https://discgolfmetrix.com/api.php?content=courses_list&country_code=FI';
-        const response = await axios.get(URL);
-
         let included = [];
-
         let today = new Date(new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2));
-        response.data.courses.forEach(course => {
-            
-            if(course.Enddate != undefined && course.Enddate != 'null') {
-                let ed = new Date(course.Enddate);
-                if(ed > today) included.push(course)
-            }
-            else included.push(course);
-        });
+
+        // Data fields:
+        // 1. ID
+        // 2. ParentID
+        // 3. Name
+        // 4. Fullname - same with name if no layouts are used.
+        // 5. Type - possible values 1 - Parent course, always consists layouts of couse, 2 - layour or course without layout.
+        // 6. CountryCode 
+        // 7. Area
+        // 8. City
+        // 9. Location
+        // 10. X - latitude
+        // 12. Y - longitude  
+        // 13. Enddate - if the course/layout does not exist any more, then the enddate is filled with date
+
+        try {
+            const response = await axios.get(URL);
+
+            response.data.courses.forEach(course => {      
+                if(course.Enddate != undefined && course.Enddate != 'null') {
+                    let ed = new Date(course.Enddate);
+                    if(ed > today) included.push(course)
+                }
+                else included.push(course);
+            });    
+
+        } catch(err) {
+            console.log("Unable to fetch course list.", e);
+            alert("Unable to fetch course list: " + e);
+        }
 
         included.forEach(course => {
             course.in_use = false;
@@ -68,19 +87,6 @@ export default CourseSearch = ({navigation}) => {
 
         setCourses(included);
         setFiltered(included);
-                // Data fields:
-                // 1. ID
-                // 2. ParentID
-                // 3. Name
-                // 4. Fullname - same with name if no layouts are used.
-                // 5. Type - possible values 1 - Parent course, always consists layouts of couse, 2 - layour or course without layout.
-                // 6. CountryCode 
-                // 7. Area
-                // 8. City
-                // 9. Location
-                // 10. X - latitude
-                // 12. Y - longitude  
-                // 13. Enddate - if the course/layout does not exist any more, then the enddate is filled with date
         setFetchCourses(false);
     }
 
