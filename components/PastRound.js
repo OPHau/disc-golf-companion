@@ -136,7 +136,7 @@ export default PastRound = () => {
                             setItemId(item.id);
                             handleShowScoreboard();
                             }}>
-                            <Text style={[styles.textStyle, {color: theme.buttonText}]}>View Scoreboard</Text>
+                            <Text style={[styles.textStyle, {color: theme.text}]}>View Scoreboard</Text>
                         </Pressable>
                         </View>
                     )}

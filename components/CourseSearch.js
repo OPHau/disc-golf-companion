@@ -187,7 +187,7 @@ export default CourseSearch = ({navigation}) => {
                     title="Nearby"
                     icon={{ name: 'google-nearby', type: 'material-community', color: theme.navBarIcon}}/>
             </Tab>
-            <TabView value={tabIndex} onChange={() => switchTab(tabIndex)} animationType='spring'>
+            <TabView value={tabIndex} onChange={(e) => setTabIndex(e)} animationType='spring'>
                 <TabView.Item style={{ backgroundColor: theme.background, width: '100%' }}>
                     <Text style={[styles.textStyle, {color: theme.text}]}>You have no favorites yet.</Text>
                 </TabView.Item>
@@ -206,7 +206,7 @@ export default CourseSearch = ({navigation}) => {
                             containerStyle={{backgroundColor: theme.backgroundLight}}
                             inputContainerStyle={{backgroundColor: theme.backgroundSpecial}}
                             searchIcon={{size: 24, color: theme.navBarIcon}}
-                            style={{color: '#ffffff'}}
+                            style={{color: theme.text}}
                             round
                             lightTheme
                             onChangeText={(text) => filterSearch(text)}

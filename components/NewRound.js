@@ -57,7 +57,7 @@ export default NewRound = ( {navigation, route} ) => {
         playerlist.push(
             <View style={[styles.containerNewRound, {backgroundColor: theme.backgroundSpecial}]} key={"playerlistitem" + i}>
                 <TextInput
-                style={[styles.textInput, {width:'80%', alignSelf:'center', backgroundColor: theme.textInput, color: theme.text}]}
+                style={[styles.textInput, {width:'80%', alignSelf:'center', backgroundColor: theme.textInput, color: theme.text, borderColor: theme.textFaded}]}
                 value={players[i]}
                 onChangeText={text => changePlayerName(text, i)}
                 />
@@ -70,57 +70,59 @@ export default NewRound = ( {navigation, route} ) => {
             style={{flex:1, backgroundColor:theme.background}}
             behavior="height">
         <ScrollView style={{flex: 1}} contentContainerStyle={{alignItems:'center', backgroundColor:theme.background}}>
-                <View style={{flexDirection: "row"}}>
-                    <Text style={[styles.headerStyle, {color:theme.text}]}>Course:</Text>
-                    <Pressable style={({ pressed }) => [styles.buttonStyle, {width: '14%', padding:5, backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]} onPress={() => navigation.navigate('Map')}>
-                        <Icon name="magnifying-glass" type="entypo" size={35} color={theme.text} />
-                    </Pressable>
-                </View>
-
-                <TextInput 
-                    style={[styles.textInput, {backgroundColor: theme.textInput, color: theme.text}]}
-                    value={courseName}
-                    onChangeText={setCourseName}
-                    />
-                <View style={{flexDirection:'row'}}>
-                    <Text style={[styles.textStyle, {fontSize:23, color:theme.text}]}>Fairways: </Text>
-                    <SelectDropdown data={fairwayValues}
-                        defaultValue={fairwayCount}
-                        onSelect={(selectedItem, index) => {setFairwayCount(selectedItem)}}
-                        buttonStyle={styles.dropdown}
-                        buttonTextStyle={styles.dropdownText}
-                        buttonTextAfterSelection={(selectedItem, index) => { return selectedItem}}
-                        rowTextForSelection={(item, index) => { return item}}
-                        dropdownIconPosition="right"
-                        renderDropdownIcon={isOpened => 
-                            { return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} type='font-awesome' color={"#444"} size={15}/>}} />
-                 </View>
-                <Text style={[styles.headerStyle, {color:theme.text}]}>Players:</Text>
-                {playerlist}
-                <View style={{flexDirection:'row'}}>
-                    {players.length < 4 &&
-                        <Pressable 
-                                style={({ pressed }) => [styles.buttonStyle,
-                                {width: '40%', backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]} 
-                                onPress={() => addPlayer()}>
-                            <Text style={[styles.textStyle, {color: theme.text}]}>Add Player</Text>
-                        </Pressable>
-                    }
-                    {players.length > 1 &&
-                        <Pressable 
-                                style={({ pressed }) => [styles.buttonStyle,
-                                {width: '40%', backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]} 
-                                onPress={() => removePlayer()}>
-                            <Text style={[styles.textStyle, {color: theme.text}]}>Remove</Text>
-                        </Pressable>
-                    }
-                </View>
+            <View style={{flexDirection: "row", margin:5, marginTop:10, justifyContent:'center'}}>
+                <Text style={[styles.headerStyle, {color:theme.text}]}>Course:</Text>
                 <Pressable 
-                        onPress={() => navigation.navigate('Current Round', {course: course, courseName: courseName, fairways: fairwayCount, players: players})}
-                        style={({ pressed }) => [styles.buttonStyle,
-                        {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]}>
-                    <Text style={[styles.textStyle, {color: theme.text}]}>Start Round</Text>
+                    style={({ pressed }) => [{ padding:5, borderRadius:4, borderWidth:1, backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]} 
+                    onPress={() => navigation.navigate('Map')}>
+                    <Icon name="magnifying-glass" type="entypo" size={35} color={theme.text} />
                 </Pressable>
+            </View>
+
+            <TextInput 
+                style={[styles.textInput, {backgroundColor: theme.textInput, color: theme.text}]}
+                value={courseName}
+                onChangeText={setCourseName}
+                />
+            <View style={{flexDirection:'row'}}>
+                <Text style={[styles.textStyle, {fontSize:23, color:theme.text}]}>Fairways: </Text>
+                <SelectDropdown data={fairwayValues}
+                    defaultValue={fairwayCount}
+                    onSelect={(selectedItem, index) => {setFairwayCount(selectedItem)}}
+                    buttonStyle={[styles.dropdown, {backgroundColor: theme.primaryBtn}]}
+                    buttonTextStyle={[styles.dropdownText, {color: theme.text}]}
+                    buttonTextAfterSelection={(selectedItem, index) => { return selectedItem}}
+                    rowTextForSelection={(item, index) => { return item}}
+                    dropdownIconPosition="right"
+                    renderDropdownIcon={isOpened => 
+                        { return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} type='font-awesome' color={theme.text} size={15}/>}} />
+                </View>
+            <Text style={[styles.headerStyle, {color:theme.text}]}>Players:</Text>
+            {playerlist}
+            <View style={{flexDirection:'row'}}>
+                {players.length < 4 &&
+                    <Pressable 
+                            style={({ pressed }) => [styles.buttonStyle,
+                            {width: '40%', backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]} 
+                            onPress={() => addPlayer()}>
+                        <Text style={[styles.textStyle, {color: theme.text}]}>Add Player</Text>
+                    </Pressable>
+                }
+                {players.length > 1 &&
+                    <Pressable 
+                            style={({ pressed }) => [styles.buttonStyle,
+                            {width: '40%', backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]} 
+                            onPress={() => removePlayer()}>
+                        <Text style={[styles.textStyle, {color: theme.text}]}>Remove</Text>
+                    </Pressable>
+                }
+            </View>
+            <Pressable 
+                    onPress={() => navigation.navigate('Current Round', {course: course, courseName: courseName, fairways: fairwayCount, players: players})}
+                    style={({ pressed }) => [styles.buttonStyle,
+                    {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]}>
+                <Text style={[styles.textStyle, {color: theme.text}]}>Start Round</Text>
+            </Pressable>
         </ScrollView>
         </KeyboardAvoidingView>
     );

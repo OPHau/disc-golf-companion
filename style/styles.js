@@ -35,11 +35,8 @@ export default StyleSheet.create({
     },
     dropdown: {
         width: 80,
-        padding: 8,
         borderRadius: 4,
         borderWidth: 1,
-        borderColor: '#000',
-        backgroundColor:'#fff',
     },
     dropdownText: {
         marginBottom: 4,
