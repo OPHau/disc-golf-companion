@@ -33,6 +33,18 @@ export default StyleSheet.create({
     courseListItem: {
         padding: 10,
     },
+    dropdown: {
+        width: 80,
+        padding: 8,
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: '#000',
+        backgroundColor:'#fff',
+    },
+    dropdownText: {
+        marginBottom: 4,
+        fontSize: 22,
+    },
     //Tables
     tableRow: {
         marginTop:5,

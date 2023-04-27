@@ -5,8 +5,8 @@ import { decode } from "html-entities";
 import { Icon } from "@rneui/themed";
 import themeContext from "../style/themeContext";
 import { lightTheme, darkTheme } from "../style/theme";
-import { SocialIcon } from "@rneui/base";
 import { KeyboardAvoidingView } from "react-native";
+import SelectDropdown from "react-native-select-dropdown";
 
 export default NewRound = ( {navigation, route} ) => {
     const { darkMode } = useContext(themeContext);
@@ -17,6 +17,8 @@ export default NewRound = ( {navigation, route} ) => {
     const [players, setPlayers] = useState(["Player 1"]);
     const {course} = route.params;
     const [playerIncrement, setPlayerIncrement] = useState(1);
+    const playerlist = [];
+    const fairwayValues = [...Array(31).keys()].splice(1);
 
     const addPlayer = () => {
         let i = playerIncrement + 1;
@@ -49,9 +51,8 @@ export default NewRound = ( {navigation, route} ) => {
             setCourseName(name);
             setFairwayCount(fairways);
         }
-    }, [players]);
+    }, []);
 
-    const playerlist = [];
     for (let i = 0; i < players.length; i++) {
         playerlist.push(
             <View style={[styles.containerNewRound, {backgroundColor: theme.backgroundSpecial}]} key={"playerlistitem" + i}>
@@ -81,7 +82,19 @@ export default NewRound = ( {navigation, route} ) => {
                     value={courseName}
                     onChangeText={setCourseName}
                     />
-                <Text style={[styles.textStyle, {color:theme.text}]}>Fairways: {fairwayCount}</Text>
+                <View style={{flexDirection:'row'}}>
+                    <Text style={[styles.textStyle, {fontSize:23, color:theme.text}]}>Fairways: </Text>
+                    <SelectDropdown data={fairwayValues}
+                        defaultValue={fairwayCount}
+                        onSelect={(selectedItem, index) => {setFairwayCount(selectedItem)}}
+                        buttonStyle={styles.dropdown}
+                        buttonTextStyle={styles.dropdownText}
+                        buttonTextAfterSelection={(selectedItem, index) => { return selectedItem}}
+                        rowTextForSelection={(item, index) => { return item}}
+                        dropdownIconPosition="right"
+                        renderDropdownIcon={isOpened => 
+                            { return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} type='font-awesome' color={"#444"} size={15}/>}} />
+                 </View>
                 <Text style={[styles.headerStyle, {color:theme.text}]}>Players:</Text>
                 {playerlist}
                 <View style={{flexDirection:'row'}}>
