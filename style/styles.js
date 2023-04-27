@@ -16,6 +16,11 @@ export default StyleSheet.create({
         justifyContent:'space-between',
     },
     containerNewRound: {
+        flexDirection:'column',
+        width:'95%',
+        backgroundColor: '#fff',
+    },
+    containerRound: {
         flexDirection:'row',
         width:'95%',
         backgroundColor: '#fff',

@@ -109,7 +109,7 @@ export default CurrentRound = ({ navigation, route }) => {
     const playerlist = [];
     for (let i = 0; i < players.length; i++) {
         playerlist.push(
-            <View style={[styles.containerNewRound, {backgroundColor: theme.backgroundSpecial}]} key={"playerlistitem" + i}>
+            <View style={[styles.containerRound, {backgroundColor: theme.backgroundSpecial}]} key={"playerlistitem" + i}>
                 <Text style={[styles.textStyle, {width:'50%', alignSelf:'center', color: theme.text}]}>{players[i]}</Text>
                 <Pressable onPress={() => addThrow(i, currentFairway, -1)}>
                     {({ pressed }) => (

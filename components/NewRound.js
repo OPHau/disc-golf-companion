@@ -5,6 +5,8 @@ import { decode } from "html-entities";
 import { Icon } from "@rneui/themed";
 import themeContext from "../style/themeContext";
 import { lightTheme, darkTheme } from "../style/theme";
+import { SocialIcon } from "@rneui/base";
+import { KeyboardAvoidingView } from "react-native";
 
 export default NewRound = ( {navigation, route} ) => {
     const { darkMode } = useContext(themeContext);
@@ -30,6 +32,12 @@ export default NewRound = ( {navigation, route} ) => {
         setPlayers(newArray);
     }
 
+    const changePlayerName = (text, i) => {
+        const names = [...players];
+        names[i] = text;
+        setPlayers(names);
+    }
+
     useEffect(() => {
         if(route.params) {
             let name = "Course";
@@ -47,13 +55,20 @@ export default NewRound = ( {navigation, route} ) => {
     for (let i = 0; i < players.length; i++) {
         playerlist.push(
             <View style={[styles.containerNewRound, {backgroundColor: theme.backgroundSpecial}]} key={"playerlistitem" + i}>
-                <Text style={[styles.textStyle, {width:'50%', alignSelf:'center', color: theme.text}]}>{players[i]}</Text>
+                <TextInput
+                style={[styles.textInput, {width:'80%', alignSelf:'center', backgroundColor: theme.textInput, color: theme.text}]}
+                value={players[i]}
+                onChangeText={text => changePlayerName(text, i)}
+                />
             </View>
         );
     }
 
     return (
-        <ScrollView contentContainerStyle={[{alignItems:'center', flex:1}, {backgroundColor:theme.background}]}>
+        <KeyboardAvoidingView
+            style={{flex:1, backgroundColor:theme.background}}
+            behavior="height">
+        <ScrollView style={{flex: 1}} contentContainerStyle={{alignItems:'center', backgroundColor:theme.background}}>
                 <View style={{flexDirection: "row"}}>
                     <Text style={[styles.headerStyle, {color:theme.text}]}>Course:</Text>
                     <Pressable style={({ pressed }) => [styles.buttonStyle, {width: '14%', padding:5, backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]} onPress={() => navigation.navigate('Map')}>
@@ -67,6 +82,7 @@ export default NewRound = ( {navigation, route} ) => {
                     onChangeText={setCourseName}
                     />
                 <Text style={[styles.textStyle, {color:theme.text}]}>Fairways: {fairwayCount}</Text>
+                <Text style={[styles.headerStyle, {color:theme.text}]}>Players:</Text>
                 {playerlist}
                 <View style={{flexDirection:'row'}}>
                     {players.length < 4 &&
@@ -93,5 +109,6 @@ export default NewRound = ( {navigation, route} ) => {
                     <Text style={[styles.textStyle, {color: theme.text}]}>Start Round</Text>
                 </Pressable>
         </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
