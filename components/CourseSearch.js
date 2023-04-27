@@ -126,9 +126,11 @@ export default CourseSearch = ({navigation}) => {
     const filterSearch = (text) => {
         if(text) {
             const newData = courses.filter(function (item) {
-                const itemData = item.Fullname ? item.Fullname.toUpperCase() : ''.toUpperCase();
-                const courseData = text.toUpperCase();
-                return itemData.indexOf(courseData) > -1;
+                const fname = item.Fullname ? item.Fullname.toUpperCase() : ''.toUpperCase();
+                const aname = item.Area ? item.Area.toUpperCase() : ''.toUpperCase();
+                const cname = item.City ? item.City.toUpperCase() : ''.toUpperCase();
+                const search = text.toUpperCase();
+                return fname.indexOf(search) > -1 || aname.indexOf(search) > -1 || cname.indexOf(search) > -1;
             });
             setFiltered(newData);
             setSearch(text);
