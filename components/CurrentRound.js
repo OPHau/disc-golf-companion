@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Text, ScrollView, Pressable, SafeAreaView, FlatList } from "react-native";
+import { View, Text, ScrollView, Pressable, SafeAreaView, FlatList, TextInput, Picker } from "react-native";
+import SelectDropdown from "react-native-select-dropdown";
 import { ref, update, push, child, onValue } from "firebase/database"; 
 import { auth, db, USERS_REF } from '../firebase/Config';
 import { getScoreColor } from "./Scores";
@@ -106,18 +107,40 @@ export default CurrentRound = ({ navigation, route }) => {
         setPars(newArray);
     }
 
+    const addThrowInput = (p, f) => {
+        const newArray = [...throws];
+        newArray[p][f] =  Math.max(0, newArray[p][f].addValue);
+        setThrows(newArray);
+        console.log(throws[i][currentFairway])
+    }
+
     const playerlist = [];
     for (let i = 0; i < players.length; i++) {
         playerlist.push(
-            <View style={[styles.containerRound, {backgroundColor: theme.backgroundSpecial}]} key={"playerlistitem" + i}>
+            <View style={[styles.containerRound, {backgroundColor: theme.backgroundSpecial, justifyContent:'center'}]} key={"playerlistitem" + i}>
                 <Text style={[styles.textStyle, {width:'50%', alignSelf:'center', color: theme.text}]}>{players[i]}</Text>
-                <Pressable onPress={() => addThrow(i, currentFairway, -1)}>
+                <Pressable 
+                    style={{alignSelf:'center'}}
+                    onPress={() => addThrow(i, currentFairway, -1)}>
                     {({ pressed }) => (
                     <Icon name="circle-with-minus" type="entypo" size={30} color={pressed ? theme.secondaryBtnTwo : theme.primaryBtnTwo} />
                     )}
                 </Pressable>
-                <Text style={[styles.textStyle, {color: theme.text}]}>{throws[i][currentFairway]}</Text>
-                <Pressable onPress={() => addThrow(i, currentFairway, 1)}>
+                <SelectDropdown
+                    data={Array.from({ length: 20 }, (v, i) => (i + 1))}
+                    defaultValue={throws[i][currentFairway]}
+                    defaultButtonText=" "
+                    buttonStyle={[{width:'17%', height:'80%', margin:4, backgroundColor: theme.background}]}
+                    buttonTextStyle={[styles.dropdownText, {color: theme.text}]}
+                    onSelect={(value) => {
+                        const newArray = [...throws];
+                        newArray[i][currentFairway] = value;
+                        setThrows(newArray);
+                    }}
+                    />
+                <Pressable 
+                    style={{alignSelf:'center'}}
+                    onPress={() => addThrow(i, currentFairway, 1)}>
                     {({ pressed }) => (
                     <Icon name="circle-with-plus" type="entypo" size={30} color={pressed ? theme.secondaryBtnTwo: theme.primaryBtnTwo} />
                     )}
