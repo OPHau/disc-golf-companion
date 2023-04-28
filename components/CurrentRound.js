@@ -129,7 +129,7 @@ export default CurrentRound = ({ navigation, route }) => {
                 <SelectDropdown
                     data={Array.from({ length: 20 }, (v, i) => (i + 1))}
                     defaultValue={throws[i][currentFairway]}
-                    defaultButtonText=" "
+                    defaultButtonText="0"
                     buttonStyle={[{width:'17%', height:'80%', margin:4, backgroundColor: theme.background}]}
                     buttonTextStyle={[styles.dropdownText, {color: theme.text}]}
                     onSelect={(value) => {
