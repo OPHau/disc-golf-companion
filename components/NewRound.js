@@ -7,6 +7,8 @@ import themeContext from "../style/themeContext";
 import { lightTheme, darkTheme } from "../style/theme";
 import { KeyboardAvoidingView } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
+import { onValue, ref } from "firebase/database";
+import { USERS_REF, auth, db } from "../firebase/Config";
 
 export default NewRound = ( {navigation, route} ) => {
     const { darkMode } = useContext(themeContext);
@@ -41,13 +43,30 @@ export default NewRound = ( {navigation, route} ) => {
     }
 
     useEffect(() => {
+        onValue(ref(db, USERS_REF + auth.currentUser.uid), (snapshot) => {
+            if(snapshot.val()) {
+                let p1 = [];
+                p1.push(snapshot.val().username);
+                setPlayers(p1);    
+            }
+        }, {
+            onlyOnce: true
+        });
+
         if(route.params) {
+            // onValue(ref(db, USERS_REF + auth.currentUser.uid), (snapshot) => {
+            //     setUsername(snapshot.val() && snapshot.val().username);
+            //   }, {
+            //     onlyOnce: true
+            //   });
+
             let name = "Course";
             let fairways = 18;
             if(course != undefined) {
                 if(course.baskets != undefined) fairways = course.baskets.map((basket) => basket).length;
                 if(course.course.Fullname != undefined) name = decode(course.course.Fullname);
             }
+
             setCourseName(name);
             setFairwayCount(fairways);
         }
