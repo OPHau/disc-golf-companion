@@ -46,41 +46,45 @@ export default AccountSettings = ({navigation}) => {
     return (
         <View style={[styles.container, { backgroundColor: theme.background }]}>
             <View style={[styles.container, { width:'100%', backgroundColor: theme.background }]}>
-                <View style={[{justifyContent:'space-between', flexDirection:'row'}]}>
-                    <Text style={[styles.textStyle, { alignSelf:'center', color: theme.text }]}>Username: {username}</Text>
-                    <Pressable 
-                        style={({ pressed }) => [{padding: 20 }]} 
-                        onPress={() => navigation.navigate('Change Username')}>
-                        {({ pressed }) => (
-                        <MaterialCommunityIcons name="square-edit-outline" size={24} color={pressed ? theme.text : theme.text} />
-                        )}
-                    </Pressable>
+                <View style={{minWidth:'69%'}}>
+                    <View style={[{justifyContent:'space-between', flexDirection:'row'}]}>
+                        <Text style={[styles.textStyle, { alignSelf:'center', color: theme.text }]}>Username: {username}</Text>
+                        <Pressable 
+                            style={({ pressed }) => [{padding: 20 }]} 
+                            onPress={() => navigation.navigate('Change Username')}>
+                            {({ pressed }) => (
+                            <MaterialCommunityIcons name="square-edit-outline" size={24} color={pressed ? theme.text : theme.text} />
+                            )}
+                        </Pressable>
+                    </View>
+                    <View style={[{justifyContent:'space-between', flexDirection:'row'}]}>
+                        <Text style={[styles.textStyle, { alignSelf:'center', color: theme.text }]}>Password {}</Text>
+                        <Pressable 
+                            style={({ pressed }) => [{padding: 20 }]} 
+                            onPress={() => navigation.navigate('Change Password')}>
+                            {({ pressed }) => (
+                            <MaterialCommunityIcons name="square-edit-outline" size={24} color={pressed ? theme.text : theme.text} />
+                            )}
+                        </Pressable>
+                    </View>
                 </View>
                 <View style={[{ width:'90%', backgroundColor: theme.background }]}>
-                <Pressable 
-                    style={({ pressed }) => [styles.buttonStyle,
-                    {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn, alignSelf:'center'}]}
-                    onPress={() => {
-                        navigation.navigate('Change Password');
-                    }}>
-                    <Text style={[styles.textStyle, {color: theme.text}]}>Change Password</Text>
-                </Pressable>
-                <Pressable 
-                    style={({ pressed }) => [styles.buttonStyle,
-                    {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn, alignSelf:'center'}]}
-                    onPress={() => {
-                        confirmDelete();
-                    }}>
-                    <Text style={[styles.textStyle, {color: theme.text}]}>Delete Account</Text>
-                </Pressable>
-                <Pressable 
-                    style={({ pressed }) => [styles.buttonStyle,
-                    {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn, alignSelf:'center'}]}
-                    onPress={() => {
-                        deleteScoreboards();
-                    }}>
-                    <Text style={[styles.textStyle, {color: theme.text}]}>Delete All Scoreboards</Text>
-                </Pressable>
+                    <Pressable 
+                        style={({ pressed }) => [styles.buttonStyle,
+                        {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn, alignSelf:'center'}]}
+                        onPress={() => {
+                            confirmDelete();
+                        }}>
+                        <Text style={[styles.textStyle, {color: theme.text}]}>Delete Account</Text>
+                    </Pressable>
+                    <Pressable 
+                        style={({ pressed }) => [styles.buttonStyle,
+                        {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn, alignSelf:'center'}]}
+                        onPress={() => {
+                            deleteScoreboards();
+                        }}>
+                        <Text style={[styles.textStyle, {color: theme.text}]}>Delete All Scoreboards</Text>
+                    </Pressable>
                 </View>
             </View>
         </View>
