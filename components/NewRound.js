@@ -97,26 +97,27 @@ export default NewRound = ( {navigation, route} ) => {
                     renderDropdownIcon={isOpened => 
                         { return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} type='font-awesome' color={theme.text} size={15}/>}} />
                 </View>
-            <Text style={[styles.headerStyle, {color:theme.text}]}>Players:</Text>
-            {playerlist}
-            <View style={{flexDirection:'row'}}>
-                {players.length < 4 &&
-                    <Pressable 
-                            style={({ pressed }) => [styles.buttonStyle,
-                            {width: '40%', backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]} 
-                            onPress={() => addPlayer()}>
+                    <Text style={[styles.headerStyle, {color:theme.text}]}>Players:</Text>
+                        {playerlist}
+                    <View style={{flexDirection:'row-reverse', justifyContent:'space-between', width:'80%'}}>
+                    {players.length < 4 && (
+                        <Pressable 
+                        style={({ pressed }) => [styles.buttonStyle,      {width: '40%', backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]} 
+                        onPress={() => addPlayer()}>
                         <Text style={[styles.textStyle, {color: theme.text}]}>Add Player</Text>
-                    </Pressable>
-                }
-                {players.length > 1 &&
-                    <Pressable 
-                            style={({ pressed }) => [styles.buttonStyle,
-                            {width: '40%', backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]} 
-                            onPress={() => removePlayer()}>
+                        </Pressable>
+                    )}
+                    {players.length >= 4 && (
+                        <View style={{width: '40%'}}/>
+                    )}
+                    {players.length > 1 && (
+                        <Pressable 
+                        style={({ pressed }) => [styles.buttonStyle,      {width: '40%', backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]} 
+                        onPress={() => removePlayer()}>
                         <Text style={[styles.textStyle, {color: theme.text}]}>Remove</Text>
-                    </Pressable>
-                }
-            </View>
+                        </Pressable>
+                    )}
+                </View>
             <Pressable 
                     onPress={() => navigation.navigate('Current Round', {course: course, courseName: courseName, fairways: fairwayCount, players: players})}
                     style={({ pressed }) => [styles.buttonStyle,
