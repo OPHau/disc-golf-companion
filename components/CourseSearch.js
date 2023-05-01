@@ -1,4 +1,4 @@
-import { SearchBar, Tab, TabView } from "@rneui/themed";
+import { Icon, SearchBar, Tab, TabView } from "@rneui/themed";
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
 import { FlatList, SafeAreaView, Text, View } from "react-native";
@@ -10,6 +10,8 @@ import { decode } from "html-entities";
 import themeContext from "../style/themeContext";
 import { lightTheme, darkTheme } from "../style/theme";
 import { getDistance } from "geolib";
+import SelectDropdown from "react-native-select-dropdown";
+import {countries} from "../assets/country-codes";
 
 const INITIAL_LATITUDE = 65.0800;
 const INITIAL_LONGITUDE = 25.4800;
@@ -30,9 +32,12 @@ export default CourseSearch = ({navigation}) => {
     const [courses, setCourses] = useState([]);
     const [nearby, setNearby] = useState([]);
     const [favorites, setFavorites] = useState([]);
+    const countryCodes = countries.map(a => a.code);
+    const [country, setCountry] = useState("FI");
+    const [countryBoxWidth, setCountryBoxWidth] = useState(80);
 
     const getCourses = async () => {
-        const URL = 'https://discgolfmetrix.com/api.php?content=courses_list&country_code=FI';
+        const URL = 'https://discgolfmetrix.com/api.php?content=courses_list&country_code=' + country;
         let included = [];
         let today = new Date(new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2));
 
@@ -118,7 +123,7 @@ export default CourseSearch = ({navigation}) => {
                 }
             })();
         }
-    }, [requestLocPerm]);
+    }, [requestLocPerm, country]);
 
     const switchTab = (e) => {
         setTabIndex(e);
@@ -141,6 +146,19 @@ export default CourseSearch = ({navigation}) => {
         setNearby(near);
     }
 
+    const handleCountryChange = (newCountry) => {
+        setCountry(newCountry);
+        setFetchCourses(true);
+    }
+
+    const getCountryName = (nameFor) => {
+        // let countryObj = countries.filter(obj => {
+        //     return obj.code == nameFor;
+        // });
+        let countryObj = countries[nameFor];
+        return countryObj.name;
+    }
+
     const filterSearch = (text) => {
         if(text) {
             const newData = courses.filter(function (item) {
@@ -157,6 +175,45 @@ export default CourseSearch = ({navigation}) => {
             setSearch(text);
         }
     };
+
+    const SearchView = () => {
+        return (
+            <View style={{flexDirection:'row'}}>
+                <SearchBar
+                containerStyle={{backgroundColor: theme.backgroundLight, flex:1}}
+                inputContainerStyle={{backgroundColor: theme.backgroundSpecial}}
+                searchIcon={{size: 24, color: theme.navBarIcon}}
+                style={{color: theme.text}}
+                round
+                lightTheme
+                onChangeText={(text) => filterSearch(text)}
+                onClear={(text) => filterSearch('')}
+                placeholder="Type here..."
+                value={search}
+                />
+                <SelectDropdown data={countryCodes}
+                    defaultValue={country}
+                    onFocus={() => setCountryBoxWidth(150)}
+                    onSelect={(selectedItem, index) => {handleCountryChange(selectedItem)}}
+                    onBlur={() => setCountryBoxWidth(80)}
+                    buttonStyle={[styles.dropdown, {backgroundColor: theme.primaryBtn, width:countryBoxWidth, marginTop:8}]}
+                    buttonTextStyle={[styles.dropdownText, {color: theme.text, fontSize:18, marginBottom:0}]}
+                    buttonTextAfterSelection={(selectedItem, index) => { return selectedItem}}
+                    // rowTextForSelection={(item, index) => { return item}}
+                    dropdownIconPosition="right"
+                    renderDropdownIcon={isOpened => 
+                        { return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} type='font-awesome' color={theme.text} size={15}/>}}
+                    renderCustomizedRowChild={(selectedItem, index) => {
+                        return (
+                            <View style={{width: 150}}>
+                                <Text>{selectedItem} - {getCountryName(index)}</Text>
+                            </View>
+                        );
+                    }}
+                />
+            </View>
+        );
+    }
 
     const ItemView = ({item}) => {
         return (
@@ -226,20 +283,7 @@ export default CourseSearch = ({navigation}) => {
                         stickyHeaderIndices={[0]}
                         ItemSeparatorComponent={ItemSeparatorView}
                         renderItem={ItemView}
-                        ListHeaderComponent= {
-                            <SearchBar
-                            containerStyle={{backgroundColor: theme.backgroundLight}}
-                            inputContainerStyle={{backgroundColor: theme.backgroundSpecial}}
-                            searchIcon={{size: 24, color: theme.navBarIcon}}
-                            style={{color: theme.text}}
-                            round
-                            lightTheme
-                            onChangeText={(text) => filterSearch(text)}
-                            onClear={(text) => filterSearch('')}
-                            placeholder="Type here..."
-                            value={search}
-                            />
-                        }
+                        ListHeaderComponent= {SearchView}
                         />
                     </View>
                 </TabView.Item>
