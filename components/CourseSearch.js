@@ -2,6 +2,8 @@ import { SearchBar, Tab, TabView } from "@rneui/themed";
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
 import { FlatList, SafeAreaView, Text, View } from "react-native";
+import { ref, onValue } from "firebase/database"; 
+import { auth, db, USERS_REF } from '../firebase/Config';
 import * as Location from 'expo-location';
 import styles from '../style/styles';
 import { decode } from "html-entities";
@@ -27,6 +29,7 @@ export default CourseSearch = ({navigation}) => {
     const [filtered, setFiltered] = useState([]);
     const [courses, setCourses] = useState([]);
     const [nearby, setNearby] = useState([]);
+    const [favorites, setFavorites] = useState([]);
 
     const getCourses = async () => {
         const URL = 'https://discgolfmetrix.com/api.php?content=courses_list&country_code=FI';
@@ -91,6 +94,7 @@ export default CourseSearch = ({navigation}) => {
     }
 
     useEffect(() => {
+        getFavorites();
         if(fetchCourses) getCourses();
         if(requestLocPerm) {
             (async () => {
@@ -120,6 +124,14 @@ export default CourseSearch = ({navigation}) => {
         setTabIndex(e);
         if(e == 2 && !locRequested) setRequestLocPerm(true);
     }
+
+    async function getFavorites() {
+        const favsRef = ref(db, USERS_REF + auth.currentUser.uid + '/favoriteCourses');
+        onValue(favsRef, (snapshot) => {
+            const favsData = Object.values(snapshot.val());
+            setFavorites(favsData);
+        });
+    } 
 
     const listNearbyCourses = () => {
         // alert(latitude +" " +longitude);
@@ -189,7 +201,19 @@ export default CourseSearch = ({navigation}) => {
             </Tab>
             <TabView value={tabIndex} onChange={(e) => switchTab(e)} animationType='spring'>
                 <TabView.Item style={{ backgroundColor: theme.background, width: '100%' }}>
-                    <Text style={[styles.textStyle, {color: theme.text}]}>You have no favorites yet.</Text>
+                    {(favorites == null || favorites.length < 1)
+                        ? <Text style={[styles.textStyle, {color: theme.text}]}>You have no favorites yet.</Text>
+                        : <View style={[styles.courseList, {backgroundColor: theme.background}]}>
+                            <FlatList 
+                                contentContainerStyle={{flexGrow: 1, alignItems: "stretch"}}
+                                data={favorites}
+                                initialNumToRender={7}
+                                keyExtractor={(item, index) => index.toString()}
+                                ItemSeparatorComponent={ItemSeparatorView}
+                                renderItem={ItemView}
+                                />
+                        </View>
+                    }
                 </TabView.Item>
                 <TabView.Item style={{ backgroundColor: theme.background, width: '100%' }}>
                     <View style={[styles.courseList]}>

@@ -3,9 +3,12 @@ import { Dimensions, Pressable, SafeAreaView, ScrollView, Text, View } from "rea
 import styles from '../style/styles'
 import axios from "axios";
 import { decode } from "html-entities";
+import { ref, update, push, child, onValue } from "firebase/database"; 
+import { auth, db, USERS_REF } from '../firebase/Config';
 import themeContext from "../style/themeContext";
 import { lightTheme, darkTheme } from "../style/theme";
 import MapView, {Marker} from "react-native-maps";
+import { Icon } from "@rneui/themed";
 
 const INITIAL_LATITUDE = 65.0800;
 const INITIAL_LONGITUDE = 25.4800;
@@ -17,6 +20,9 @@ export default CourseDetails = ({route, navigation}) => {
     const theme = darkMode ? darkTheme : lightTheme;
     
     const {courseID} = route.params;
+    const [isFavorite, setIsFavorite] = useState(false);
+    //const [toggleFavorite, setToggleFavorite] = useState(true);
+    const [favKey, setFavKey] = useState("");
     const [fetched, setFetched] = useState(false);
     const [details, setDetails] = useState([]);
     const [enddate, setEnddate] = useState("");
@@ -102,9 +108,13 @@ export default CourseDetails = ({route, navigation}) => {
     };
 
     useEffect(() => {
-        if(courseID && !fetched) {
-            getDetails();
-        }
+        //if(toggleFavorite) {
+            getFavKey();
+        //     setToggleFavorite(false);
+        // }
+
+        if(courseID && !fetched) getDetails();
+
     }, [latitude]);
 
     const parTables = [];
@@ -128,19 +138,75 @@ export default CourseDetails = ({route, navigation}) => {
             </View>);
     }
 
+    const getFavKey = () => {
+        const favsRef = ref(db, USERS_REF + auth.currentUser.uid + '/favoriteCourses');
+        onValue(favsRef, (snapshot) => {
+            const favsData = snapshot.val();
+            if (favsData === null) {
+                setIsFavorite(false);
+            } else {
+                const favList = Object.keys(favsData).map((key) => ({
+                    key: key,
+                    ...favsData[key],
+                }));
+                favList.every(fav => {
+                    if(fav.ID == courseID) {
+                        setFavKey(fav.key);
+                        setIsFavorite(true);
+                        return false;
+                    }
+                    return true;
+                });
+            }
+        });
+    }
+
+    async function setFavorite() {
+        if(!isFavorite) {
+            const newFav = {
+                Fullname: details.course?.Fullname,
+                ID: courseID,
+            }
+            const newFavKey = push(child(ref(db), USERS_REF + auth.currentUser.uid)).key;
+            const updates = {};
+            updates[USERS_REF + auth.currentUser.uid + '/favoriteCourses/' + newFavKey] = newFav;
+
+            try {
+                await update(ref(db), updates);
+            } catch (error) {
+                console.log('Error while saving favorite: ' + error.message);
+            }
+        }
+        else {
+            const removes = {};
+            removes[USERS_REF + auth.currentUser.uid + '/favoriteCourses/' + favKey] = null;
+            try {
+                update(ref(db), removes);
+            } catch (error) {
+                console.log('Error while removing favorite: ' + error.message);
+            }
+
+        }
+    }
+
     return (
         <View style={[{flex:1, backgroundColor:theme.background}]}>
-            {fetched && <MapView
-                style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height / 2.5}}
-                initialRegion= {{
-                  latitude: latitude,
-                  longitude: longitude,
-                  latitudeDelta: INITIAL_LATITUDE_DELTA,
-                  longitudeDelta: INITIAL_LONGITUDE_DELTA,
-                }}>
-                <Marker title={details.course?.Name} coordinate={{latitude: latitude, longitude: longitude}}/>
-            </MapView>}
-            <ScrollView contentContainerStyle={{alignItems:'center'}}>
+            {fetched && <View>
+                <MapView
+                    style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height / 2.5}}
+                    initialRegion= {{
+                    latitude: latitude,
+                    longitude: longitude,
+                    latitudeDelta: INITIAL_LATITUDE_DELTA,
+                    longitudeDelta: INITIAL_LONGITUDE_DELTA,
+                    }}>
+                    <Marker title={details.course?.Name} coordinate={{latitude: latitude, longitude: longitude}}/>
+                </MapView>
+                <Pressable style={{alignSelf:'flex-end', position:'absolute'}} onPress={() => setFavorite()}>
+                    <Icon type='entypo' name={isFavorite ? 'star' : 'star-outlined'} size={45} color={isFavorite ? '#ffae00' : '#000'}/>
+                </Pressable>
+            </View>}
+            <ScrollView contentContainerStyle={{alignItems:'center'}} style={{position:'relative'}}>
                 <View style={styles.containerLeft}>
                     <Text style={[styles.subheading, {color:theme.text}]}>{decode(details.course?.Fullname)}</Text>
                     <Text style={[styles.textStyle, {color:theme.text}]}>{details.course?.Area}, {details.course?.City}</Text>
