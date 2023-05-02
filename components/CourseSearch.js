@@ -132,10 +132,17 @@ export default CourseSearch = ({navigation}) => {
 
     async function getFavorites() {
         const favsRef = ref(db, USERS_REF + auth.currentUser.uid + '/favoriteCourses');
-        onValue(favsRef, (snapshot) => {
-            const favsData = Object.values(snapshot.val());
-            setFavorites(favsData);
-        });
+        if(favsRef != null) {
+            onValue(favsRef, (snapshot) => {
+                const favsData = Object.values(snapshot.val());
+                if (favsData === null) {
+                    setFavorites([]);
+                }
+                else {
+                    setFavorites(favsData);
+                }
+            });
+        }
     } 
 
     const listNearbyCourses = () => {

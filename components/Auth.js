@@ -15,7 +15,8 @@ export const signUp = async (username, email, password) => {
     .then((userCredential) => {
       set(ref(db, USERS_REF + userCredential.user.uid), {
         username: username,
-        email: userCredential.user.email
+        email: userCredential.user.email,
+        favoriteCourses: ''
       });
     })
   }
