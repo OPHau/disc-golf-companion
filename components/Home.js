@@ -28,12 +28,13 @@ export default Home = ({navigation}) => {
                 onPress={() => navigation.navigate('Login')}>
                 <Text style={[styles.textStyle, {color: theme.text}]}>Login</Text>
             </Pressable>
-            <Pressable
+        </View>
+    );
+}
+
+/*          <Pressable
                 style={({ pressed }) => [styles.buttonStyle,
                 {backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]}
                 onPress={() => navigation.replace('TabNav')}>
                 <Text style={[styles.textStyle, {color: theme.text}]}>Go to app</Text>
-            </Pressable>
-        </View>
-    );
-}
+            </Pressable> */
