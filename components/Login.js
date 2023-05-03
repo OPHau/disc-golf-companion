@@ -1,4 +1,4 @@
-import { React, useState, useContext } from "react";
+import { React, useState, useContext, useEffect } from "react";
 import { View, Text, Pressable, TextInput, Alert } from "react-native";
 import { signIn, resetPassword } from './Auth';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -6,6 +6,8 @@ import { auth } from '../firebase/Config';
 import styles from '../style/styles';
 import themeContext from "../style/themeContext";
 import { lightTheme, darkTheme } from "../style/theme";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CheckBox } from "@rneui/base";
 
 export default Login = ({navigation}) => {
   const { darkMode } = useContext(themeContext);
@@ -15,22 +17,43 @@ export default Login = ({navigation}) => {
   const [password,setPassword] = useState('')
   const [showForgotPw, setShowForgotPw] = useState(false);
   const [emailForgotPw, setEmailForgotPw] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
 
-  const handleLogin = () => {
-      if (!email) {
-          Alert.alert('Email is required.');
+  useEffect(() => {
+    const loadCredentials = async () => {
+      const email = await AsyncStorage.getItem('email');
+      const password = await AsyncStorage.getItem('password');
+      if (email && password) {
+        setEmail(email);
+        setPassword(password);
+        setRememberMe(true);
+      }
+    };
+    loadCredentials();
+  }, []);
+
+  const handleLogin = async () => {
+    if (!email) {
+      Alert.alert('Email is required.');
+    }
+    else if (!password) {
+      Alert.alert('Password is required.');
+    }
+    else {
+      signIn(email, password);
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          if (rememberMe == true) {
+            await AsyncStorage.setItem('email', email);
+            await AsyncStorage.setItem('password', password);
+          } else if (rememberMe == false) {
+            await AsyncStorage.removeItem('email');
+            await AsyncStorage.removeItem('password');
+          }
+          navigation.replace('TabNav', {userUid: user.uid});
         }
-        else if (!password) {
-          Alert.alert('Password is required.');
-        }
-        else {
-          signIn(email, password);
-          onAuthStateChanged(auth, async (user) => {
-            if (user) {
-              navigation.replace('TabNav', {userUid: user.uid});
-            }
-          });
-        }
+      });
+    }
   }
 
   const handlePressForgotPw = () => {
@@ -76,6 +99,12 @@ export default Login = ({navigation}) => {
                   onPress={() => handleLogin()}>
                   <Text style={[styles.textStyle, {color: theme.text}]}>Login</Text>
               </Pressable>
+              <CheckBox
+                center
+                title='Remember Me'
+                checked={rememberMe}
+                onPress={() => setRememberMe(!rememberMe)}
+              />
                   <Text style={[styles.textStyle, {color:theme.text}]}>No account yet?</Text>
               <Pressable 
                   style={({ pressed }) => [styles.buttonStyle,

@@ -130,8 +130,8 @@ export default CurrentRound = ({ navigation, route }) => {
                     data={Array.from({ length: 20 }, (v, i) => (i + 1))}
                     defaultValue={throws[i][currentFairway]}
                     defaultButtonText="0"
-                    buttonStyle={[{width:'17%', height:'80%', margin:4, borderWidth:1, borderColor:'#fff',backgroundColor: getScoreColor(pars[currentFairway], throws[i][currentFairway])/*backgroundColor: theme.background*/}]}
-                    buttonTextStyle={[styles.dropdownText, {color: theme.text}]}
+                    buttonStyle={[{width:'18%', height:'80%', margin:4, borderWidth:1, borderColor: theme.textStyle, backgroundColor: getScoreColor(pars[currentFairway], throws[i][currentFairway])/*backgroundColor: theme.background*/}]}
+                    buttonTextStyle={[styles.dropdownText, {color: 'black'}]}
                     onSelect={(value) => {
                         const newArray = [...throws];
                         newArray[i][currentFairway] = value;
