@@ -21,7 +21,6 @@ export default CourseDetails = ({route, navigation}) => {
     
     const {courseID} = route.params;
     const [isFavorite, setIsFavorite] = useState(false);
-    //const [toggleFavorite, setToggleFavorite] = useState(true);
     const [favKey, setFavKey] = useState("");
     const [fetched, setFetched] = useState(false);
     const [details, setDetails] = useState([]);
@@ -49,10 +48,7 @@ export default CourseDetails = ({route, navigation}) => {
 
             if(data.course.Enddate != undefined) setEnddate(data.course.Enddate);
             if(data.course.Lat != undefined) setLatitude(Number(data.course.Lat));
-            else if(lat != undefined) setLatitude(Number(lat));
             if(data.course.Lng != undefined) setLongitude(Number(data.course.Lng));
-            else if(lot != undefined) setLongitude(Number(lon));
-            console.log(details);
 
             if(data.baskets != undefined) {
                 let baskets = data.baskets.map((basket) => basket);
@@ -111,10 +107,7 @@ export default CourseDetails = ({route, navigation}) => {
     };
 
     useEffect(() => {
-        //if(toggleFavorite) {
-            getFavKey();
-        //     setToggleFavorite(false);
-        // }
+        getFavKey();
 
         if(courseID && !fetched) getDetails();
 
