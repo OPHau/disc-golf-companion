@@ -24,8 +24,7 @@ export const deleteScoreboards = () => Alert.alert(
 export const getScoreColor = (p, t) => {
     let clr = "#dcdcdc";
     let dif = t - p;
-    if(t == 1) clr = "#00ffff";
-    else if(t > 0) {
+    if(t > 0) {
         if(dif <= -2) clr = "#00ffff";
         else if(dif == -1) clr = "#90ee90";
         else if(dif == 1) clr = "#ffb6c1";
