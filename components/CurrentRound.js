@@ -43,17 +43,17 @@ export default CurrentRound = ({ navigation, route }) => {
 
     const ParDisplay = () => {
             return (
-                <View style={{flexDirection:'row'}}>
+                <View style={{flexDirection:'row', marginBottom:10}}>
                     <Text style={[styles.textStyle, {color: theme.text}]}>Par:</Text>
                     <Pressable onPress={() => changePar(currentFairway, -1)}>
                     {({ pressed }) => (
-                        <Icon name="circle-with-minus" type="entypo" size={30} color={pressed ? theme.secondaryBtn : theme.primaryBtn} />
+                        <Icon name="circle-with-minus" type="entypo" size={40} color={pressed ? theme.secondaryBtn : theme.primaryBtn} />
                     )}
                     </Pressable>
                     <Text style={[styles.textStyle, {color: theme.text}]}>{pars[currentFairway]}</Text>
                     <Pressable onPress={() => changePar(currentFairway, 1)}>
                     {({ pressed }) => (
-                        <Icon name="circle-with-plus" type="entypo" size={30} color={pressed ? theme.secondaryBtn : theme.primaryBtn} />
+                        <Icon name="circle-with-plus" type="entypo" size={40} color={pressed ? theme.secondaryBtn : theme.primaryBtn} />
                     )}
                     </Pressable>
                 </View>
@@ -117,20 +117,20 @@ export default CurrentRound = ({ navigation, route }) => {
     const playerlist = [];
     for (let i = 0; i < players.length; i++) {
         playerlist.push(
-            <View style={[styles.containerRound, {backgroundColor: theme.backgroundSpecial, justifyContent:'center'}]} key={"playerlistitem" + i}>
-                <Text style={[styles.textStyle, {width:'50%', alignSelf:'center', color: theme.text}]}>{players[i]}</Text>
+            <View style={[styles.containerRound, {backgroundColor: theme.backgroundSpecial, justifyContent:'center', marginTop:10}]} key={"playerlistitem" + i}>
+                <Text style={[styles.textStyle, {width:'50%', fontSize:25,alignSelf:'center', color: theme.text}]}>{players[i]}</Text>
                 <Pressable 
                     style={{alignSelf:'center'}}
                     onPress={() => addThrow(i, currentFairway, -1)}>
                     {({ pressed }) => (
-                    <Icon name="circle-with-minus" type="entypo" size={30} color={pressed ? theme.secondaryBtnTwo : theme.primaryBtnTwo} />
+                    <Icon name="circle-with-minus" type="entypo" size={40} color={pressed ? theme.secondaryBtnTwo : theme.primaryBtnTwo} />
                     )}
                 </Pressable>
                 <SelectDropdown
                     data={Array.from({ length: 20 }, (v, i) => (i + 1))}
                     defaultValue={throws[i][currentFairway]}
                     defaultButtonText="0"
-                    buttonStyle={[{width:'17%', height:'80%', margin:4, backgroundColor: theme.background}]}
+                    buttonStyle={[{width:'17%', height:'80%', margin:4, borderWidth:1, borderColor:'#fff',backgroundColor: getScoreColor(pars[currentFairway], throws[i][currentFairway])/*backgroundColor: theme.background*/}]}
                     buttonTextStyle={[styles.dropdownText, {color: theme.text}]}
                     onSelect={(value) => {
                         const newArray = [...throws];
@@ -142,7 +142,7 @@ export default CurrentRound = ({ navigation, route }) => {
                     style={{alignSelf:'center'}}
                     onPress={() => addThrow(i, currentFairway, 1)}>
                     {({ pressed }) => (
-                    <Icon name="circle-with-plus" type="entypo" size={30} color={pressed ? theme.secondaryBtnTwo: theme.primaryBtnTwo} />
+                    <Icon name="circle-with-plus" type="entypo" size={40} color={pressed ? theme.secondaryBtnTwo: theme.primaryBtnTwo} />
                     )}
                 </Pressable>
             </View>

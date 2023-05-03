@@ -185,7 +185,7 @@ export default CourseSearch = ({navigation}) => {
 
     const SearchView = () => {
         return (
-            <View style={{flexDirection:'row'}}>
+             <View style={{flexDirection:'row'}}>
                 <SearchBar
                 containerStyle={{backgroundColor: theme.backgroundLight, flex:1}}
                 inputContainerStyle={{backgroundColor: theme.backgroundSpecial}}
@@ -198,7 +198,7 @@ export default CourseSearch = ({navigation}) => {
                 placeholder="Type here..."
                 value={search}
                 />
-                <SelectDropdown data={countryCodes}
+                 <SelectDropdown data={countryCodes}
                     defaultValue={country}
                     onFocus={() => setCountryBoxWidth(150)}
                     onSelect={(selectedItem, index) => {handleCountryChange(selectedItem)}}
@@ -217,7 +217,7 @@ export default CourseSearch = ({navigation}) => {
                             </View>
                         );
                     }}
-                />
+                /> 
             </View>
         );
     }
@@ -290,7 +290,41 @@ export default CourseSearch = ({navigation}) => {
                         stickyHeaderIndices={[0]}
                         ItemSeparatorComponent={ItemSeparatorView}
                         renderItem={ItemView}
-                        ListHeaderComponent= {SearchView}
+                        ListHeaderComponent= {<View style={{flexDirection:'row'}}>
+                        <SearchBar
+                            containerStyle={{backgroundColor: theme.backgroundLight, flex:1}}
+                            inputContainerStyle={{backgroundColor: theme.backgroundSpecial}}
+                            searchIcon={{size: 24, color: theme.navBarIcon}}
+                            style={{color: theme.text}}
+                            round
+                            lightTheme
+                            onChangeText={(text) => filterSearch(text)}
+                            onClear={(text) => filterSearch('')}
+                            placeholder="Type here..."
+                            value={search}
+                            />
+                            <SelectDropdown data={countryCodes}
+                                defaultValue={country}
+                                onSelect={(selectedItem, index) => {handleCountryChange(selectedItem)}}
+                                // onFocus={() => setCountryBoxWidth(150)}
+                                // onBlur={() => setCountryBoxWidth(150)}
+                                buttonStyle={[styles.dropdown, {backgroundColor: theme.primaryBtn, width:countryBoxWidth, marginTop:8}]}
+                                buttonTextStyle={[styles.dropdownText, {color: theme.text, fontSize:18, marginBottom:0}]}
+                                buttonTextAfterSelection={(selectedItem, index) => { return selectedItem}}
+                                // rowTextForSelection={(item, index) => { return item}}
+                                dropdownIconPosition="right"
+                                renderDropdownIcon={isOpened => 
+                                    { return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} type='font-awesome' color={theme.text} size={15}/>}}
+                                renderCustomizedRowChild={(selectedItem, index) => {
+                                    return (
+                                        <View style={{width: 150}}>
+                                            <Text>{selectedItem} - {getCountryName(index)}</Text>
+                                        </View>
+                                    );
+                                }}
+                            />
+                        </View>
+                        }
                         />
                     </View>
                 </TabView.Item>

@@ -49,7 +49,10 @@ export default CourseDetails = ({route, navigation}) => {
 
             if(data.course.Enddate != undefined) setEnddate(data.course.Enddate);
             if(data.course.Lat != undefined) setLatitude(Number(data.course.Lat));
+            else if(lat != undefined) setLatitude(Number(lat));
             if(data.course.Lng != undefined) setLongitude(Number(data.course.Lng));
+            else if(lot != undefined) setLongitude(Number(lon));
+            console.log(details);
 
             if(data.baskets != undefined) {
                 let baskets = data.baskets.map((basket) => basket);
@@ -66,8 +69,8 @@ export default CourseDetails = ({route, navigation}) => {
                 setPars(initPars);
                 setCoursePar(initPars.reduce((prev, cur) => prev + cur, 0));
                 setTotalLength(1500);
-                setFetched(true);
             }
+            setFetched(true);
         } catch(e) {
             console.log("Unable to fetch course details. ", e);
             alert("Unable to fetch course details: " + e);
@@ -137,6 +140,11 @@ export default CourseDetails = ({route, navigation}) => {
                 {basketRow}
             </View>);
     }
+    if(basketCount == 0) {
+        parTables.push(
+            <Text key='nodata' style={{fontStyle:'italic', alignSelf:'center'}}>(No fairway data: Check the course's other layouts)</Text>
+        );
+    }
 
     const getFavKey = () => {
         const favsRef = ref(db, USERS_REF + auth.currentUser.uid + '/favoriteCourses');
@@ -191,21 +199,22 @@ export default CourseDetails = ({route, navigation}) => {
 
     return (
         <View style={[{flex:1, backgroundColor:theme.background}]}>
-            {fetched && <View>
-                <MapView
-                    style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height / 2.5}}
-                    initialRegion= {{
-                    latitude: latitude,
-                    longitude: longitude,
-                    latitudeDelta: INITIAL_LATITUDE_DELTA,
-                    longitudeDelta: INITIAL_LONGITUDE_DELTA,
-                    }}>
-                    <Marker title={details.course?.Name} coordinate={{latitude: latitude, longitude: longitude}}/>
-                </MapView>
-                <Pressable style={{alignSelf:'flex-end', position:'absolute'}} onPress={() => setFavorite()}>
-                    <Icon type='entypo' name={isFavorite ? 'star' : 'star-outlined'} size={45} color={isFavorite ? '#ffae00' : '#000'}/>
-                </Pressable>
-            </View>}
+            {fetched &&
+                <View>
+                    <MapView
+                        style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height / 2.5}}
+                        initialRegion= {{
+                        latitude: latitude,
+                        longitude: longitude,
+                        latitudeDelta: INITIAL_LATITUDE_DELTA,
+                        longitudeDelta: INITIAL_LONGITUDE_DELTA,
+                        }}>
+                        <Marker title={details.course?.Name} coordinate={{latitude: latitude, longitude: longitude}}/>
+                    </MapView>
+                    <Pressable style={{alignSelf:'flex-end', position:'absolute'}} onPress={() => setFavorite()}>
+                        <Icon type='entypo' name={isFavorite ? 'star' : 'star-outlined'} size={45} color={isFavorite ? '#ffae00' : '#000'}/>
+                    </Pressable>
+                </View>}
             <ScrollView contentContainerStyle={{alignItems:'center'}} style={{position:'relative'}}>
                 <View style={styles.containerLeft}>
                     <Text style={[styles.subheading, {color:theme.text}]}>{decode(details.course?.Fullname)}</Text>

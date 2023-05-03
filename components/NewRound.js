@@ -118,9 +118,9 @@ export default NewRound = ( {navigation, route} ) => {
                 </View>
                     <Text style={[styles.headerStyle, {color:theme.text}]}>Players:</Text>
                         {playerlist}
-                    <View style={{flexDirection:'row-reverse', justifyContent:'space-between', width:'80%'}}>
+                    <View style={{flexDirection:'row', justifyContent:'space-between', width:'80%'}}>
                     {players.length < 4 && (
-                        <Pressable 
+                        <Pressable
                         style={({ pressed }) => [styles.buttonStyle,      {width: '40%', backgroundColor: pressed ? theme.secondaryBtn : theme.primaryBtn}]} 
                         onPress={() => addPlayer()}>
                         <Text style={[styles.textStyle, {color: theme.text}]}>Add Player</Text>
