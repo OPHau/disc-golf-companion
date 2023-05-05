@@ -58,13 +58,13 @@ export default CourseSearch = ({navigation}) => {
         try {
             const response = await axios.get(URL);
 
-            response.data.courses.forEach(course => {      
+            response.data?.courses.forEach(course => {      
                 if(course.Enddate != undefined && course.Enddate != 'null') {
                     let ed = new Date(course.Enddate);
                     if(ed > today) included.push(course)
                 }
                 else included.push(course);
-            });    
+            });
 
         } catch(err) {
             console.log("Unable to fetch course list.", e);
@@ -106,6 +106,7 @@ export default CourseSearch = ({navigation}) => {
                 let { status } = await Location.requestForegroundPermissionsAsync();
                 if(status !== 'granted') {
                     alert('Geolocation failed.');
+                    console.log(status);
                     return;
                 }
                 else {
@@ -132,17 +133,13 @@ export default CourseSearch = ({navigation}) => {
 
     async function getFavorites() {
         const favsRef = ref(db, USERS_REF + auth.currentUser.uid + '/favoriteCourses');
-        if(favsRef != null) {
-            onValue(favsRef, (snapshot) => {
+        onValue(favsRef, (snapshot) => {
+            if(snapshot.exists()) {
                 const favsData = Object.values(snapshot.val());
-                if (favsData === null) {
-                    setFavorites([]);
-                }
-                else {
-                    setFavorites(favsData);
-                }
-            });
-        }
+                setFavorites(favsData);
+            }
+            else setFavorites([]);
+        });
     } 
 
     const listNearbyCourses = () => {
@@ -155,6 +152,7 @@ export default CourseSearch = ({navigation}) => {
 
     const handleCountryChange = (newCountry) => {
         setCountry(newCountry);
+        setLocRequested(false);
         setFetchCourses(true);
     }
 
@@ -182,45 +180,6 @@ export default CourseSearch = ({navigation}) => {
             setSearch(text);
         }
     };
-
-    const SearchView = () => {
-        return (
-             <View style={{flexDirection:'row'}}>
-                <SearchBar
-                containerStyle={{backgroundColor: theme.backgroundLight, flex:1}}
-                inputContainerStyle={{backgroundColor: theme.backgroundSpecial}}
-                searchIcon={{size: 24, color: theme.navBarIcon}}
-                style={{color: theme.text}}
-                round
-                lightTheme
-                onChangeText={(text) => filterSearch(text)}
-                onClear={(text) => filterSearch('')}
-                placeholder="Type here..."
-                value={search}
-                />
-                 <SelectDropdown data={countryCodes}
-                    defaultValue={country}
-                    onFocus={() => setCountryBoxWidth(150)}
-                    onSelect={(selectedItem, index) => {handleCountryChange(selectedItem)}}
-                    onBlur={() => setCountryBoxWidth(80)}
-                    buttonStyle={[styles.dropdown, {backgroundColor: theme.primaryBtn, width:countryBoxWidth, marginTop:8}]}
-                    buttonTextStyle={[styles.dropdownText, {color: theme.text, fontSize:18, marginBottom:0}]}
-                    buttonTextAfterSelection={(selectedItem, index) => { return selectedItem}}
-                    // rowTextForSelection={(item, index) => { return item}}
-                    dropdownIconPosition="right"
-                    renderDropdownIcon={isOpened => 
-                        { return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} type='font-awesome' color={theme.text} size={15}/>}}
-                    renderCustomizedRowChild={(selectedItem, index) => {
-                        return (
-                            <View style={{width: 150}}>
-                                <Text>{selectedItem} - {getCountryName(index)}</Text>
-                            </View>
-                        );
-                    }}
-                /> 
-            </View>
-        );
-    }
 
     const ItemView = ({item}) => {
         return (
@@ -306,12 +265,9 @@ export default CourseSearch = ({navigation}) => {
                             <SelectDropdown data={countryCodes}
                                 defaultValue={country}
                                 onSelect={(selectedItem, index) => {handleCountryChange(selectedItem)}}
-                                // onFocus={() => setCountryBoxWidth(150)}
-                                // onBlur={() => setCountryBoxWidth(150)}
                                 buttonStyle={[styles.dropdown, {backgroundColor: theme.primaryBtn, width:countryBoxWidth, marginTop:8}]}
                                 buttonTextStyle={[styles.dropdownText, {color: theme.text, fontSize:18, marginBottom:0}]}
                                 buttonTextAfterSelection={(selectedItem, index) => { return selectedItem}}
-                                // rowTextForSelection={(item, index) => { return item}}
                                 dropdownIconPosition="right"
                                 renderDropdownIcon={isOpened => 
                                     { return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} type='font-awesome' color={theme.text} size={15}/>}}
@@ -326,6 +282,7 @@ export default CourseSearch = ({navigation}) => {
                         </View>
                         }
                         />
+                        {courses.length == 0 && <Text style={{fontStyle:'italic', alignSelf:'center'}}>(No courses found for: {country})</Text>}
                     </View>
                 </TabView.Item>
                 <TabView.Item style={{ backgroundColor: 'white', width: '100%' }}>
@@ -338,6 +295,7 @@ export default CourseSearch = ({navigation}) => {
                         ItemSeparatorComponent={ItemSeparatorView}
                         renderItem={ItemView}
                         />
+                        {nearby.length == 0 && <Text style={{fontStyle:'italic', alignSelf:'center'}}>(No courses found within 25km. ({country}))</Text>}
                     </View>
                 </TabView.Item>
            </TabView>

@@ -64,7 +64,7 @@ export default CourseDetails = ({route, navigation}) => {
                 if(baskets[0].Unit != undefined) setLengthUnit(baskets[0].Unit);
                 setPars(initPars);
                 setCoursePar(initPars.reduce((prev, cur) => prev + cur, 0));
-                setTotalLength(1500);
+                setTotalLength(lengths.reduce((prev, cur) => prev + cur, 0));
             }
             setFetched(true);
         } catch(e) {
@@ -141,25 +141,27 @@ export default CourseDetails = ({route, navigation}) => {
 
     const getFavKey = () => {
         const favsRef = ref(db, USERS_REF + auth.currentUser.uid + '/favoriteCourses');
-        onValue(favsRef, (snapshot) => {
-            const favsData = snapshot.val();
-            if (favsData === null) {
-                setIsFavorite(false);
-            } else {
-                const favList = Object.keys(favsData).map((key) => ({
-                    key: key,
-                    ...favsData[key],
-                }));
-                favList.every(fav => {
-                    if(fav.ID == courseID) {
-                        setFavKey(fav.key);
-                        setIsFavorite(true);
-                        return false;
-                    }
-                    return true;
-                });
-            }
-        });
+        if(favsRef != null) {
+            onValue(favsRef, (snapshot) => {
+                const favsData = snapshot.val();
+                if (favsData === null) {
+                    setIsFavorite(false);
+                } else {
+                    const favList = Object.keys(favsData).map((key) => ({
+                        key: key,
+                        ...favsData[key],
+                    }));
+                    favList.every(fav => {
+                        if(fav.ID == courseID) {
+                            setFavKey(fav.key);
+                            setIsFavorite(true);
+                            return false;
+                        }
+                        return true;
+                    });
+                }
+            });
+        }
     }
 
     async function setFavorite() {
